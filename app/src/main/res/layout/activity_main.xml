@@ -67,7 +67,6 @@
                 android:layout_weight="1"
                 android:backgroundTint="#2196F3"
                 android:text="Next Game"
-                android:onClick="openGame2"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
