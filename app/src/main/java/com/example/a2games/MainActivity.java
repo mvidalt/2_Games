@@ -19,4 +19,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(IntentGame1);
     }
 
+    public void openSenku(View view){
+        Intent IntentSenku = new Intent(this,Senku.class);
+        startActivity(IntentSenku);
+    }
+
 }
