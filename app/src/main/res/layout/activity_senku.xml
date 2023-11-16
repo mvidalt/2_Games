@@ -41,470 +41,453 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.1" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <GridLayout
         android:id="@+id/buttonsContainer"
-        android:layout_width="match_parent"
-        android:layout_height="399dp"
+        android:layout_width="345dp"
+        android:layout_height="377dp"
         android:background="#d6d7d7"
+        android:columnCount="7"
+        android:rowCount="7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.688">
+        app:layout_constraintVertical_bias="0.672">
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
 
         <ImageButton
             android:id="@+id/rb1"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 1"
+            android:contentDescription="boton 3"
             android:src="@drawable/radio_button_off"
-            android:tag="0-2"
-            app:layout_constraintBottom_toTopOf="@+id/rb4"
-            app:layout_constraintEnd_toStartOf="@+id/rb2" />
+            android:tag="0-4" />
+
 
         <ImageButton
             android:id="@+id/rb2"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
-            android:contentDescription="boton 2"
+            android:checked="true"
+            android:contentDescription="boton 8"
             android:src="@drawable/radio_button_off"
-            app:layout_constraintBottom_toTopOf="@+id/rb5"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
+            android:tag="2-1" />
 
         <ImageButton
             android:id="@+id/rb3"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 3"
+            android:contentDescription="boton 9"
             android:src="@drawable/radio_button_off"
-            android:tag="0-4"
-            app:layout_constraintBottom_toTopOf="@+id/rb6"
-            app:layout_constraintLeft_toRightOf="@+id/rb2" />
+            android:tag="2-2" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
 
         <ImageButton
             android:id="@+id/rb4"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 4"
+            android:contentDescription="boton 14"
             android:src="@drawable/radio_button_off"
-            android:tag="1-2"
-            app:layout_constraintBottom_toTopOf="@+id/rb9"
-            app:layout_constraintRight_toLeftOf="@+id/rb5" />
+            android:tag="3-0"/>
 
 
         <ImageButton
             android:id="@+id/rb5"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 5"
+            android:contentDescription="boton 15"
             android:src="@drawable/radio_button_off"
-            android:tag="1-3"
-            app:layout_constraintBottom_toTopOf="@+id/rb10"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            android:tag="3-1" />
 
         <ImageButton
             android:id="@+id/rb6"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 6"
+            android:contentDescription="boton 16"
             android:src="@drawable/radio_button_off"
-            android:tag="1-4"
-            app:layout_constraintBottom_toTopOf="@+id/rb11"
-            app:layout_constraintLeft_toRightOf="@+id/rb5" />
+            android:tag="3-2" />
+
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
 
         <ImageButton
             android:id="@+id/rb7"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 7"
+            android:contentDescription="boton 19"
             android:src="@drawable/radio_button_off"
-            android:tag="2-0"
-            app:layout_constraintBottom_toTopOf="@+id/rb14"
-            app:layout_constraintEnd_toStartOf="@+id/rb8" />
-
-
-        <ImageButton
-            android:id="@+id/rb7on"
-            android:layout_width="49dp"
-            android:layout_height="47dp"
-            android:checked="true"
-            android:contentDescription="boton 7"
-            android:src="@drawable/radio_button_custom"
-            android:tag="2-0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.028"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.366" />
+            android:tag="3-4" />
 
         <ImageButton
             android:id="@+id/rb8"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 8"
+            android:contentDescription="boton 20"
             android:src="@drawable/radio_button_off"
-            android:tag="2-1"
-            app:layout_constraintBottom_toTopOf="@+id/rb15"
-            app:layout_constraintRight_toLeftOf="@+id/rb9" />
+            android:tag="3-5" />
 
         <ImageButton
             android:id="@+id/rb9"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 9"
+            android:contentDescription="boton 21"
             android:src="@drawable/radio_button_off"
-            android:tag="2-2"
-            app:layout_constraintBottom_toTopOf="@+id/rb16"
-            app:layout_constraintRight_toLeftOf="@+id/rb10" />
+            android:tag="3-6" />
+
 
         <ImageButton
             android:id="@+id/rb10"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:checked="false"
-            android:contentDescription="boton 18"
+            android:checked="true"
+            android:contentDescription="boton 22"
             android:src="@drawable/radio_button_off"
-            android:tag="3-3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.34" />
-
+            android:tag="4-0" />
 
         <ImageButton
             android:id="@+id/rb11"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 11"
+            android:contentDescription="boton 33"
             android:src="@drawable/radio_button_off"
-            android:tag="2-4"
-            app:layout_constraintBottom_toTopOf="@+id/rb19"
-            app:layout_constraintLeft_toRightOf="@+id/rb10" />
+            android:tag="6-3" />
 
         <ImageButton
             android:id="@+id/rb12"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 12"
+            android:contentDescription="boton 23"
             android:src="@drawable/radio_button_off"
-            android:tag="2-5"
-            app:layout_constraintBottom_toTopOf="@+id/rb20"
-            app:layout_constraintLeft_toRightOf="@+id/rb11" />
+            android:tag="4-1" />
 
         <ImageButton
             android:id="@+id/rb13"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginBottom="4dp"
             android:checked="true"
-            android:contentDescription="boton 13"
+            android:contentDescription="boton 24"
             android:src="@drawable/radio_button_off"
-            android:tag="2-6"
-            app:layout_constraintBottom_toTopOf="@+id/rb21"
-            app:layout_constraintLeft_toRightOf="@+id/rb12" />
+            android:tag="4-2" />
+
 
         <ImageButton
             android:id="@+id/rb14"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:checked="true"
-            android:contentDescription="boton 14"
+            android:contentDescription="boton 25"
             android:src="@drawable/radio_button_off"
-            android:tag="3-0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/rb15"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:tag="4-3" />
 
         <ImageButton
             android:id="@+id/rb15"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:checked="true"
-            android:contentDescription="boton 15"
+            android:contentDescription="boton 26"
             android:src="@drawable/radio_button_off"
-            android:tag="3-1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/rb16"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:tag="4-4" />
 
         <ImageButton
             android:id="@+id/rb16"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:checked="true"
-            android:contentDescription="boton 16"
+            android:contentDescription="boton 27"
             android:src="@drawable/radio_button_off"
-            android:tag="3-2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/rb18"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:tag="4-5" />
 
+        <ImageButton
+            android:id="@+id/rb17"
+            android:layout_width="49dp"
+            android:layout_height="47dp"
+            android:checked="true"
+            android:contentDescription="boton 28"
+            android:src="@drawable/radio_button_off"
+            android:tag="4-6" />
 
         <ImageButton
             android:id="@+id/rb18"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:checked="false"
-            android:contentDescription="boton 18"
+            android:checked="true"
+            android:contentDescription="boton 29"
             android:src="@drawable/radio_button_off"
-            android:tag="3-3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:tag="5-2" />
 
         <ImageButton
             android:id="@+id/rb19"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:checked="true"
-            android:contentDescription="boton 19"
+            android:contentDescription="boton 30"
             android:src="@drawable/radio_button_off"
-            android:tag="3-4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/rb18"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:tag="5-3" />
+
 
         <ImageButton
             android:id="@+id/rb20"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:checked="true"
-            android:contentDescription="boton 20"
+            android:contentDescription="boton 31"
             android:src="@drawable/radio_button_off"
-            android:tag="3-5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/rb19"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:tag="5-4" />
 
         <ImageButton
             android:id="@+id/rb21"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:checked="true"
-            android:contentDescription="boton 21"
+            android:contentDescription="boton 32"
             android:src="@drawable/radio_button_off"
-            android:tag="3-6"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/rb20"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:tag="6-2" />
 
 
         <ImageButton
             android:id="@+id/rb22"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 22"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="4-0"
-            app:layout_constraintRight_toLeftOf="@+id/rb23"
-            app:layout_constraintTop_toBottomOf="@+id/rb14" />
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb23"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 23"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="4-1"
-            app:layout_constraintRight_toLeftOf="@+id/rb24"
-            app:layout_constraintTop_toBottomOf="@+id/rb15" />
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb24"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 24"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="4-2"
-            app:layout_constraintRight_toLeftOf="@+id/rb25"
-            app:layout_constraintTop_toBottomOf="@+id/rb16" />
-
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb25"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 25"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="4-3"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rb18" />
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb26"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 26"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="4-4"
-            app:layout_constraintLeft_toRightOf="@+id/rb25"
-            app:layout_constraintTop_toBottomOf="@+id/rb19" />
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb27"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 27"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="4-5"
-            app:layout_constraintLeft_toRightOf="@+id/rb26"
-            app:layout_constraintTop_toBottomOf="@+id/rb20" />
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb28"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 28"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="4-6"
-            app:layout_constraintLeft_toRightOf="@+id/rb27"
-            app:layout_constraintTop_toBottomOf="@+id/rb21" />
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb29"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 29"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="5-2"
-            app:layout_constraintRight_toLeftOf="@+id/rb30"
-            app:layout_constraintTop_toBottomOf="@+id/rb24" />
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb30"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 30"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="5-3"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rb25" />
-
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb31"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 31"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="5-4"
-            app:layout_constraintLeft_toRightOf="@+id/rb30"
-            app:layout_constraintTop_toBottomOf="@+id/rb26" />
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb32"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
-            android:checked="true"
-            android:contentDescription="boton 32"
-            android:src="@drawable/radio_button_off"
-            android:tag="6-2"
-            app:layout_constraintRight_toLeftOf="@+id/rb33"
-            app:layout_constraintTop_toBottomOf="@+id/rb29" />
-
-
-        <ImageButton
-            android:id="@+id/rb34"
-            android:layout_width="49dp"
-            android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
             android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="6-4"
-            app:layout_constraintLeft_toRightOf="@+id/rb33"
-            app:layout_constraintTop_toBottomOf="@+id/rb31" />
-
+            android:tag="6-4" />
 
         <ImageButton
             android:id="@+id/rb33"
             android:layout_width="49dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:checked="true"
-            android:contentDescription="boton 33"
+            android:contentDescription="boton 34"
             android:src="@drawable/radio_button_off"
-            android:tag="6-3"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rb30" />
+            android:tag="6-4" />
 
+        <ImageButton
+            android:id="@+id/rb34"
+            android:layout_width="49dp"
+            android:layout_height="47dp"
+            android:checked="true"
+            android:contentDescription="boton 34"
+            android:src="@drawable/radio_button_off"
+            android:tag="6-4" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <ImageButton
+            android:id="@+id/rb35"
+            android:layout_width="49dp"
+            android:layout_height="47dp"
+            android:checked="true"
+            android:contentDescription="boton 34"
+            android:src="@drawable/radio_button_off"
+            android:tag="6-4" />
+
+        <ImageButton
+            android:id="@+id/rb36"
+            android:layout_width="49dp"
+            android:layout_height="47dp"
+            android:checked="true"
+            android:contentDescription="boton 34"
+            android:src="@drawable/radio_button_off"
+            android:tag="6-4" />
+
+        <ImageButton
+            android:id="@+id/rb37"
+            android:layout_width="49dp"
+            android:layout_height="47dp"
+            android:checked="true"
+            android:contentDescription="boton 34"
+            android:src="@drawable/radio_button_off"
+            android:tag="6-4" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <ImageButton
+            android:id="@+id/rb38"
+            android:layout_width="49dp"
+            android:layout_height="47dp"
+            android:checked="true"
+            android:contentDescription="boton 34"
+            android:src="@drawable/radio_button_off"
+            android:tag="6-4" />
+
+        <ImageButton
+            android:id="@+id/rb39"
+            android:layout_width="49dp"
+            android:layout_height="47dp"
+            android:checked="true"
+            android:contentDescription="boton 34"
+            android:src="@drawable/radio_button_off"
+            android:tag="6-4" />
+
+        <ImageButton
+            android:id="@+id/rb40"
+            android:layout_width="49dp"
+            android:layout_height="47dp"
+            android:checked="true"
+            android:contentDescription="boton 34"
+            android:src="@drawable/radio_button_off"
+            android:tag="6-4" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+        <Space
+            android:layout_width="49dp"
+            android:layout_height="47dp" />
+
+    </GridLayout>
 
     <TextView
         android:id="@+id/txtMoves"
