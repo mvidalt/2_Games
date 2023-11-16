@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#faf8ef">
 
     <TextView
         android:id="@+id/textView"
@@ -24,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="124dp"
         android:background="#bbada0"
         android:columnCount="4"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +59,8 @@
             android:id="@+id/button3"
             android:layout_width="71dp"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="2"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:backgroundTint="#cdc1b4"
@@ -230,10 +233,25 @@
         android:id="@+id/button17"
         android:layout_width="142dp"
         android:layout_height="53dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="96dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="#8f7a66"
         android:text="New Game"
+        android:textColor="#f9f6f2"
+        android:textStyle="bold"
+        app:cornerRadius="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="142dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="540dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#8f7a66"
+        android:onClick="goBack"
+        android:text="Go Back"
         android:textColor="#f9f6f2"
         android:textStyle="bold"
         app:cornerRadius="0dp"
@@ -246,6 +264,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="116dp"
         android:orientation="vertical"
+        android:background="#bbada0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -253,6 +272,7 @@
             android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#eee4da"
             android:gravity="center"
             android:text="SCORE" />
 
@@ -262,6 +282,7 @@
             android:layout_height="37dp"
             android:gravity="center"
             android:text="0"
+            android:textColor="#ffffff"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -272,6 +293,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
+        android:background="#bbada0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -279,6 +301,7 @@
             android:id="@+id/textView15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#eee4da"
             android:gravity="center"
             android:text="BEST" />
 
@@ -288,6 +311,7 @@
             android:layout_height="37dp"
             android:gravity="center"
             android:text="0"
+            android:textColor="#ffffff"
             android:textStyle="bold" />
     </LinearLayout>
 
