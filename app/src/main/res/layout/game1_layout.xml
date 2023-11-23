@@ -32,28 +32,58 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.596">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="67dp"
+            android:layout_height="68dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/button1" />
+
+
         <Button
             android:id="@+id/button1"
             android:layout_width="71dp"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:backgroundTint="#cdc1b4"
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="67dp"
+            android:layout_height="68dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:background="@android:color/darker_gray"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/button1" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="71dp"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:backgroundTint="#cdc1b4"
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -68,6 +98,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -81,6 +112,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -93,6 +125,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -105,6 +138,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -117,6 +151,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -129,6 +164,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -141,6 +177,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -153,6 +190,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -165,6 +203,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -177,6 +216,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -189,6 +229,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -201,6 +242,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -213,6 +255,7 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
         <Button
@@ -226,12 +269,13 @@
             android:text="0"
             android:textColor="#776e65"
             android:textSize="40dp"
+            android:visibility="invisible"
             app:cornerRadius="0dp" />
 
     </GridLayout>
 
     <Button
-        android:id="@+id/button17"
+        android:id="@+id/buttonNewGame"
         android:layout_width="142dp"
         android:layout_height="53dp"
         android:layout_marginTop="96dp"

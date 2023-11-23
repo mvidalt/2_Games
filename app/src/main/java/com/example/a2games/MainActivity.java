@@ -14,9 +14,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void openGame1(View view){
-        Intent IntentGame1 = new Intent(this,Game1.class);
-        startActivity(IntentGame1);
+    public void openGame1(View v) {
+        Intent intent = new Intent(this, Game1.class);
+        startActivity(intent);
     }
 
     public void openSenku(View view){
