@@ -1,5 +1,7 @@
 package com.example.a2games;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,19 +10,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Random;
 
 public class Game1 extends AppCompatActivity implements GestureDetector.OnGestureListener {
     private static final int NUM_BUTTONS = 16;
+    private GestureDetector gestureDetector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game1_layout);
-
         Random random = new Random();
         int randomButton1 = random.nextInt(NUM_BUTTONS) + 1;
         int randomButton2 = random.nextInt(NUM_BUTTONS) + 1;
@@ -38,6 +37,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
         buttons[randomButton1 - 1].setVisibility(View.VISIBLE);
         buttons[randomButton2 - 1].setVisibility(View.VISIBLE);
+        gestureDetector = new GestureDetector(this, this);
 
         Button buttonNewGame = findViewById(R.id.buttonNewGame);
         buttonNewGame.setOnClickListener(v -> {
@@ -48,63 +48,63 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         });
     }
 
-    public void goBack(View view) {
-        Intent goBack = new Intent(this, MainActivity.class);
-        startActivity(goBack);
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            Log.d("log","me han pulsado");
+        }
+        return gestureDetector.onTouchEvent(event);
     }
 
     @Override
-    public boolean onDown(@NonNull MotionEvent e) {
-        return false;
+    public boolean onDown(MotionEvent e) {
+        return true;
     }
 
     @Override
-    public void onShowPress(@NonNull MotionEvent e) {
-
+    public void onShowPress(MotionEvent e) {
+        // No hacemos nada aquí
     }
 
     @Override
-    public boolean onSingleTapUp(@NonNull MotionEvent e) {
-        return false;
+    public boolean onSingleTapUp(MotionEvent e) {
+        // No hacemos nada aquí
+        return true;
     }
 
     @Override
-    public boolean onScroll(@Nullable MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
-        return false;
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        // No hacemos nada aquí
+        return true;
     }
 
     @Override
-    public void onLongPress(@NonNull MotionEvent e) {
-
+    public void onLongPress(MotionEvent e) {
+        Log.d("log","me han pulsado mucho");
     }
 
     @Override
-    public boolean onFling(MotionEvent motionEvent1, MotionEvent motionEvent2, float velocityX, float velocityY) {
-        float diffY = motionEvent2.getY() - motionEvent1.getY();
-        float diffX = motionEvent2.getX() - motionEvent1.getX();
-
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-            if (Math.abs(diffX) > 100 && Math.abs(velocityX) > 100) {
-                if (diffX > 0) {
-                    // Deslizamiento hacia la derecha
-                    Log.d("Mensaje","derecha");
-                } else {
-                    // Deslizamiento hacia la izquierda
-                    Log.d("Mensaje","izquierda");
-                }
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        // Se llama cuando se detecta un gesto de fling
+        if (Math.abs(velocityX) > Math.abs(velocityY)) {
+            // Fling horizontal
+            if (velocityX > 0) {
+                // Fling hacia la derecha
+                Log.d("Gesto", "Fling hacia la derecha");
+            } else {
+                // Fling hacia la izquierda
+                Log.d("Gesto", "Fling hacia la izquierda");
             }
         } else {
-            if (Math.abs(diffY) > 100 && Math.abs(velocityY) > 100) {
-                if (diffY > 0) {
-                    // Deslizamiento hacia abajo
-                    Log.d("Mensaje","abajo");
-                } else {
-                    // Deslizamiento hacia arriba
-                    Log.d("Mensaje","arriba");
-                }
+            // Fling vertical
+            if (velocityY > 0) {
+                // Fling hacia abajo
+                Log.d("Gesto", "Fling hacia abajo");
+            } else {
+                // Fling hacia arriba
+                Log.d("Gesto", "Fling hacia arriba");
             }
         }
-
         return true;
     }
 }
