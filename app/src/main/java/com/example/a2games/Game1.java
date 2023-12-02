@@ -270,18 +270,9 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         return true;
     }
 
-    private void makeRandomButtonVisible() {
-        Random random = new Random();
-        int randomRow, randomCol;
-
-        // Encuentra una posición aleatoria que no esté visible actualmente
-        do {
-            randomRow = random.nextInt(NUM_ROWS);
-            randomCol = random.nextInt(NUM_COLS);
-        } while (buttonsGrid[randomRow][randomCol].getVisibility() == View.VISIBLE);
-
-        // Haz visible el botón en la posición aleatoria seleccionada
-        buttonsGrid[randomRow][randomCol].setVisibility(View.VISIBLE);
+    public void goBack(View view){
+        Intent IntentMain = new Intent(this,MainActivity.class);
+        startActivity(IntentMain);
     }
 
 }

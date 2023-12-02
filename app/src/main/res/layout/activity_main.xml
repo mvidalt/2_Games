@@ -73,7 +73,7 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="#2196F3"
-                android:text="Next Game"
+                android:text="Senku"
                 android:onClick="openSenku"
                 android:textColor="#FFFFFF" />
 
