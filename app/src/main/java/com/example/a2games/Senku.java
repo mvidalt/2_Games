@@ -23,10 +23,15 @@ public class Senku extends AppCompatActivity {
             if (imageButton != null) {
                 if (i != 17) {
                     imageButton.setImageResource(R.drawable.radio_button_custom);
+                    imageButton.setTag(R.drawable.radio_button_custom);
                 } else {
                     imageButton.setImageResource(R.drawable.radio_button_off);
+                    imageButton.setTag(R.drawable.radio_button_off);
                 }
+
                 imageButtons[i - 1] = imageButton;
+
+
 
                 imageButton.setOnClickListener(v -> {
                     int buttonIndex = -1;
@@ -38,7 +43,45 @@ public class Senku extends AppCompatActivity {
                     }
                     if (buttonIndex != -1) {
                         handleButtonClick(buttonIndex);
-                        imageButton.setImageResource(R.drawable.radio_button_off);
+
+                        int currentImageResource = (int) imageButton.getTag();
+                        boolean hasSelectedButton = false;
+                        int selectedButtonIndex = -1;
+
+                        for (int k = 0; k < 33; k++) {
+                            if ((int) imageButtons[k].getTag() == R.drawable.radio_button_custom_selected) {
+                                hasSelectedButton = true;
+                                selectedButtonIndex = k;
+                                break;
+                            }
+                        }
+
+                        if (currentImageResource == R.drawable.radio_button_custom) {
+                            // Cambiar el botón 'custom' a 'selected'
+                            if (!hasSelectedButton) {
+                                for (int k = 0; k < 33; k++) {
+                                    if ((int) imageButtons[k].getTag() == R.drawable.radio_button_custom_selected) {
+                                        imageButtons[k].setImageResource(R.drawable.radio_button_custom);
+                                        imageButtons[k].setTag(R.drawable.radio_button_custom);
+                                        break; // Detener el bucle después de cambiar un botón 'selected' a 'custom'
+                                    }
+                                }
+                                imageButton.setImageResource(R.drawable.radio_button_custom_selected);
+                                imageButton.setTag(R.drawable.radio_button_custom_selected);
+                            }
+                        } else if (currentImageResource == R.drawable.radio_button_off && hasSelectedButton) {
+                            // Cambiar el botón 'off' a 'custom' solo si hay un botón 'selected'
+                            imageButton.setImageResource(R.drawable.radio_button_custom);
+                            imageButton.setTag(R.drawable.radio_button_custom);
+
+                            // Restablecer el botón 'selected' a 'custom'
+                            imageButtons[selectedButtonIndex].setImageResource(R.drawable.radio_button_off);
+                            imageButtons[selectedButtonIndex].setTag(R.drawable.radio_button_off);
+                        } else if (currentImageResource == R.drawable.radio_button_custom_selected) {
+                            // Cambiar el botón 'selected' a 'custom'
+                            imageButton.setImageResource(R.drawable.radio_button_custom);
+                            imageButton.setTag(R.drawable.radio_button_custom);
+                        }
                     }
                 });
             }
