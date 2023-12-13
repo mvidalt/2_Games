@@ -68,6 +68,8 @@ public class Senku extends AppCompatActivity {
                                 }
                                 imageButton.setImageResource(R.drawable.radio_button_custom_selected);
                                 imageButton.setTag(R.drawable.radio_button_custom_selected);
+
+
                             }
                         } else if (currentImageResource == R.drawable.radio_button_off && hasSelectedButton) {
                             // Cambiar el botón 'off' a 'custom' solo si hay un botón 'selected'
@@ -77,10 +79,35 @@ public class Senku extends AppCompatActivity {
                             // Restablecer el botón 'selected' a 'custom'
                             imageButtons[selectedButtonIndex].setImageResource(R.drawable.radio_button_off);
                             imageButtons[selectedButtonIndex].setTag(R.drawable.radio_button_off);
+
+                            //buttonIndex = 17
+                            //selectedButtonIndex = 19 ( derecha )
+                            //selectedButtonIndex = 29 ( abajo )
+                            Log.d("Boton", "El boton que aparece: " + (buttonIndex + 1));
+                            Log.d("Boton", "El boton que pulsamos: " + (selectedButtonIndex + 1));
+
+                            if (selectedButtonIndex != buttonIndex + 12) {
+                                if (selectedButtonIndex > buttonIndex + 1) {
+                                    imageButtons[selectedButtonIndex - 1].setImageResource(R.drawable.radio_button_off);
+                                    imageButtons[selectedButtonIndex - 1].setTag(R.drawable.radio_button_off);
+                                } else if (buttonIndex + 1 > selectedButtonIndex) {
+                                    imageButtons[selectedButtonIndex + 1].setImageResource(R.drawable.radio_button_off);
+                                    imageButtons[selectedButtonIndex + 1].setTag(R.drawable.radio_button_off);
+                                }
+                            } if(selectedButtonIndex == buttonIndex +12){
+                                imageButtons[selectedButtonIndex -5].setImageResource(R.drawable.radio_button_off);
+                                imageButtons[selectedButtonIndex -5].setTag(R.drawable.radio_button_off);
+                            }if(selectedButtonIndex == buttonIndex -12) {
+                                imageButtons[selectedButtonIndex + 5].setImageResource(R.drawable.radio_button_off);
+                                imageButtons[selectedButtonIndex + 5].setTag(R.drawable.radio_button_off);
+                            }
+
                         } else if (currentImageResource == R.drawable.radio_button_custom_selected) {
                             // Cambiar el botón 'selected' a 'custom'
                             imageButton.setImageResource(R.drawable.radio_button_custom);
                             imageButton.setTag(R.drawable.radio_button_custom);
+
+
                         }
                     }
                 });
@@ -90,10 +117,9 @@ public class Senku extends AppCompatActivity {
 
     private void handleButtonClick(int buttonIndex) {
         int buttonId = buttonIndex + 1;
-        Log.d("BotonPresionado", "Me han pulsado. ID: " + buttonId);
     }
 
-    public void goBack(View view){
+    public void goBack(View view) {
         Intent IntentMain = new Intent(this, MainActivity.class);
         startActivity(IntentMain);
     }
