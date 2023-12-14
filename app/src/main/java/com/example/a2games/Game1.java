@@ -21,9 +21,13 @@ import java.util.Random;
 public class Game1 extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
     private GridLayout gridLayout;
-    private Button[][] buttonsArray;
+
+    private Button[][] Arraybuttons;
 
     private GestureDetector gestureDetector;
+
+    final int rowCount = 4;
+    final int columnCount = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +38,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
         gridLayout = findViewById(R.id.gridLayout);
         createGameButtons();
-        // Inicializar el array de botones
-        buttonsArray = new Button[4][4];
+
 
         Button buttonNewGame = findViewById(R.id.buttonNewGame);
         buttonNewGame.setOnClickListener(v -> {
@@ -48,12 +51,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private void createGameButtons() {
         // Crear botones y agregarlos a la cuadrícula
-        final int rowCount = 4;
-        final int columnCount = 4;
         final int margin = 16; // Define el margen vertical entre los botones
 
         // Crear un arreglo bidimensional de botones para almacenar referencias
-        Button[][] buttons = new Button[rowCount][columnCount];
+        Arraybuttons = new Button[rowCount][columnCount];
 
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
@@ -77,15 +78,26 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
                 button.setAllCaps(false);
 
+                Arraybuttons[i][j] = button; // Agregar el botón al array
                 gridLayout.addView(button);
-
-                // Almacenar referencias a los botones en la matriz
-                buttonsArray[i][j] = button;
             }
         }
 
+        // Establecer dos botones aleatorios con el valor "2"
+        Random random = new Random();
+        int count = 0;
 
+        while (count < 2) {
+            int randomRow = random.nextInt(rowCount);
+            int randomCol = random.nextInt(columnCount);
+
+            if (Arraybuttons[randomRow][randomCol].getText().equals("0")) {
+                Arraybuttons[randomRow][randomCol].setText("2");
+                count++;
+            }
+        }
     }
+
 
     public void goBack(View view) {
         Intent IntentMain = new Intent(this, MainActivity.class);
@@ -135,43 +147,48 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             if (velocityX > 0) {
                 // Fling hacia la derecha
                 Log.d("Gesto", "Fling hacia la derecha");
-                moveRight();
-                printButtonsArray();
+                moveNumbersRight();
             } else {
                 // Fling hacia la izquierda
                 Log.d("Gesto", "Fling hacia la izquierda");
+                moveNumbersLeft();
             }
         } else {
             // Fling vertical
             if (velocityY > 0) {
                 // Fling hacia abajo
                 Log.d("Gesto", "Fling hacia abajo");
+                moveNumbersDown();
             } else {
                 // Fling hacia arriba
                 Log.d("Gesto", "Fling hacia arriba");
+                moveNumbersUp();
             }
         }
         return true;
     }
 
-    private void moveRight() {
+    private void moveNumbersRight() {
         for (int i = 0; i < 4; i++) {
-            for (int j = 2; j >= 0; j--) {
-                if (buttonsArray[i][j] != null && !buttonsArray[i][j].getText().equals("0")) {
-                    int column = j;
-                    while (column < 3) {
-                        int nextColumn = column + 1;
-                        if (buttonsArray[i][nextColumn].getText().equals("0")) {
-                            buttonsArray[i][nextColumn].setText(buttonsArray[i][column].getText());
-                            buttonsArray[i][column].setText("0");
-                            column = nextColumn;
-                        } else if (buttonsArray[i][nextColumn].getText().equals(buttonsArray[i][column].getText())) {
-                            int value = Integer.parseInt(buttonsArray[i][column].getText().toString()) * 2;
-                            buttonsArray[i][nextColumn].setText(String.valueOf(value));
-                            buttonsArray[i][column].setText("0");
-                            break;
-                        } else {
-                            break;
+            for (int j = 4 - 1; j >= 0; j--) {
+                String buttonText = Arraybuttons[i][j].getText().toString();
+                if (!buttonText.equals("0")) {
+                    int k = j + 1;
+                    while (k < 4 && Arraybuttons[i][k].getText().equals("0")) {
+                        k++;
+                    }
+                    if (k < 4 && Arraybuttons[i][k].getText().equals(buttonText)) {
+                        int newVal = Integer.parseInt(buttonText) * 2;
+                        Arraybuttons[i][k].setText(String.valueOf(newVal));
+                        Arraybuttons[i][j].setText("0");
+                    } else {
+                        k = j + 1;
+                        while (k < 4 && Arraybuttons[i][k].getText().equals("0")) {
+                            k++;
+                        }
+                        if (k - 1 != j) {
+                            Arraybuttons[i][k - 1].setText(buttonText);
+                            Arraybuttons[i][j].setText("0");
                         }
                     }
                 }
@@ -179,17 +196,89 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         }
     }
 
-    private void printButtonsArray() {
-        for (int i = 0; i < buttonsArray.length; i++) {
-            for (int j = 0; j < buttonsArray[i].length; j++) {
-                if (buttonsArray[i][j] != null) {
-                    String buttonText = buttonsArray[i][j].getText().toString();
-                    Log.d("Button", "Button at [" + i + "][" + j + "]: " + buttonText);
-                } else {
-                    Log.d("Button", "Button at [" + i + "][" + j + "]: null");
+    private void moveNumbersLeft() {
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                String buttonText = Arraybuttons[i][j].getText().toString();
+                if (!buttonText.equals("0")) {
+                    int k = j - 1;
+                    while (k >= 0 && Arraybuttons[i][k].getText().equals("0")) {
+                        k--;
+                    }
+                    if (k >= 0 && Arraybuttons[i][k].getText().equals(buttonText)) {
+                        int newVal = Integer.parseInt(buttonText) * 2;
+                        Arraybuttons[i][k].setText(String.valueOf(newVal));
+                        Arraybuttons[i][j].setText("0");
+                    } else {
+                        k = j - 1;
+                        while (k >= 0 && Arraybuttons[i][k].getText().equals("0")) {
+                            k--;
+                        }
+                        if (k + 1 != j) {
+                            Arraybuttons[i][k + 1].setText(buttonText);
+                            Arraybuttons[i][j].setText("0");
+                        }
+                    }
                 }
             }
         }
     }
+
+    private void moveNumbersUp() {
+        for (int j = 0; j < columnCount; j++) {
+            for (int i = 0; i < rowCount; i++) {
+                String buttonText = Arraybuttons[i][j].getText().toString();
+                if (!buttonText.equals("0")) {
+                    int k = i - 1;
+                    while (k >= 0 && Arraybuttons[k][j].getText().equals("0")) {
+                        k--;
+                    }
+                    if (k >= 0 && Arraybuttons[k][j].getText().equals(buttonText)) {
+                        int newVal = Integer.parseInt(buttonText) * 2;
+                        Arraybuttons[k][j].setText(String.valueOf(newVal));
+                        Arraybuttons[i][j].setText("0");
+                    } else {
+                        k = i - 1;
+                        while (k >= 0 && Arraybuttons[k][j].getText().equals("0")) {
+                            k--;
+                        }
+                        if (k + 1 != i) {
+                            Arraybuttons[k + 1][j].setText(buttonText);
+                            Arraybuttons[i][j].setText("0");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void moveNumbersDown() {
+        for (int j = 0; j < columnCount; j++) {
+            for (int i = rowCount - 1; i >= 0; i--) {
+                String buttonText = Arraybuttons[i][j].getText().toString();
+                if (!buttonText.equals("0")) {
+                    int k = i + 1;
+                    while (k < rowCount && Arraybuttons[k][j].getText().equals("0")) {
+                        k++;
+                    }
+                    if (k < rowCount && Arraybuttons[k][j].getText().equals(buttonText)) {
+                        int newVal = Integer.parseInt(buttonText) * 2;
+                        Arraybuttons[k][j].setText(String.valueOf(newVal));
+                        Arraybuttons[i][j].setText("0");
+                    } else {
+                        k = i + 1;
+                        while (k < rowCount && Arraybuttons[k][j].getText().equals("0")) {
+                            k++;
+                        }
+                        if (k - 1 != i) {
+                            Arraybuttons[k - 1][j].setText(buttonText);
+                            Arraybuttons[i][j].setText("0");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 }
