@@ -253,6 +253,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     private void moveNumbersDown() {
+        boolean moved = false;
         for (int j = 0; j < columnCount; j++) {
             for (int i = rowCount - 1; i >= 0; i--) {
                 String buttonText = Arraybuttons[i][j].getText().toString();
@@ -273,12 +274,32 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         if (k - 1 != i) {
                             Arraybuttons[k - 1][j].setText(buttonText);
                             Arraybuttons[i][j].setText("0");
+                            moved = true;
                         }
                     }
                 }
             }
         }
+        if (moved) {
+            generateNewNumber(); // Generar solo si se ha movido alguna ficha
+        }
     }
+    private void generateNewNumber() {
+        Random random = new Random();
+        int randomRow = random.nextInt(rowCount);
+        int randomCol = random.nextInt(columnCount);
+
+        while (!Arraybuttons[randomRow][randomCol].getText().equals("0")) {
+            randomRow = random.nextInt(rowCount);
+            randomCol = random.nextInt(columnCount);
+        }
+
+        // Generar aleatoriamente 2 o 4 con probabilidades del 50% cada uno
+        int newValue = random.nextFloat() < 0.5 ? 2 : 4;
+
+        Arraybuttons[randomRow][randomCol].setText(String.valueOf(newValue));
+    }
+
 
 
 }
