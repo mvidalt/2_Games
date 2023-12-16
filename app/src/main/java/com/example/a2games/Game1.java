@@ -59,14 +59,13 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
                 Button button = new Button(this);
-                GridLayout.LayoutParams params = new GridLayout.LayoutParams(
-                        GridLayout.spec(i), GridLayout.spec(j));
+                GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i), GridLayout.spec(j));
 
                 // Ajustar el margen vertical si es la primera fila
                 if (i == 0) {
                     params.setMargins(0, margin, 0, 0);
                 } else {
-                    params.setMargins(0, 0, 0, 0);
+                    params.setMargins(0, 0, 0, margin);
                 }
 
                 button.setLayoutParams(params);
@@ -169,6 +168,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     private void moveNumbersRight() {
+        boolean moved = false;
         for (int i = 0; i < 4; i++) {
             for (int j = 4 - 1; j >= 0; j--) {
                 String buttonText = Arraybuttons[i][j].getText().toString();
@@ -189,14 +189,19 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         if (k - 1 != j) {
                             Arraybuttons[i][k - 1].setText(buttonText);
                             Arraybuttons[i][j].setText("0");
+                            moved = true;
                         }
                     }
                 }
             }
         }
+        if (moved) {
+            generateNewNumber();
+        }
     }
 
     private void moveNumbersLeft() {
+        boolean moved = false;
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
                 String buttonText = Arraybuttons[i][j].getText().toString();
@@ -217,14 +222,19 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         if (k + 1 != j) {
                             Arraybuttons[i][k + 1].setText(buttonText);
                             Arraybuttons[i][j].setText("0");
+                            moved = true;
                         }
                     }
                 }
             }
         }
+        if (moved) {
+            generateNewNumber();
+        }
     }
 
     private void moveNumbersUp() {
+        boolean moved = false;
         for (int j = 0; j < columnCount; j++) {
             for (int i = 0; i < rowCount; i++) {
                 String buttonText = Arraybuttons[i][j].getText().toString();
@@ -245,10 +255,14 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         if (k + 1 != i) {
                             Arraybuttons[k + 1][j].setText(buttonText);
                             Arraybuttons[i][j].setText("0");
+                            moved = true;
                         }
                     }
                 }
             }
+        }
+        if (moved) {
+            generateNewNumber();
         }
     }
 
@@ -281,9 +295,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             }
         }
         if (moved) {
-            generateNewNumber(); // Generar solo si se ha movido alguna ficha
+            generateNewNumber();
         }
     }
+
     private void generateNewNumber() {
         Random random = new Random();
         int randomRow = random.nextInt(rowCount);
@@ -299,7 +314,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
         Arraybuttons[randomRow][randomCol].setText(String.valueOf(newValue));
     }
-
 
 
 }
