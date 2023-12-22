@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class Game1 extends AppCompatActivity implements GestureDetector.OnGestureListener {
@@ -29,6 +30,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     final int rowCount = 4;
     final int columnCount = 4;
 
+    private HashMap<String, Integer> colorMap = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,16 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
         gridLayout = findViewById(R.id.gridLayout);
         createGameButtons();
+
+        colorMap = new HashMap<>();
+        colorMap.put("0", Color.parseColor("#cdc1b4"));
+        colorMap.put("2", Color.parseColor("#eee4da"));
+        colorMap.put("4", Color.parseColor("#eee1c9"));
+        colorMap.put("8", Color.parseColor("#f3b27a"));
+        colorMap.put("16", Color.parseColor("#f69664"));
+        colorMap.put("32", Color.parseColor("#f77c5f"));
+        colorMap.put("64", Color.parseColor("#f75f3b"));
+
 
 
         Button buttonNewGame = findViewById(R.id.buttonNewGame);
@@ -94,6 +107,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 Arraybuttons[randomRow][randomCol].setText("2");
                 count++;
             }
+            updateButtonTextVisibility();
         }
     }
 
@@ -140,6 +154,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+
         // Se llama cuando se detecta un gesto de fling
         if (Math.abs(velocityX) > Math.abs(velocityY)) {
             // Fling horizontal
@@ -196,6 +211,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             }
         }
         if (moved) {
+            updateButtonTextVisibility();
             generateNewNumber();
         }
     }
@@ -229,6 +245,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             }
         }
         if (moved) {
+            updateButtonTextVisibility();
             generateNewNumber();
         }
     }
@@ -262,6 +279,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             }
         }
         if (moved) {
+            updateButtonTextVisibility();
             generateNewNumber();
         }
     }
@@ -295,11 +313,13 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             }
         }
         if (moved) {
+            updateButtonTextVisibility();
             generateNewNumber();
         }
     }
 
     private void generateNewNumber() {
+
         Random random = new Random();
         int randomRow = random.nextInt(rowCount);
         int randomCol = random.nextInt(columnCount);
@@ -313,7 +333,25 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         int newValue = random.nextFloat() < 0.5 ? 2 : 4;
 
         Arraybuttons[randomRow][randomCol].setText(String.valueOf(newValue));
+
+        updateButtonTextVisibility(); // Actualizar la visibilidad del texto
     }
 
+    private void updateButtonTextVisibility() {
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                String value = Arraybuttons[i][j].getText().toString();
+                if (value.equals("0")) {
+                    Arraybuttons[i][j].setTextColor(Color.TRANSPARENT);
+                    ColorStateList colorStateList = ColorStateList.valueOf(Color.parseColor("#cdc1b4"));
+                    Arraybuttons[i][j].setBackgroundTintList(colorStateList);
+                } else {
+                    int color = colorMap.getOrDefault(value, Color.parseColor("#eee4da"));
+                    Arraybuttons[i][j].setTextColor(Color.parseColor("#776e65"));
+                    Arraybuttons[i][j].setBackgroundTintList(ColorStateList.valueOf(color));
+                }
+            }
+        }
+    }
 
 }
