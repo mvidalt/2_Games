@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -30,6 +31,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     final int rowCount = 4;
     final int columnCount = 4;
 
+    TextView scoreText;
     private HashMap<String, Integer> colorMap = new HashMap<>();
 
     @Override
@@ -38,7 +40,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         setContentView(R.layout.game1_layout);
 
         gestureDetector = new GestureDetector(this, this);
-
+        scoreText = findViewById(R.id.score);
         gridLayout = findViewById(R.id.gridLayout);
         createGameButtons();
 
@@ -196,6 +198,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         int newVal = Integer.parseInt(buttonText) * 2;
                         Arraybuttons[i][k].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
+                        updateButtonTextVisibility();
+                        moved = true;
                     } else {
                         k = j + 1;
                         while (k < 4 && Arraybuttons[i][k].getText().equals("0")) {
@@ -213,6 +217,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         if (moved) {
             updateButtonTextVisibility();
             generateNewNumber();
+
         }
     }
 
@@ -230,6 +235,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         int newVal = Integer.parseInt(buttonText) * 2;
                         Arraybuttons[i][k].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
+                        updateButtonTextVisibility();
+                        moved = true;
                     } else {
                         k = j - 1;
                         while (k >= 0 && Arraybuttons[i][k].getText().equals("0")) {
@@ -264,6 +271,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         int newVal = Integer.parseInt(buttonText) * 2;
                         Arraybuttons[k][j].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
+                        updateButtonTextVisibility();
+                        moved = true;
                     } else {
                         k = i - 1;
                         while (k >= 0 && Arraybuttons[k][j].getText().equals("0")) {
@@ -298,6 +307,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         int newVal = Integer.parseInt(buttonText) * 2;
                         Arraybuttons[k][j].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
+                        updateButtonTextVisibility();
+                        moved = true;
                     } else {
                         k = i + 1;
                         while (k < rowCount && Arraybuttons[k][j].getText().equals("0")) {
@@ -329,8 +340,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             randomCol = random.nextInt(columnCount);
         }
 
-        // Generar aleatoriamente 2 o 4 con probabilidades del 50% cada uno
-        int newValue = random.nextFloat() < 0.5 ? 2 : 4;
+        int newValue = random.nextFloat() < 0.80 ? 2 : 4;
 
         Arraybuttons[randomRow][randomCol].setText(String.valueOf(newValue));
 
@@ -352,6 +362,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 }
             }
         }
+    }
+
+    private void updateScore(){
+        scoreText.setText(scoreText.getText().toString()+1);
     }
 
 }
