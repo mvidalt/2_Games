@@ -58,6 +58,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         colorMap.put("64", Color.parseColor("#f75f3b"));
         colorMap.put("128", Color.parseColor("#edcf72"));
         colorMap.put("256", Color.parseColor("#edcc61"));
+        colorMap.put("512", Color.parseColor("#edc851"));
+        colorMap.put("1024", Color.parseColor("#edc53f"));
+        colorMap.put("2048", Color.parseColor("#edc22e"));
+
 
 
         Button buttonNewGame = findViewById(R.id.buttonNewGame);
@@ -229,6 +233,9 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 // Aquí puedes llamar a un método que muestre el mensaje de juego perdido
                 showGameOverDialog();
             }
+            if (isGameWinned()){
+                showGameWinned();
+            }
         }
     }
 
@@ -271,6 +278,9 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 // Por ejemplo, un Toast o un diálogo AlertDialog
                 // Aquí puedes llamar a un método que muestre el mensaje de juego perdido
                 showGameOverDialog();
+            }
+            if (isGameWinned()){
+                showGameWinned();
             }
 
         }
@@ -316,6 +326,9 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 // Aquí puedes llamar a un método que muestre el mensaje de juego perdido
                 showGameOverDialog();
             }
+            if (isGameWinned()){
+                showGameWinned();
+            }
         }
     }
 
@@ -359,6 +372,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 // Aquí puedes llamar a un método que muestre el mensaje de juego perdido
                 showGameOverDialog();
             }
+            if (isGameWinned()){
+                showGameWinned();
+            }
+
         }
     }
 
@@ -451,6 +468,34 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         AlertDialog gameOverDialog = builder.create();
         gameOverDialog.show();
     }
+    private boolean isGameWinned() {
 
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                String currentText = Arraybuttons[i][j].getText().toString();
+                if (currentText.equals("2048")){
+                    return true;
+                }
+            }
+        }
 
+        return false;
+    }
+
+    private void showGameWinned() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("¡Juego Terminado!")
+                .setMessage("Has Ganado, Felicidades 🎉🎊. ¿Quieres volver a jugar?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    // Salir del juego o realizar alguna acción
+                    // En este caso, solo cerramos el diálogo
+                    dialog.dismiss();
+                })
+                .setCancelable(false); // Evita que se cierre al tocar fuera del diálogo
+
+        AlertDialog gameOverDialog = builder.create();
+        gameOverDialog.show();
+    }
 }
