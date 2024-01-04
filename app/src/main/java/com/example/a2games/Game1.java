@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -55,9 +56,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         colorMap.put("16", Color.parseColor("#f69664"));
         colorMap.put("32", Color.parseColor("#f77c5f"));
         colorMap.put("64", Color.parseColor("#f75f3b"));
-        colorMap.put("128",Color.parseColor("#edcf72"));
+        colorMap.put("128", Color.parseColor("#edcf72"));
         colorMap.put("256", Color.parseColor("#edcc61"));
-
 
 
         Button buttonNewGame = findViewById(R.id.buttonNewGame);
@@ -206,7 +206,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         updateButtonTextVisibility();
                         updateScore(newVal); // Actualiza el marcador con el valor agregado
                         moved = true;
-                    }else {
+                    } else {
                         k = j + 1;
                         while (k < 4 && Arraybuttons[i][k].getText().equals("0")) {
                             k++;
@@ -223,8 +223,12 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         if (moved) {
             updateButtonTextVisibility();
             generateNewNumber();
-
-
+            if (isGameLost()) {
+                // Mostrar un mensaje indicando que el juego ha terminado
+                // Por ejemplo, un Toast o un diálogo AlertDialog
+                // Aquí puedes llamar a un método que muestre el mensaje de juego perdido
+                showGameOverDialog();
+            }
         }
     }
 
@@ -262,6 +266,12 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         if (moved) {
             updateButtonTextVisibility();
             generateNewNumber();
+            if (isGameLost()) {
+                // Mostrar un mensaje indicando que el juego ha terminado
+                // Por ejemplo, un Toast o un diálogo AlertDialog
+                // Aquí puedes llamar a un método que muestre el mensaje de juego perdido
+                showGameOverDialog();
+            }
 
         }
     }
@@ -300,6 +310,12 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         if (moved) {
             updateButtonTextVisibility();
             generateNewNumber();
+            if (isGameLost()) {
+                // Mostrar un mensaje indicando que el juego ha terminado
+                // Por ejemplo, un Toast o un diálogo AlertDialog
+                // Aquí puedes llamar a un método que muestre el mensaje de juego perdido
+                showGameOverDialog();
+            }
         }
     }
 
@@ -337,6 +353,12 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         if (moved) {
             updateButtonTextVisibility();
             generateNewNumber();
+            if (isGameLost()) {
+                // Mostrar un mensaje indicando que el juego ha terminado
+                // Por ejemplo, un Toast o un diálogo AlertDialog
+                // Aquí puedes llamar a un método que muestre el mensaje de juego perdido
+                showGameOverDialog();
+            }
         }
     }
 
@@ -351,7 +373,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             randomCol = random.nextInt(columnCount);
         }
 
-        int newValue = random.nextFloat() < 0.80 ? 2 : 4;
+        int newValue = random.nextFloat() < 0.90 ? 2 : 4;
 
         Arraybuttons[randomRow][randomCol].setText(String.valueOf(newValue));
 
@@ -378,6 +400,56 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private void updateScore(int addedValue) {
         score += addedValue;
         scoreText.setText(String.valueOf(score));
+    }
+
+    private boolean isGameLost() {
+        // Verificar si no hay movimientos válidos disponibles
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                String currentText = Arraybuttons[i][j].getText().toString();
+
+                // Verificar hacia la derecha
+                if (j < columnCount - 1 && (Arraybuttons[i][j + 1].getText().toString().equals("0") || Arraybuttons[i][j + 1].getText().toString().equals(currentText))) {
+                    return false; // Hay combinaciones hacia la derecha
+                }
+
+                // Verificar hacia abajo
+                if (i < rowCount - 1 && (Arraybuttons[i + 1][j].getText().toString().equals("0") || Arraybuttons[i + 1][j].getText().toString().equals(currentText))) {
+                    return false; // Hay combinaciones hacia abajo
+                }
+
+                // Verificar hacia arriba
+                if (i > 0 && (Arraybuttons[i - 1][j].getText().toString().equals("0") || Arraybuttons[i - 1][j].getText().toString().equals(currentText))) {
+                    return false; // Hay movimientos hacia arriba o espacios vacíos
+                }
+
+                // Verificar hacia la izquierda
+                if (j > 0 && (Arraybuttons[i][j - 1].getText().toString().equals("0") || Arraybuttons[i][j - 1].getText().toString().equals(currentText))) {
+                    return false; // Hay movimientos hacia la izquierda o espacios vacíos
+                }
+
+            }
+        }
+
+        return true; // No se encontraron movimientos válidos, el juego está perdido
+    }
+
+
+    private void showGameOverDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("¡Juego Terminado!")
+                .setMessage("Has perdido. ¿Quieres volver a jugar?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    // Salir del juego o realizar alguna acción
+                    // En este caso, solo cerramos el diálogo
+                    dialog.dismiss();
+                })
+                .setCancelable(false); // Evita que se cierre al tocar fuera del diálogo
+
+        AlertDialog gameOverDialog = builder.create();
+        gameOverDialog.show();
     }
 
 
