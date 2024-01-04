@@ -32,6 +32,9 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     final int columnCount = 4;
 
     TextView scoreText;
+
+    private int score = 0;
+
     private HashMap<String, Integer> colorMap = new HashMap<>();
 
     @Override
@@ -52,6 +55,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         colorMap.put("16", Color.parseColor("#f69664"));
         colorMap.put("32", Color.parseColor("#f77c5f"));
         colorMap.put("64", Color.parseColor("#f75f3b"));
+        colorMap.put("128",Color.parseColor("#edcf72"));
+        colorMap.put("256", Color.parseColor("#edcc61"));
 
 
 
@@ -91,7 +96,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 button.setTextColor(Color.parseColor("#776e65"));
                 button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
                 button.setAllCaps(false);
-
+                button.setClickable(false);
                 Arraybuttons[i][j] = button; // Agregar el botón al array
                 gridLayout.addView(button);
             }
@@ -199,8 +204,9 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         Arraybuttons[i][k].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
                         updateButtonTextVisibility();
+                        updateScore(newVal); // Actualiza el marcador con el valor agregado
                         moved = true;
-                    } else {
+                    }else {
                         k = j + 1;
                         while (k < 4 && Arraybuttons[i][k].getText().equals("0")) {
                             k++;
@@ -217,6 +223,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         if (moved) {
             updateButtonTextVisibility();
             generateNewNumber();
+
 
         }
     }
@@ -236,6 +243,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         Arraybuttons[i][k].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
                         updateButtonTextVisibility();
+                        updateScore(newVal); // Actualiza el marcador con el valor agregado
                         moved = true;
                     } else {
                         k = j - 1;
@@ -254,6 +262,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         if (moved) {
             updateButtonTextVisibility();
             generateNewNumber();
+
         }
     }
 
@@ -272,6 +281,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         Arraybuttons[k][j].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
                         updateButtonTextVisibility();
+                        updateScore(newVal); // Actualiza el marcador con el valor agregado
                         moved = true;
                     } else {
                         k = i - 1;
@@ -308,6 +318,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         Arraybuttons[k][j].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
                         updateButtonTextVisibility();
+                        updateScore(newVal); // Actualiza el marcador con el valor agregado
                         moved = true;
                     } else {
                         k = i + 1;
@@ -364,8 +375,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         }
     }
 
-    private void updateScore(){
-        scoreText.setText(scoreText.getText().toString()+1);
+    private void updateScore(int addedValue) {
+        score += addedValue;
+        scoreText.setText(String.valueOf(score));
     }
+
 
 }
