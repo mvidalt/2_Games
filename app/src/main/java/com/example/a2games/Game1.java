@@ -1,5 +1,6 @@
 package com.example.a2games;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -490,39 +491,51 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     private void startclock() {
-        countDownTimer = new CountDownTimer(600000, 1000) {  // Cambiado a 10 minutos (600,000 milisegundos)
-            final Intent intent = new Intent(Game1.this, Game1.class);
+        new Thread(() -> {
+            long totalTimeMillis = 600000;
+            long intervalMillis = 1000;
 
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long seconds = millisUntilFinished / 1000;
-                long minutes = seconds / 60;
-                seconds = seconds % 60;
+            while (totalTimeMillis > 0) {
+                try {
+                    Thread.sleep(intervalMillis);
+                    totalTimeMillis -= intervalMillis;
 
-                String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
-                timer.setText("Tiempo restante: " + timeLeftFormatted);
+                    long finalTotalTimeMillis = totalTimeMillis;
+                    runOnUiThread(() -> updateTimerText(finalTotalTimeMillis));
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
-            @Override
-            public void onFinish() {
-                timer.setText("¡Cuenta regresiva terminada!");
-                AlertDialog.Builder builder = new AlertDialog.Builder(Game1.this);
-                builder.setTitle("¡Se acabó el tiempo!")
-                        .setMessage("¿Quieres volver a jugar?")
-                        .setPositiveButton("Sí", (dialog, which) -> {
-                            startActivity(intent);
-                        })
-                        .setNegativeButton("No", (dialog, which) -> {
-                            dialog.dismiss();
-                        })
-                        .setCancelable(false);
-
-                AlertDialog gameOverDialog = builder.create();
-                gameOverDialog.show();
-            }
-
-        };
-        countDownTimer.start();
+            runOnUiThread(this::handleTimeUp);
+        }).start();
     }
 
+    private void updateTimerText(long millisUntilFinished) {
+        long seconds = millisUntilFinished / 1000;
+        long minutes = seconds / 60;
+        seconds = seconds % 60;
+
+        String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
+        timer.setText("Tiempo restante: " + timeLeftFormatted);
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void handleTimeUp() {
+        timer.setText("¡Cuenta regresiva terminada!");
+        AlertDialog.Builder builder = new AlertDialog.Builder(Game1.this);
+        builder.setTitle("¡Se acabó el tiempo!")
+                .setMessage("¿Quieres volver a jugar?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    recreate();
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .setCancelable(false);
+
+        AlertDialog gameOverDialog = builder.create();
+        gameOverDialog.show();
+    }
 }
