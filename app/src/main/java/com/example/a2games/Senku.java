@@ -1,6 +1,7 @@
 package com.example.a2games;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -17,7 +18,8 @@ public class Senku extends AppCompatActivity {
 
     private enum ButtonState {
         ON,
-        OFF
+        OFF,
+        SELECTED
     }
 
     @Override
@@ -31,6 +33,8 @@ public class Senku extends AppCompatActivity {
     private void createGameButtons() {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
+                final int row = i;
+                final int col = j;
                 ImageButton imageButton = new ImageButton(this);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i), GridLayout.spec(j));
 
@@ -57,17 +61,37 @@ public class Senku extends AppCompatActivity {
                 ArrayImageButtons[i][j] = imageButton;
                 gridLayout.addView(imageButton);
                 imageButton.setOnClickListener(v -> {
-                    handleImageButtonClick(imageButton);
+                    handleImageButtonClick(imageButton, row, col);
                 });
             }
         }
     }
 
-    public void handleImageButtonClick(ImageButton clickedImageButton) {
-        if (ButtonState.ON.equals(clickedImageButton.getTag())) {
-            clickedImageButton.setImageResource(R.drawable.radio_button_custom);
+    public void handleImageButtonClick(ImageButton clickedImageButton, int row, int col) {
+        if (!isAnyButtonSelected()) {
+            if (ButtonState.ON.equals(clickedImageButton.getTag())) {
+                clickedImageButton.setImageResource(R.drawable.radio_button_custom);
+                clickedImageButton.setTag(ButtonState.SELECTED);
+            }
+        }else if (ButtonState.SELECTED.equals(clickedImageButton.getTag())) {
+            clickedImageButton.setImageResource(R.drawable.radio_button_on);
+            clickedImageButton.setTag(ButtonState.ON);
         }
     }
+
+    private boolean isAnyButtonSelected() {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                if (ButtonState.SELECTED.equals(ArrayImageButtons[i][j].getTag())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
 
     public void goBack(View view) {
         Intent IntentMain = new Intent(this, MainActivity.class);
