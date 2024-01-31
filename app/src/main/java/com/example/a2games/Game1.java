@@ -38,7 +38,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private HashMap<String, Integer> colorMap = new HashMap<>();
 
-    private CountDownTimer countDownTimer;
 
     private TextView timer;
 

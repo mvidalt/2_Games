@@ -67,19 +67,23 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Movimiento"
+        android:text="Movimiento: "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
         android:id="@+id/txtTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="60dp"
+        android:layout_width="169dp"
+        android:layout_height="61dp"
         android:layout_marginBottom="16dp"
-        android:text="Tiempo"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#DA0F0F"
+        android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/varMoves"
@@ -88,15 +92,6 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/txtMoves"
-        tools:text="254" />
-
-    <Chronometer
-        android:id="@+id/varTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/txtTime"
-        tools:text="15:42" />
+        tools:text="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
