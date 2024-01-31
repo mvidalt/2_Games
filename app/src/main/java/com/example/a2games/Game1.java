@@ -69,7 +69,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         colorMap.put("1024", Color.parseColor("#edc53f"));
         colorMap.put("2048", Color.parseColor("#edc22e"));
 
-        startclock();
+        startClock();
 
         Button buttonNewGame = findViewById(R.id.buttonNewGame);
         buttonNewGame.setOnClickListener(v -> {
@@ -490,18 +490,18 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         gameOverDialog.show();
     }
 
-    private void startclock() {
+    private void startClock() {
         new Thread(() -> {
-            long totalTimeMillis = 600000;
-            long intervalMillis = 1000;
+            long totalTimeSeconds = 600;
+            long intervalSeconds = 1;
 
-            while (totalTimeMillis > 0) {
+            while (totalTimeSeconds > 0) {
                 try {
-                    Thread.sleep(intervalMillis);
-                    totalTimeMillis -= intervalMillis;
+                    Thread.sleep(intervalSeconds * 1000);
+                    totalTimeSeconds -= intervalSeconds;
 
-                    long finalTotalTimeMillis = totalTimeMillis;
-                    runOnUiThread(() -> updateTimerText(finalTotalTimeMillis));
+                    long finalTotalTimeSeconds = totalTimeSeconds;
+                    runOnUiThread(() -> updateTimerText(finalTotalTimeSeconds));
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -512,14 +512,14 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         }).start();
     }
 
-    private void updateTimerText(long millisUntilFinished) {
-        long seconds = millisUntilFinished / 1000;
-        long minutes = seconds / 60;
-        seconds = seconds % 60;
+    private void updateTimerText(long secondsUntilFinished) {
+        long minutes = secondsUntilFinished / 60;
+        long seconds = secondsUntilFinished % 60;
 
         String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
         timer.setText("Tiempo restante: " + timeLeftFormatted);
     }
+
 
     @SuppressLint("SetTextI18n")
     private void handleTimeUp() {
