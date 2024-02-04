@@ -73,17 +73,14 @@
 
     <TextView
         android:id="@+id/txtTime"
-        android:layout_width="169dp"
-        android:layout_height="61dp"
+        android:layout_width="149dp"
+        android:layout_height="15dp"
         android:layout_marginBottom="16dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#DA0F0F"
-        android:textSize="12sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.898"
+        app:layout_constraintStart_toEndOf="@+id/varMoves" />
 
     <TextView
         android:id="@+id/varMoves"

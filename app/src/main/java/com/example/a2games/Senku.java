@@ -154,9 +154,17 @@ public class Senku extends AppCompatActivity {
 
 
     private boolean isDistanceTwo(int selectedRow, int selectedCol, int offRow, int offCol) {
-        int rowDistance = Math.abs(selectedRow - offRow);
-        int colDistance = Math.abs(selectedCol - offCol);
-        return (rowDistance == 2 && colDistance == 0) || (rowDistance == 0 && colDistance == 2);
+        int middleRow = (selectedRow + offRow) / 2;
+        int middleCol = (selectedCol + offCol) / 2;
+
+        // Verificar que la bola intermedia esté en el estado ON
+        if (ButtonState.ON.equals(ArrayImageButtons[middleRow][middleCol].getTag())) {
+            int rowDistance = Math.abs(selectedRow - offRow);
+            int colDistance = Math.abs(selectedCol - offCol);
+            return (rowDistance == 2 && colDistance == 0) || (rowDistance == 0 && colDistance == 2);
+        }
+
+        return false;
     }
 
     private boolean isGameOver() {
@@ -196,6 +204,7 @@ public class Senku extends AppCompatActivity {
         }
         return count == 1;
     }
+
 
 
 
