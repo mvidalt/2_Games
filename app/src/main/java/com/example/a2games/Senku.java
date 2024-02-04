@@ -108,6 +108,13 @@ public class Senku extends AppCompatActivity {
                         // Switch the ball between ON and SELECTED to OFF
                         switchBallsOff(i, j, row, col);
                         updateMovements();
+
+                        if (isGameOver()) {
+                            handleGameOver(); // Método para manejar el juego terminado
+                        }
+                        if (isGameWinned()) {
+                            handleGameWinned();
+                        }
                     }
                 }
             }
@@ -116,6 +123,24 @@ public class Senku extends AppCompatActivity {
             clickedImageButton.setTag(ButtonState.ON);
         }
     }
+
+    private void handleGameWinned() {
+        timer.setText("¡Has Ganado!");
+        AlertDialog.Builder builder = new AlertDialog.Builder(Senku.this);
+        builder.setTitle("¡Felicidades!")
+                .setMessage("¿Quieres volver a jugar?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    recreate();
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .setCancelable(false);
+
+        AlertDialog gameOverDialog = builder.create();
+        gameOverDialog.show();
+    }
+
 
     private void switchBallsOff(int selectedRow, int selectedCol, int offRow, int offCol) {
         int middleRow = (selectedRow + offRow) / 2;
@@ -134,6 +159,45 @@ public class Senku extends AppCompatActivity {
         return (rowDistance == 2 && colDistance == 0) || (rowDistance == 0 && colDistance == 2);
     }
 
+    private boolean isGameOver() {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                if (ButtonState.ON.equals(ArrayImageButtons[i][j].getTag())) {
+                    // Verifica hacia arriba
+                    if (i > 0 && ButtonState.ON.equals(ArrayImageButtons[i - 1][j].getTag())) {
+                        return false; // Hay un botón ON arriba
+                    }
+                    // Verifica hacia abajo
+                    if (i < 6 && ButtonState.ON.equals(ArrayImageButtons[i + 1][j].getTag())) {
+                        return false; // Hay un botón ON abajo
+                    }
+                    // Verifica hacia la izquierda
+                    if (j > 0 && ButtonState.ON.equals(ArrayImageButtons[i][j - 1].getTag())) {
+                        return false; // Hay un botón ON a la izquierda
+                    }
+                    // Verifica hacia la derecha
+                    if (j < 6 && ButtonState.ON.equals(ArrayImageButtons[i][j + 1].getTag())) {
+                        return false; // Hay un botón ON a la derecha
+                    }
+                }
+            }
+        }
+        return true; // No hay botones ON adyacentes, el juego ha terminado
+    }
+
+    private boolean isGameWinned() {
+        int count = 0;
+        for (ImageButton[] row : ArrayImageButtons) {
+            for (ImageButton button : row) {
+                if (ButtonState.ON.equals(button.getTag())) {
+                    count++;
+                }
+            }
+        }
+        return count == 1;
+    }
+
+
 
     private boolean isAnyButtonSelected() {
         for (int i = 0; i < 7; i++) {
@@ -151,7 +215,7 @@ public class Senku extends AppCompatActivity {
         createGameButtons();
     }
 
-    private void updateMovements(){
+    private void updateMovements() {
         movimientosNum += 1;
         movimientos.setText(String.valueOf(movimientosNum));
     }
@@ -187,6 +251,23 @@ public class Senku extends AppCompatActivity {
         timer.setText("Tiempo restante: " + timeLeftFormatted);
     }
 
+    @SuppressLint("SetTextI18n")
+    private void handleGameOver() {
+        timer.setText("¡Game Over!");
+        AlertDialog.Builder builder = new AlertDialog.Builder(Senku.this);
+        builder.setTitle("¡Has perdido!")
+                .setMessage("¿Quieres volver a jugar?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    recreate();
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .setCancelable(false);
+
+        AlertDialog gameOverDialog = builder.create();
+        gameOverDialog.show();
+    }
 
     @SuppressLint("SetTextI18n")
     private void handleTimeUp() {
