@@ -31,6 +31,8 @@ public class Senku extends AppCompatActivity {
         OFF,
         SELECTED
     }
+    private Thread timerThread;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +100,6 @@ public class Senku extends AppCompatActivity {
                 for (int j = 0; j < 7; j++) {
                     if (ButtonState.SELECTED.equals(ArrayImageButtons[i][j].getTag()) &&
                             isDistanceTwo(i, j, row, col)) {
-                        // Switch the OFF button to ON and the SELECTED button to OFF
                         clickedImageButton.setImageResource(R.drawable.radio_button_on);
                         clickedImageButton.setTag(ButtonState.ON);
 
@@ -173,24 +174,44 @@ public class Senku extends AppCompatActivity {
                 if (ButtonState.ON.equals(ArrayImageButtons[i][j].getTag())) {
                     // Verifica hacia arriba
                     if (i > 0 && ButtonState.ON.equals(ArrayImageButtons[i - 1][j].getTag())) {
-                        return false; // Hay un botón ON arriba
+                        return false;
                     }
                     // Verifica hacia abajo
                     if (i < 6 && ButtonState.ON.equals(ArrayImageButtons[i + 1][j].getTag())) {
-                        return false; // Hay un botón ON abajo
+                        return false;
                     }
                     // Verifica hacia la izquierda
                     if (j > 0 && ButtonState.ON.equals(ArrayImageButtons[i][j - 1].getTag())) {
-                        return false; // Hay un botón ON a la izquierda
+                        return false;
                     }
                     // Verifica hacia la derecha
                     if (j < 6 && ButtonState.ON.equals(ArrayImageButtons[i][j + 1].getTag())) {
-                        return false; // Hay un botón ON a la derecha
+                        return false;
+                    }
+                    if(!canMove(i,j)){
+                        return true;
                     }
                 }
+
             }
         }
-        return true; // No hay botones ON adyacentes, el juego ha terminado
+        return true;
+    }
+
+    private boolean canMove(int row, int col) {
+        if (row > 0 && ButtonState.ON.equals(ArrayImageButtons[row - 1][col].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[row - 2][col].getTag())){
+            return true;
+        }
+        if (row < 6 && ButtonState.ON.equals(ArrayImageButtons[row + 1][col].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[row + 2][col].getTag())) {
+            return true;
+        }
+        if (col > 0 && ButtonState.ON.equals(ArrayImageButtons[row][col - 1].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[row][col - 2].getTag())) {
+            return true;
+        }
+        if (row < 6 && ButtonState.ON.equals(ArrayImageButtons[row][col + 1].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[row][col + 2].getTag())) {
+            return true;
+        }
+        return false;
     }
 
     private boolean isGameWinned() {
@@ -231,7 +252,7 @@ public class Senku extends AppCompatActivity {
 
 
     private void startClock() {
-        new Thread(() -> {
+        timerThread = new Thread(() -> {
             long totalTimeSeconds = 600;
             long intervalSeconds = 1;
 
@@ -249,8 +270,11 @@ public class Senku extends AppCompatActivity {
             }
 
             runOnUiThread(this::handleTimeUp);
-        }).start();
+        });
+        timerThread.start();
     }
+
+
 
     private void updateTimerText(long secondsUntilFinished) {
         long minutes = secondsUntilFinished / 60;
