@@ -31,7 +31,10 @@ public class Senku extends AppCompatActivity {
         OFF,
         SELECTED
     }
+
+    private volatile boolean isTimerRunning = true;
     private Thread timerThread;
+
 
 
     @Override
@@ -41,7 +44,7 @@ public class Senku extends AppCompatActivity {
         gridLayout = findViewById(R.id.buttonsContainer);
         movimientos = findViewById(R.id.varMoves);
         timer = findViewById(R.id.txtTime);
-
+        movimientos.setText(String.valueOf(movimientosNum));
         createGameButtons();
         startClock();
     }
@@ -243,7 +246,13 @@ public class Senku extends AppCompatActivity {
     private void resetGame() {
         gridLayout.removeAllViews();
         createGameButtons();
+        stopClock();
+        movimientosNum = 0;
+        movimientos.setText(String.valueOf(movimientosNum));
+        isTimerRunning = true;
+        startClock();
     }
+
 
     private void updateMovements() {
         movimientosNum += 1;
@@ -252,11 +261,21 @@ public class Senku extends AppCompatActivity {
 
 
     private void startClock() {
+        if (timerThread != null && timerThread.isAlive()) {
+            isTimerRunning = false;
+            try {
+                timerThread.join(); // Espera a que el hilo actual termine
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        isTimerRunning = true;
         timerThread = new Thread(() -> {
             long totalTimeSeconds = 600;
             long intervalSeconds = 1;
 
-            while (totalTimeSeconds > 0) {
+            while (totalTimeSeconds > 0 && isTimerRunning) {
                 try {
                     Thread.sleep(intervalSeconds * 1000);
                     totalTimeSeconds -= intervalSeconds;
@@ -265,13 +284,28 @@ public class Senku extends AppCompatActivity {
                     runOnUiThread(() -> updateTimerText(finalTotalTimeSeconds));
 
                 } catch (InterruptedException e) {
+                    // Maneja la interrupción si es necesario
                     e.printStackTrace();
                 }
             }
 
-            runOnUiThread(this::handleTimeUp);
+            if (isTimerRunning) {
+                runOnUiThread(this::handleTimeUp);
+            }
         });
+
         timerThread.start();
+    }
+
+    private void stopClock() {
+        isTimerRunning = false;
+        if (timerThread != null && timerThread.isAlive()) {
+            try {
+                timerThread.join(); // Espera a que el hilo actual termine
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
