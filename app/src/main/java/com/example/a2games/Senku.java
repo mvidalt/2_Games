@@ -176,46 +176,25 @@ public class Senku extends AppCompatActivity {
             for (int j = 0; j < 7; j++) {
                 if (ButtonState.ON.equals(ArrayImageButtons[i][j].getTag())) {
                     // Verifica hacia arriba
-                    if (i > 0 && ButtonState.ON.equals(ArrayImageButtons[i - 1][j].getTag())) {
+                    if (i > 1 && ButtonState.ON.equals(ArrayImageButtons[i - 1][j].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[i - 2][j].getTag())) {
                         return false;
                     }
                     // Verifica hacia abajo
-                    if (i < 6 && ButtonState.ON.equals(ArrayImageButtons[i + 1][j].getTag())) {
+                    if (i < 5 && ButtonState.ON.equals(ArrayImageButtons[i + 1][j].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[i + 2][j].getTag())) {
                         return false;
                     }
-                    // Verifica hacia la izquierda
-                    if (j > 0 && ButtonState.ON.equals(ArrayImageButtons[i][j - 1].getTag())) {
+                    // Verifica hacia la izquierda y derecha
+                    if ((j > 1 && ButtonState.ON.equals(ArrayImageButtons[i][j - 1].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[i][j - 2].getTag())) ||
+                            (j < 5 && ButtonState.ON.equals(ArrayImageButtons[i][j + 1].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[i][j + 2].getTag()))) {
                         return false;
-                    }
-                    // Verifica hacia la derecha
-                    if (j < 6 && ButtonState.ON.equals(ArrayImageButtons[i][j + 1].getTag())) {
-                        return false;
-                    }
-                    if(!canMove(i,j)){
-                        return true;
                     }
                 }
-
             }
         }
         return true;
     }
 
-    private boolean canMove(int row, int col) {
-        if (row > 0 && ButtonState.ON.equals(ArrayImageButtons[row - 1][col].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[row - 2][col].getTag())){
-            return true;
-        }
-        if (row < 6 && ButtonState.ON.equals(ArrayImageButtons[row + 1][col].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[row + 2][col].getTag())) {
-            return true;
-        }
-        if (col > 0 && ButtonState.ON.equals(ArrayImageButtons[row][col - 1].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[row][col - 2].getTag())) {
-            return true;
-        }
-        if (row < 6 && ButtonState.ON.equals(ArrayImageButtons[row][col + 1].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[row][col + 2].getTag())) {
-            return true;
-        }
-        return false;
-    }
+
 
     private boolean isGameWinned() {
         int count = 0;
@@ -258,7 +237,6 @@ public class Senku extends AppCompatActivity {
         movimientosNum += 1;
         movimientos.setText(String.valueOf(movimientosNum));
     }
-
 
     private void startClock() {
         if (timerThread != null && timerThread.isAlive()) {
