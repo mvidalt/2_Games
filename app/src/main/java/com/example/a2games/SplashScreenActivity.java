@@ -6,6 +6,8 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a2games.MainActivity;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     private static int SPLASH_SCREEN_TIMEOUT = 3000; // 3 segundos
@@ -23,6 +25,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                 // Inicia la actividad principal de la aplicación
                 Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 startActivity(intent);
+
+                // Aplica la animación de fade in antes de cerrar esta actividad
+                overridePendingTransition(R.anim.fade_in, android.R.anim.fade_out);
 
                 // Cierra esta actividad
                 finish();
