@@ -35,9 +35,6 @@ public class RegisterActivity extends AppCompatActivity {
         String savedUsername = sharedPreferences.getString("username", "");
         String savedPassword = sharedPreferences.getString("password", "");
 
-        // Setear valores a los EditText
-        editTextUsername.setText(savedUsername);
-        editTextPassword.setText(savedPassword);
 
         // Acción al hacer clic en el botón de inicio de sesión
         buttonRegister.setOnClickListener(view -> {

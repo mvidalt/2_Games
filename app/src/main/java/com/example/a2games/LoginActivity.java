@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a2games.MainActivity;
+import com.example.a2games.RegisterActivity;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextUsername;
@@ -24,6 +27,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        // Inicializar vistas
+        editTextUsername = findViewById(R.id.editTextUsername);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        buttonLogin = findViewById(R.id.buttonLogin);
+
+        // Obtener SharedPreferences
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         // Acción al hacer clic en el botón de inicio de sesión
         buttonLogin.setOnClickListener(view -> {
@@ -46,13 +56,11 @@ public class LoginActivity extends AppCompatActivity {
                 // Por ejemplo, puedes mostrar un Toast indicando que las credenciales son incorrectas
                 Toast.makeText(this, "Nombre de usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
             }
-
-
-    });
+        });
     }
 
     public void openRegistro(View view){
-        Intent IntentRegistro = new Intent(this,RegisterActivity.class);
+        Intent IntentRegistro = new Intent(this, RegisterActivity.class);
         startActivity(IntentRegistro);
     }
 }
