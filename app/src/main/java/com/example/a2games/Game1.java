@@ -59,7 +59,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         timer = findViewById(R.id.timer);
         bestScoreText = findViewById(R.id.scoretotal);
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        int savedBestScore = sharedPreferences.getInt("score", 0);
+        int savedBestScore = sharedPreferences.getInt("score2048", 0);
         bestScoreText.setText(String.valueOf(savedBestScore));
 
         createGameButtons();
@@ -435,7 +435,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         if (score > memoryScore) {
             memoryScore = score;
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("score", memoryScore);
+            editor.putInt("score2048", memoryScore);
             editor.apply();
             bestScoreText.setText(String.valueOf(memoryScore));
         }

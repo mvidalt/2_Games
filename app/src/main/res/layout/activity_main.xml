@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
     tools:context=".MainActivity">
+
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/wallpaper"
-        android:scaleType="centerCrop" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/titleTextView"
@@ -29,13 +34,14 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleTextView"
-        app:layout_constraintVertical_bias="0.451"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintVertical_bias="0.451">
 
         <TextView
             android:id="@+id/textView3"
@@ -62,8 +68,8 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="#4CAF50"
-                android:text="2048"
                 android:onClick="openGame1"
+                android:text="2048"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -73,12 +79,21 @@
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="#2196F3"
-                android:text="Senku"
                 android:onClick="openSenku"
+                android:text="Senku"
                 android:textColor="#FFFFFF" />
-
 
 
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/saludo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="130dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

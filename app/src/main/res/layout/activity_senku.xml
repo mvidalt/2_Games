@@ -62,12 +62,22 @@
     </GridLayout>
 
     <TextView
-        android:id="@+id/txtMoves"
+        android:id="@+id/puntuacióntxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Movimiento: "
+        android:text="Puntuación: "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/BestScoretxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="48dp"
+        android:text="Mejor Puntuación: "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -80,15 +90,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.898"
-        app:layout_constraintStart_toEndOf="@+id/varMoves" />
+        app:layout_constraintStart_toEndOf="@+id/puntuacion" />
 
     <TextView
-        android:id="@+id/varMoves"
+        android:id="@+id/puntuacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/txtMoves"
+        app:layout_constraintLeft_toRightOf="@+id/puntuacióntxt"
+        tools:text="0" />
+
+    <TextView
+        android:id="@+id/BestScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/BestScoretxt"
         tools:text="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

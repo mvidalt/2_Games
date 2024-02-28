@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,9 +22,9 @@ public class Senku extends AppCompatActivity {
     public GridLayout gridLayout;
     private final ImageButton[][] ArrayImageButtons = new ImageButton[7][7];
 
-    public TextView movimientos;
+    public TextView scoretxt;
 
-    public int movimientosNum = 0;
+    public int score = 0;
 
     public TextView timer;
 
@@ -35,16 +37,23 @@ public class Senku extends AppCompatActivity {
     private volatile boolean isTimerRunning = true;
     private Thread timerThread;
 
+    private SharedPreferences sharedPreferences;
 
+
+    TextView bestScoreText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_senku);
         gridLayout = findViewById(R.id.buttonsContainer);
-        movimientos = findViewById(R.id.varMoves);
+        scoretxt = findViewById(R.id.puntuacion);
+        scoretxt.setText("0");
         timer = findViewById(R.id.txtTime);
-        movimientos.setText(String.valueOf(movimientosNum));
+        bestScoreText = findViewById(R.id.BestScore);
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        int savedBestScore = sharedPreferences.getInt("scoreSenku", 0);
+        bestScoreText.setText(String.valueOf(savedBestScore));
         createGameButtons();
         startClock();
     }
@@ -111,14 +120,18 @@ public class Senku extends AppCompatActivity {
 
                         // Switch the ball between ON and SELECTED to OFF
                         switchBallsOff(i, j, row, col);
-                        updateMovements();
+                        updateScore();
 
-                        if (isGameOver()) {
-                            handleGameOver(); // Método para manejar el juego terminado
-                        }
                         if (isGameWinned()) {
                             handleGameWinned();
+                            saveBestScore();
                         }
+
+                        else if (isGameOver()) {
+                            handleGameOver();
+                            saveBestScore();
+                        }
+
                     }
                 }
             }
@@ -128,6 +141,7 @@ public class Senku extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void handleGameWinned() {
         timer.setText("¡Has Ganado!");
         AlertDialog.Builder builder = new AlertDialog.Builder(Senku.this);
@@ -226,23 +240,34 @@ public class Senku extends AppCompatActivity {
         gridLayout.removeAllViews();
         createGameButtons();
         stopClock();
-        movimientosNum = 0;
-        movimientos.setText(String.valueOf(movimientosNum));
+        score = 0;
+        scoretxt.setText(String.valueOf(score));
         isTimerRunning = true;
         startClock();
     }
 
 
-    private void updateMovements() {
-        movimientosNum += 1;
-        movimientos.setText(String.valueOf(movimientosNum));
+    private void updateScore() {
+        score += 1;
+        scoretxt.setText(String.valueOf(score));
+    }
+
+    private void saveBestScore() {
+        int memoryScore = sharedPreferences.getInt("scoreSenku", 0);
+        if (score > memoryScore) {
+            memoryScore = score;
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("scoreSenku", memoryScore);
+            editor.apply();
+            bestScoreText.setText(String.valueOf(memoryScore));
+        }
     }
 
     private void startClock() {
         if (timerThread != null && timerThread.isAlive()) {
             isTimerRunning = false;
             try {
-                timerThread.join(); // Espera a que el hilo actual termine
+                timerThread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -288,11 +313,12 @@ public class Senku extends AppCompatActivity {
 
 
 
+    @SuppressLint("SetTextI18n")
     private void updateTimerText(long secondsUntilFinished) {
         long minutes = secondsUntilFinished / 60;
         long seconds = secondsUntilFinished % 60;
 
-        String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
+        @SuppressLint("DefaultLocale") String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
         timer.setText("Tiempo restante: " + timeLeftFormatted);
     }
 

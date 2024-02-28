@@ -19,7 +19,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText editTextPasswordConfirm;
 
-    private int bestScore;
+    private int bestScore2048;
+
+    private int bestScoreSenku;
 
     private SharedPreferences sharedPreferences;
 
@@ -51,7 +53,8 @@ public class RegisterActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("username", username);
                 editor.putString("password", password);
-                editor.putInt("score", (bestScore));
+                editor.putInt("score2048", (bestScore2048));
+                editor.putInt("scoreSenku",(bestScoreSenku));
                 editor.apply();
 
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
