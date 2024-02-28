@@ -18,7 +18,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextUsername;
     private EditText editTextPassword;
-    private Button buttonLogin;
 
     private SharedPreferences sharedPreferences;
 
@@ -30,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         // Inicializar vistas
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextPassword = findViewById(R.id.editTextPassword);
-        buttonLogin = findViewById(R.id.buttonLogin);
+        Button buttonLogin = findViewById(R.id.buttonLogin);
 
         // Obtener SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);

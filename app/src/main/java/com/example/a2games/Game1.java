@@ -2,7 +2,9 @@ package com.example.a2games;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -34,6 +36,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     TextView scoreText;
 
+    TextView bestScoreText;
+
     private int score = 0;
 
     private HashMap<String, Integer> colorMap = new HashMap<>();
@@ -42,6 +46,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private TextView timer;
 
 
+    private SharedPreferences  sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,13 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         scoreText = findViewById(R.id.score);
         gridLayout = findViewById(R.id.gridLayout);
         timer = findViewById(R.id.timer);
+        bestScoreText = findViewById(R.id.scoretotal);
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        int savedBestScore = sharedPreferences.getInt("score", 0);
+        bestScoreText.setText(String.valueOf(savedBestScore));
+
         createGameButtons();
+
 
         colorMap = new HashMap<>();
         colorMap.put("0", Color.parseColor("#cdc1b4"));
@@ -232,9 +243,11 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             generateNewNumber();
             if (isGameLost()) {
                 showGameOverDialog();
+                saveBestScore();
             }
             if (isGameWinned()) {
                 showGameWinned();
+                saveBestScore();
             }
         }
     }
@@ -276,9 +289,11 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             generateNewNumber();
             if (isGameLost()) {
                 showGameOverDialog();
+                saveBestScore();
             }
             if (isGameWinned()) {
                 showGameWinned();
+                saveBestScore();
             }
 
         }
@@ -320,9 +335,11 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             generateNewNumber();
             if (isGameLost()) {
                 showGameOverDialog();
+                saveBestScore();
             }
             if (isGameWinned()) {
                 showGameWinned();
+                saveBestScore();
             }
         }
     }
@@ -363,9 +380,11 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             generateNewNumber();
             if (isGameLost()) {
                 showGameOverDialog();
+                saveBestScore();
             }
             if (isGameWinned()) {
                 showGameWinned();
+                saveBestScore();
             }
 
         }
@@ -410,6 +429,18 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         score += addedValue;
         scoreText.setText(String.valueOf(score));
     }
+
+    private void saveBestScore() {
+        int memoryScore = sharedPreferences.getInt("score", 0);
+        if (score > memoryScore) {
+            memoryScore = score;
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("score", memoryScore);
+            editor.apply();
+            bestScoreText.setText(String.valueOf(memoryScore));
+        }
+    }
+
 
     private boolean isGameLost() {
         for (int i = 0; i < rowCount; i++) {
@@ -474,8 +505,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private void showGameWinned() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("¡Juego Terminado!")
-                .setMessage("Se acabó el tiempo. ¿Quieres volver a jugar?")
+        builder.setTitle("¡Has ganado, felicidades!")
+                .setMessage("¿Quieres volver a jugar?")
                 .setPositiveButton("Sí", (dialog, which) -> {
 
                 })
@@ -511,13 +542,15 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         }).start();
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateTimerText(long secondsUntilFinished) {
         long minutes = secondsUntilFinished / 60;
         long seconds = secondsUntilFinished % 60;
 
-        String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
+        @SuppressLint("DefaultLocale") String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
         timer.setText("Tiempo restante: " + timeLeftFormatted);
     }
+
 
 
     @SuppressLint("SetTextI18n")

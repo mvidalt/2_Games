@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +18,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editTextPassword;
 
     private EditText editTextPasswordConfirm;
-    private Button buttonRegister;
+
+    private int bestScore;
 
     private SharedPreferences sharedPreferences;
 
@@ -30,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextPasswordConfirm = findViewById(R.id.editTextPasswordConfirm);
-        buttonRegister = findViewById(R.id.buttonRegister);
+        Button buttonRegister = findViewById(R.id.buttonRegister);
 
 
 
@@ -49,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("username", username);
                 editor.putString("password", password);
+                editor.putInt("score", (bestScore));
                 editor.apply();
 
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
