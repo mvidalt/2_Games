@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -48,6 +49,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private SharedPreferences  sharedPreferences;
 
+    private Button[][] backupButtons;
+
 
 
     @Override
@@ -63,7 +66,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         int savedBestScore = sharedPreferences.getInt("score2048", 0);
         bestScoreText.setText(String.valueOf(savedBestScore));
-
+        backupButtons = new Button[rowCount][columnCount];
         createGameButtons();
 
 
@@ -86,6 +89,12 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         Button buttonNewGame = findViewById(R.id.buttonNewGame);
         buttonNewGame.setOnClickListener(v -> {
             restartGame();
+        });
+
+        Button buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> {
+            restoreArrayButtonsFromBackup();
+            updateButtonTextVisibility();
         });
     }
 
@@ -178,7 +187,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
+        backupArrayButtons();
         // Se llama cuando se detecta un gesto de fling
         if (Math.abs(velocityX) > Math.abs(velocityY)) {
             // Fling horizontal
@@ -592,4 +601,36 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         generateNewNumber();
         generateNewNumber();
     }
+
+    private void backupArrayButtons() {
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                // Copia el botón completo en backupButtons
+                backupButtons[i][j] = new Button(this);
+                backupButtons[i][j].setText(Arraybuttons[i][j].getText());
+                backupButtons[i][j].setBackground(Arraybuttons[i][j].getBackground());
+                backupButtons[i][j].setTextColor(Arraybuttons[i][j].getCurrentTextColor());
+                backupButtons[i][j].setBackgroundTintList(Arraybuttons[i][j].getBackgroundTintList());
+                backupButtons[i][j].setClickable(Arraybuttons[i][j].isClickable());
+            }
+        }
+    }
+
+
+
+    private void restoreArrayButtonsFromBackup() {
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                // Copia el botón desde backupButtons a Arraybuttons
+                Arraybuttons[i][j].setText(backupButtons[i][j].getText());
+                Arraybuttons[i][j].setBackground(backupButtons[i][j].getBackground());
+                Arraybuttons[i][j].setTextColor(backupButtons[i][j].getCurrentTextColor());
+                Arraybuttons[i][j].setBackgroundTintList(backupButtons[i][j].getBackgroundTintList());
+                Arraybuttons[i][j].setClickable(backupButtons[i][j].isClickable());
+            }
+        }
+    }
+
+
+
 }
