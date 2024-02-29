@@ -48,6 +48,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private SharedPreferences  sharedPreferences;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
