@@ -55,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
                 editor.putString("password", password);
                 editor.putInt("score2048", (bestScore2048));
                 editor.putInt("scoreSenku",(bestScoreSenku));
+                editor.putString("image_uri",null);
                 editor.apply();
 
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
