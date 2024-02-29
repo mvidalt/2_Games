@@ -51,7 +51,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private Button[][] backupButtons;
 
-
+    private Button buttonBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +91,11 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             restartGame();
         });
 
-        Button buttonBack = findViewById(R.id.buttonBack);
+        buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setVisibility(View.INVISIBLE);
         buttonBack.setOnClickListener(v -> {
+            buttonBack.setVisibility(View.INVISIBLE);
+            buttonBack.setClickable(false);
             restoreArrayButtonsFromBackup();
             updateButtonTextVisibility();
         });
@@ -188,6 +191,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         backupArrayButtons();
+        buttonBack.setVisibility(View.VISIBLE);
+        buttonBack.setClickable(true);
         // Se llama cuando se detecta un gesto de fling
         if (Math.abs(velocityX) > Math.abs(velocityY)) {
             // Fling horizontal
@@ -258,6 +263,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 saveBestScore();
             }
         }
+
     }
 
     private void moveNumbersLeft() {
