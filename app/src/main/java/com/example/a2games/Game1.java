@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
@@ -18,9 +17,9 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -162,29 +161,29 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     @Override
-    public boolean onDown(MotionEvent e) {
+    public boolean onDown(@NonNull MotionEvent e) {
         return true;
     }
 
     @Override
-    public void onShowPress(MotionEvent e) {
+    public void onShowPress(@NonNull MotionEvent e) {
         // No hacemos nada aquí
     }
 
     @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        // No hacemos nada aquí
-        return true;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+    public boolean onSingleTapUp(@NonNull MotionEvent e) {
         // No hacemos nada aquí
         return true;
     }
 
     @Override
-    public void onLongPress(MotionEvent e) {
+    public boolean onScroll(MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
+        // No hacemos nada aquí
+        return true;
+    }
+
+    @Override
+    public void onLongPress(@NonNull MotionEvent e) {
         Log.d("log", "me han pulsado mucho");
     }
 
@@ -251,18 +250,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 }
             }
         }
-        if (moved) {
-            updateButtonTextVisibility();
-            generateNewNumber();
-            if (isGameLost()) {
-                showGameOverDialog();
-                saveBestScore();
-            }
-            if (isGameWinned()) {
-                showGameWinned();
-                saveBestScore();
-            }
-        }
+        updateGameStatus(moved);
 
     }
 
@@ -298,19 +286,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 }
             }
         }
-        if (moved) {
-            updateButtonTextVisibility();
-            generateNewNumber();
-            if (isGameLost()) {
-                showGameOverDialog();
-                saveBestScore();
-            }
-            if (isGameWinned()) {
-                showGameWinned();
-                saveBestScore();
-            }
-
-        }
+        updateGameStatus(moved);
     }
 
     private void moveNumbersUp() {
@@ -344,18 +320,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 }
             }
         }
-        if (moved) {
-            updateButtonTextVisibility();
-            generateNewNumber();
-            if (isGameLost()) {
-                showGameOverDialog();
-                saveBestScore();
-            }
-            if (isGameWinned()) {
-                showGameWinned();
-                saveBestScore();
-            }
-        }
+        updateGameStatus(moved);
     }
 
     private void moveNumbersDown() {
@@ -389,6 +354,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 }
             }
         }
+        updateGameStatus(moved);
+    }
+
+    private void updateGameStatus(boolean moved) {
         if (moved) {
             updateButtonTextVisibility();
             generateNewNumber();
@@ -400,9 +369,9 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 showGameWinned();
                 saveBestScore();
             }
-
         }
     }
+
 
     private void generateNewNumber() {
 
