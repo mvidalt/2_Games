@@ -85,10 +85,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
         Button buttonNewGame = findViewById(R.id.buttonNewGame);
         buttonNewGame.setOnClickListener(v -> {
-            finish();
-            Intent intent = new Intent(Game1.this, Game1.class);
-
-            startActivity(intent);
+            restartGame();
         });
     }
 
@@ -480,9 +477,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         builder.setTitle("¡Juego Terminado!")
                 .setMessage("Has perdido. ¿Quieres volver a jugar?")
                 .setPositiveButton("Sí", (dialog, which) -> {
+                    restartGame();
                 })
                 .setNegativeButton("No", (dialog, which) -> {
-
+                    goBack(null);
                     dialog.dismiss();
                 })
                 .setCancelable(false);
@@ -490,6 +488,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         AlertDialog gameOverDialog = builder.create();
         gameOverDialog.show();
     }
+
 
     private boolean isGameWinned() {
 
@@ -510,10 +509,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         builder.setTitle("¡Has ganado, felicidades!")
                 .setMessage("¿Quieres volver a jugar?")
                 .setPositiveButton("Sí", (dialog, which) -> {
-
+                    restartGame();
                 })
                 .setNegativeButton("No", (dialog, which) -> {
-
+                    goBack(null);
                     dialog.dismiss();
                 })
                 .setCancelable(false);
@@ -562,14 +561,35 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         builder.setTitle("¡Se acabó el tiempo!")
                 .setMessage("¿Quieres volver a jugar?")
                 .setPositiveButton("Sí", (dialog, which) -> {
-                    recreate();
+                    restartGame();
                 })
                 .setNegativeButton("No", (dialog, which) -> {
+                    goBack(null);
                     dialog.dismiss();
                 })
                 .setCancelable(false);
 
         AlertDialog gameOverDialog = builder.create();
         gameOverDialog.show();
+    }
+
+    private void restartGame() {
+        // Reiniciar la puntuación
+        score = 0;
+        scoreText.setText("0");
+
+        // Reiniciar el temporizador
+        startClock();
+
+        // Limpiar los botones del juego
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                Arraybuttons[i][j].setText("0");
+            }
+        }
+
+        // Generar dos nuevos números
+        generateNewNumber();
+        generateNewNumber();
     }
 }

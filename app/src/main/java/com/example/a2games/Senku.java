@@ -148,9 +148,10 @@ public class Senku extends AppCompatActivity {
         builder.setTitle("¡Felicidades!")
                 .setMessage("¿Quieres volver a jugar?")
                 .setPositiveButton("Sí", (dialog, which) -> {
-                    recreate();
+                    resetGame();
                 })
                 .setNegativeButton("No", (dialog, which) -> {
+                    goBack(null);
                     dialog.dismiss();
                 })
                 .setCancelable(false);
@@ -237,14 +238,33 @@ public class Senku extends AppCompatActivity {
     }
 
     private void resetGame() {
-        gridLayout.removeAllViews();
-        createGameButtons();
-        stopClock();
         score = 0;
         scoretxt.setText(String.valueOf(score));
+        stopClock();
+        clearButtonStates();
         isTimerRunning = true;
         startClock();
     }
+
+    private void clearButtonStates() {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                ImageButton button = ArrayImageButtons[i][j];
+                if ((i == 0 || i == 1 || i == 5 || i == 6) && (j == 0 || j == 1 || j == 5 || j == 6)) {
+                    button.setImageDrawable(null);
+                } else {
+                    if (i == 3 && j == 3) {
+                        button.setImageResource(R.drawable.radio_button_off);
+                        button.setTag(ButtonState.OFF);
+                    } else {
+                        button.setImageResource(R.drawable.radio_button_on);
+                        button.setTag(ButtonState.ON);
+                    }
+                }
+            }
+        }
+    }
+
 
 
     private void updateScore() {
@@ -329,9 +349,10 @@ public class Senku extends AppCompatActivity {
         builder.setTitle("¡Has perdido!")
                 .setMessage("¿Quieres volver a jugar?")
                 .setPositiveButton("Sí", (dialog, which) -> {
-                    recreate();
+                    resetGame();
                 })
                 .setNegativeButton("No", (dialog, which) -> {
+                    goBack(null);
                     dialog.dismiss();
                 })
                 .setCancelable(false);
@@ -347,9 +368,10 @@ public class Senku extends AppCompatActivity {
         builder.setTitle("¡Se acabó el tiempo!")
                 .setMessage("¿Quieres volver a jugar?")
                 .setPositiveButton("Sí", (dialog, which) -> {
-                    recreate();
+                    resetGame();
                 })
                 .setNegativeButton("No", (dialog, which) -> {
+                    goBack(null);
                     dialog.dismiss();
                 })
                 .setCancelable(false);
