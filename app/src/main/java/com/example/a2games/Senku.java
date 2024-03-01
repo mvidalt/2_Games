@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class Senku extends AppCompatActivity {
@@ -41,6 +42,8 @@ public class Senku extends AppCompatActivity {
 
 
     TextView bestScoreText;
+
+    private final ImageButton[][] backupImageButtons = new ImageButton[7][7];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +102,17 @@ public class Senku extends AppCompatActivity {
         buttonNewGame.setOnClickListener(v -> {
             resetGame();
         });
+        ImageView buttonPasoAtras = findViewById(R.id.boton_paso_atras);
+        buttonPasoAtras.setOnClickListener(v -> {
+            restoreArrayButtonsFromBackup();
+            updateUI();
+            printArrays();
+        });
     }
 
     public void handleImageButtonClick(ImageButton clickedImageButton, int row, int col) {
+        // Guardar estado actual en backupImageButtons
+        backupArrayButtons();
         if (!isAnyButtonSelected()) {
             if (ButtonState.ON.equals(clickedImageButton.getTag())) {
                 clickedImageButton.setImageResource(R.drawable.radio_button_custom);
@@ -125,9 +136,7 @@ public class Senku extends AppCompatActivity {
                         if (isGameWinned()) {
                             handleGameWinned();
                             saveBestScore();
-                        }
-
-                        else if (isGameOver()) {
+                        } else if (isGameOver()) {
                             handleGameOver();
                             saveBestScore();
                         }
@@ -262,9 +271,53 @@ public class Senku extends AppCompatActivity {
                     }
                 }
             }
+            backupArrayButtons();
         }
     }
 
+    private void backupArrayButtons() {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                // Copia el botón completo en backupButtons
+                backupImageButtons[i][j] = new ImageButton(this);
+                backupImageButtons[i][j].setImageDrawable(ArrayImageButtons[i][j].getDrawable());
+                backupImageButtons[i][j].setTag(ArrayImageButtons[i][j].getTag());
+                backupImageButtons[i][j].setClickable(ArrayImageButtons[i][j].isClickable());
+            }
+        }
+    }
+
+    private void restoreArrayButtonsFromBackup() {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                // Copia el botón desde backupButtons a Arraybuttons
+                ArrayImageButtons[i][j].setImageDrawable(backupImageButtons[i][j].getDrawable());
+                ArrayImageButtons[i][j].setTag(backupImageButtons[i][j].getTag());
+                ArrayImageButtons[i][j].setClickable(backupImageButtons[i][j].isClickable());
+            }
+        }
+    }
+
+
+
+    private void updateUI() {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                ImageButton button = ArrayImageButtons[i][j];
+                if ((i == 0 || i == 1 || i == 5 || i == 6) && (j == 0 || j == 1 || j == 5 || j == 6)) {
+                    button.setImageDrawable(null);
+                } else {
+                    if (ButtonState.OFF.equals(button.getTag())) {
+                        button.setImageResource(R.drawable.radio_button_off);
+                    } else if (ButtonState.ON.equals(button.getTag())) {
+                        button.setImageResource(R.drawable.radio_button_on);
+                    } else if (ButtonState.SELECTED.equals(button.getTag())) {
+                        button.setImageResource(R.drawable.radio_button_custom);
+                    }
+                }
+            }
+        }
+    }
 
 
     private void updateScore() {
@@ -385,4 +438,27 @@ public class Senku extends AppCompatActivity {
         Intent IntentMain = new Intent(this, MainActivity.class);
         startActivity(IntentMain);
     }
+
+    private void printArrays() {
+        // Imprimir ArrayImageButtons
+        System.out.println("ArrayImageButtons:");
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                ImageButton button = ArrayImageButtons[i][j];
+                System.out.print(button.getTag() + " ");
+            }
+            System.out.println();
+        }
+
+        // Imprimir backupImageButtons
+        System.out.println("backupImageButtons:");
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                ImageButton button = backupImageButtons[i][j];
+                System.out.print(button.getTag() + " ");
+            }
+            System.out.println();
+        }
+    }
+
 }
