@@ -14,6 +14,7 @@ import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
@@ -126,6 +127,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         gridLayout.removeAllViews();
 
         Arraybuttons = new Button[rowCount][columnCount];
+        backupButtons = new Button[rowCount][columnCount];
 
         // Obtener el tamaño original de los botones
         int originalButtonSize = getResources().getDimensionPixelSize(R.dimen.button_size); // Ajusta a tu recurso de dimensión
@@ -665,15 +667,12 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         int newRowCount = rowCount - 1;
         int newColumnCount = columnCount - 1;
 
-        // Verificar que el tamaño no sea menor que 2x2
-        if (newRowCount >= 2 && newColumnCount >= 2) {
-            // Aplicar el nuevo tamaño del tablero
-            setBoardSize(newRowCount, newColumnCount);
-        } else {
+        // Verificar si el tamaño es menor que 2x2 o mayor que 4x4
+        if (newRowCount < 2 || newColumnCount < 2) {
             // Mostrar un mensaje de advertencia si el tamaño es menor que 2x2
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("¡Advertencia!")
-                    .setMessage("El tablero no puede ser menor que 2x2")
+                    .setMessage("El tablero no puede ser menor que 2x2.")
                     .setPositiveButton("Ok", (dialog, which) -> {
                         dialog.dismiss();
                     })
@@ -681,8 +680,31 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
             AlertDialog warningDialog = builder.create();
             warningDialog.show();
+        } else if (newRowCount > 4 || newColumnCount > 4) {
+            // Aplicar el nuevo tamaño del tablero
+            setBoardSize(newRowCount, newColumnCount);
+
+            // Hacer los botones más pequeños si el tamaño es mayor que 4x4
+            int newButtonSize = getResources().getDimensionPixelSize(R.dimen.small_button_size); // Definir el tamaño de los botones pequeños
+            int newTextSize = getResources().getDimensionPixelSize(R.dimen.small_button_text_size); // Definir el tamaño del texto en los botones pequeños
+
+            // Recorrer todos los botones y ajustar su tamaño
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < columnCount; j++) {
+                    Button button = Arraybuttons[i][j];
+                    ViewGroup.LayoutParams params = button.getLayoutParams();
+                    params.width = newButtonSize;
+                    params.height = newButtonSize;
+                    button.setLayoutParams(params);
+                    button.setTextSize(TypedValue.COMPLEX_UNIT_PX, newTextSize);
+                }
+            }
+        } else {
+            // Aplicar el nuevo tamaño del tablero si cumple con las condiciones anteriores
+            setBoardSize(newRowCount, newColumnCount);
         }
     }
+
 
     public void increaseBoardSize() {
         // Incrementa el número de filas y columnas
@@ -694,10 +716,25 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             // Establece el nuevo tamaño del tablero
             setBoardSize(newRowCount, newColumnCount);
         } else {
-            // Muestra un mensaje indicando que se ha alcanzado el tamaño máximo
-            Toast.makeText(this, "No se puede aumentar más allá de 4x4", Toast.LENGTH_SHORT).show();
+            setBoardSize(newRowCount, newColumnCount);
+            int newButtonSize = getResources().getDimensionPixelSize(R.dimen.small_button_size); // Definir el tamaño de los botones pequeños
+            int newTextSize = getResources().getDimensionPixelSize(R.dimen.small_button_text_size); // Definir el tamaño del texto en los botones pequeños
+
+            // Recorrer todos los botones y ajustar su tamaño
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < columnCount; j++) {
+                    Button button = Arraybuttons[i][j];
+                    ViewGroup.LayoutParams params = button.getLayoutParams();
+                    params.width = newButtonSize;
+                    params.height = newButtonSize;
+                    button.setLayoutParams(params);
+                    button.setTextSize(TypedValue.COMPLEX_UNIT_PX, newTextSize);
+                }
+            }
+
         }
     }
+
 
 
 

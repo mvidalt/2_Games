@@ -1,4 +1,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="button_size">75dp</dimen>
+    <dimen name="small_button_size">50dp</dimen>
+    <dimen name="small_button_text_size">20dp</dimen>
 </resources>
