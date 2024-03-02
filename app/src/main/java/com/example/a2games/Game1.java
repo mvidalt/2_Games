@@ -31,8 +31,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private GestureDetector gestureDetector;
 
-    final int rowCount = 4;
-    final int columnCount = 4;
+    int rowCount = 4;
+    int columnCount = 4;
 
     TextView scoreText;
 
@@ -51,6 +51,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private Button[][] backupButtons;
 
     private Button buttonBack;
+
+    private Button decreaseField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,13 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             restoreArrayButtonsFromBackup();
             updateButtonTextVisibility();
         });
+        decreaseField = findViewById(R.id.btnDecreaseSize);
+        decreaseField.setOnClickListener(v -> {
+            decreaseBoardSize();
+        });
+
+
+
     }
 
     private void createGameButtons() {
@@ -221,15 +230,15 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private void moveNumbersRight() {
         boolean moved = false;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 4 - 1; j >= 0; j--) {
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = columnCount - 1; j >= 0; j--) { // Modificado el bucle para que el índice 'j' comience desde 'columnCount - 1'
                 String buttonText = Arraybuttons[i][j].getText().toString();
                 if (!buttonText.equals("0")) {
                     int k = j + 1;
-                    while (k < 4 && Arraybuttons[i][k].getText().equals("0")) {
+                    while (k < columnCount && Arraybuttons[i][k].getText().equals("0")) { // Cambiado el límite superior del bucle 'while' a 'columnCount'
                         k++;
                     }
-                    if (k < 4 && Arraybuttons[i][k].getText().equals(buttonText)) {
+                    if (k < columnCount && Arraybuttons[i][k].getText().equals(buttonText)) {
                         int newVal = Integer.parseInt(buttonText) * 2;
                         Arraybuttons[i][k].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
@@ -238,7 +247,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         moved = true;
                     } else {
                         k = j + 1;
-                        while (k < 4 && Arraybuttons[i][k].getText().equals("0")) {
+                        while (k < columnCount && Arraybuttons[i][k].getText().equals("0")) { // Cambiado el límite superior del bucle 'while' a 'columnCount'
                             k++;
                         }
                         if (k - 1 != j) {
@@ -251,8 +260,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             }
         }
         updateGameStatus(moved);
-
     }
+
 
     private void moveNumbersLeft() {
         boolean moved = false;
@@ -606,6 +615,44 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         }
     }
 
+    public void decreaseBoardSize() {
+        // Reducir las coordenadas
+        int newRowCount = rowCount - 1;
+        int newColumnCount = columnCount - 1;
+
+        // Verificar que el tamaño no sea menor que 2x2
+        if (newRowCount >= 2 && newColumnCount >= 2) {
+            // Aplicar el nuevo tamaño del tablero
+            setBoardSize(newRowCount, newColumnCount);
+        } else {
+            // Mostrar un mensaje de advertencia si el tamaño es menor que 2x2
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("¡Advertencia!")
+                    .setMessage("El tablero no puede ser menor que 2x2")
+                    .setPositiveButton("Ok", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .setCancelable(false);
+
+            AlertDialog warningDialog = builder.create();
+            warningDialog.show();
+        }
+    }
+
+
+    private void setBoardSize(int rows, int columns) {
+        // Elimina los botones antiguos del GridLayout
+        gridLayout.removeAllViews();
+
+        // Cambia el tamaño del Arraybuttons y crea nuevos botones según el nuevo tamaño
+        rowCount = rows;
+        columnCount = columns;
+        Arraybuttons = new Button[rowCount][columnCount];
+        createGameButtons();
+
+        // Actualiza la interfaz de usuario según el nuevo tamaño
+        updateButtonTextVisibility();
+    }
 
 
 }

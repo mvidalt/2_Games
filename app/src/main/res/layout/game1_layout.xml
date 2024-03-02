@@ -67,6 +67,26 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/btnIncreaseSize"
+        android:layout_width="57dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="64dp"
+        android:onClick="increaseBoardSize"
+        android:text="+"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btnDecreaseSize"
+        />
+
+    <Button
+        android:id="@+id/btnDecreaseSize"
+        android:layout_width="53dp"
+        android:layout_height="40dp"
+        android:onClick="decreaseBoardSize"
+        android:text="-"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/button"
         android:layout_width="142dp"
         android:layout_height="53dp"
