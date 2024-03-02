@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,7 +70,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         int savedBestScore = sharedPreferences.getInt("score2048", 0);
         bestScoreText.setText(String.valueOf(savedBestScore));
+
+        // Inicializa backupButtons con el mismo tamaño que Arraybuttons
         backupButtons = new Button[rowCount][columnCount];
+
         createGameButtons();
 
 
@@ -122,11 +127,23 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
         Arraybuttons = new Button[rowCount][columnCount];
 
+        // Obtener el tamaño original de los botones
+        int originalButtonSize = getResources().getDimensionPixelSize(R.dimen.button_size); // Ajusta a tu recurso de dimensión
+
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
                 Button button = new Button(this);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i), GridLayout.spec(j));
 
+                if (i == 0) {
+                    params.setMargins(0, margin, 0, 0);
+                } else {
+                    params.setMargins(0, 0, 0, margin);
+                }
+
+                // Ajustar el tamaño de los botones
+                params.width = originalButtonSize;
+                params.height = originalButtonSize;
 
                 button.setLayoutParams(params);
 
@@ -643,25 +660,21 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     public void increaseBoardSize() {
-        // Check if the current size is already 4x4
-        if (rowCount < 4 && columnCount < 4) {
-            // Increment the number of rows and columns
-            int newRowCount = rowCount + 1;
-            int newColumnCount = columnCount + 1;
+        // Incrementa el número de filas y columnas
+        int newRowCount = rowCount + 1;
+        int newColumnCount = columnCount + 1;
 
-            // Set the new size of the board
+        // Verifica si el nuevo tamaño supera el límite de 5x5
+        if (newRowCount <= 5 && newColumnCount <= 5) {
+            // Establece el nuevo tamaño del tablero
             setBoardSize(newRowCount, newColumnCount);
         } else {
-            // Display a message indicating that the board cannot be made larger than 4x4
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Warning")
-                    .setMessage("The board size cannot be larger than 4x4")
-                    .setPositiveButton("OK", (dialog, which) -> {
-                        dialog.dismiss();
-                    })
-                    .show();
+            // Muestra un mensaje indicando que se ha alcanzado el tamaño máximo
+            Toast.makeText(this, "No se puede aumentar más allá de 5x5", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
 
 
@@ -680,6 +693,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         // Actualiza la interfaz de usuario según el nuevo tamaño
         updateButtonTextVisibility();
     }
+
 
 
 
