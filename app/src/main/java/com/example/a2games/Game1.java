@@ -135,11 +135,36 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 Button button = new Button(this);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i), GridLayout.spec(j));
 
-                if (i == 0) {
-                    params.setMargins(0, margin, 0, 0);
+                if (i == 0 && j == 0) {
+                    // Esquina superior izquierda
+                    params.setMargins(margin, margin, params.rightMargin, params.bottomMargin);
+                } else if (i == 0 && j == columnCount - 1) {
+                    // Esquina superior derecha
+                    params.setMargins(params.leftMargin, margin, margin, params.bottomMargin);
+                } else if (i == rowCount - 1 && j == 0) {
+                    // Esquina inferior izquierda
+                    params.setMargins(margin, params.topMargin, params.rightMargin, margin);
+                } else if (i == rowCount - 1 && j == columnCount - 1) {
+                    // Esquina inferior derecha
+                    params.setMargins(params.leftMargin, params.topMargin, margin, margin);
+                } else if (i == 0) {
+                    // Borde superior (sin esquina)
+                    params.setMargins(params.leftMargin, margin, params.rightMargin, params.bottomMargin);
+                } else if (j == 0) {
+                    // Borde izquierdo (sin esquina)
+                    params.setMargins(margin, params.topMargin, params.rightMargin, params.bottomMargin);
+                } else if (i == rowCount - 1) {
+                    // Borde inferior (sin esquina)
+                    params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, margin);
+                } else if (j == columnCount - 1) {
+                    // Borde derecho (sin esquina)
+                    params.setMargins(params.leftMargin, params.topMargin, margin, params.bottomMargin);
                 } else {
-                    params.setMargins(0, 0, 0, margin);
+                    // Celda interior
+                    params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin);
                 }
+
+
 
                 // Ajustar el tamaño de los botones
                 params.width = originalButtonSize;
@@ -665,12 +690,12 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         int newColumnCount = columnCount + 1;
 
         // Verifica si el nuevo tamaño supera el límite de 5x5
-        if (newRowCount <= 5 && newColumnCount <= 5) {
+        if (newRowCount <= 4 && newColumnCount <= 4) {
             // Establece el nuevo tamaño del tablero
             setBoardSize(newRowCount, newColumnCount);
         } else {
             // Muestra un mensaje indicando que se ha alcanzado el tamaño máximo
-            Toast.makeText(this, "No se puede aumentar más allá de 5x5", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No se puede aumentar más allá de 4x4", Toast.LENGTH_SHORT).show();
         }
     }
 
