@@ -12,6 +12,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -45,6 +48,8 @@ public class Senku extends AppCompatActivity {
 
     private final ImageButton[][] backupImageButtons = new ImageButton[7][7];
 
+    private ImageView imageBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +62,18 @@ public class Senku extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         int savedBestScore = sharedPreferences.getInt("scoreSenku", 0);
         bestScoreText.setText(String.valueOf(savedBestScore));
+        lowerLayerButtons();
         createGameButtons();
         startClock();
+        imageBack = findViewById(R.id.boton_paso_atras);
+        imageBack.setVisibility(View.INVISIBLE);
+        imageBack.setOnClickListener(v -> {
+            imageBack.setVisibility(View.INVISIBLE);
+            imageBack.setClickable(false);
+            restoreArrayButtonsFromBackup();
+            updateUI();
+        });
+
     }
 
     private void createGameButtons() {
@@ -102,13 +117,40 @@ public class Senku extends AppCompatActivity {
         buttonNewGame.setOnClickListener(v -> {
             resetGame();
         });
-        ImageView buttonPasoAtras = findViewById(R.id.boton_paso_atras);
-        buttonPasoAtras.setOnClickListener(v -> {
-            restoreArrayButtonsFromBackup();
-            updateUI();
-            printArrays();
-        });
+
     }
+
+    private void lowerLayerButtons() {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
+                final int row = i;
+                final int col = j;
+                ImageButton imageButton = new ImageButton(this);
+                GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i), GridLayout.spec(j));
+
+                int widthInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 49, getResources().getDisplayMetrics());
+                int heightInDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 47, getResources().getDisplayMetrics());
+                params.width = widthInDp;
+                params.height = heightInDp;
+
+                imageButton.setLayoutParams(params);
+                imageButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00FFFFFF")));
+
+                if ((i == 0 || i == 1 || i == 5 || i == 6) && (j == 0 || j == 1 || j == 5 || j == 6)) {
+                    // Configura las bolas OFF en la capa inferior
+                    imageButton.setImageDrawable(null);
+                } else {
+                        // Configura las bolas OFF en la capa superior en lugar de ON
+                        imageButton.setImageResource(R.drawable.radio_button_off);
+                        imageButton.setTag(ButtonState.OFF);
+
+                }
+
+                gridLayout.addView(imageButton);
+            }
+        }
+    }
+
 
     public void handleImageButtonClick(ImageButton clickedImageButton, int row, int col) {
         // Guardar estado actual en backupImageButtons
@@ -123,14 +165,13 @@ public class Senku extends AppCompatActivity {
                 for (int j = 0; j < 7; j++) {
                     if (ButtonState.SELECTED.equals(ArrayImageButtons[i][j].getTag()) &&
                             isDistanceTwo(i, j, row, col)) {
-                        clickedImageButton.setImageResource(R.drawable.radio_button_on);
-                        clickedImageButton.setTag(ButtonState.ON);
+
 
                         ArrayImageButtons[i][j].setImageResource(R.drawable.radio_button_off);
                         ArrayImageButtons[i][j].setTag(ButtonState.OFF);
 
                         // Switch the ball between ON and SELECTED to OFF
-                        switchBallsOff(i, j, row, col);
+                        switchBallsOff(clickedImageButton,i, j, row, col);
                         updateScore();
 
                         if (isGameWinned()) {
@@ -170,15 +211,55 @@ public class Senku extends AppCompatActivity {
     }
 
 
-    private void switchBallsOff(int selectedRow, int selectedCol, int offRow, int offCol) {
+    private void switchBallsOff(ImageButton clickedImageButton, int selectedRow, int selectedCol, int offRow, int offCol) {
         int middleRow = (selectedRow + offRow) / 2;
         int middleCol = (selectedCol + offCol) / 2;
 
         if (ButtonState.ON.equals(ArrayImageButtons[middleRow][middleCol].getTag())) {
-            ArrayImageButtons[middleRow][middleCol].setImageResource(R.drawable.radio_button_off);
-            ArrayImageButtons[middleRow][middleCol].setTag(ButtonState.OFF);
+            // Calcula las coordenadas de inicio y fin de la animación
+            int startX = ArrayImageButtons[selectedRow][selectedCol].getLeft() - ArrayImageButtons[middleRow][middleCol].getLeft();
+            int startY = ArrayImageButtons[selectedRow][selectedCol].getTop() - ArrayImageButtons[middleRow][middleCol].getTop();
+            int endX = ArrayImageButtons[offRow][offCol].getLeft() - ArrayImageButtons[middleRow][middleCol].getLeft();
+            int endY = ArrayImageButtons[offRow][offCol].getTop() - ArrayImageButtons[middleRow][middleCol].getTop();
+
+            // Crea la animación de desplazamiento
+            TranslateAnimation translateAnimation = new TranslateAnimation(startX, endX, startY, endY);
+            translateAnimation.setDuration(500); // Duración de la animación en milisegundos
+
+            // Configura los listeners de la animación
+            translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    // Se ejecuta cuando la animación comienza
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    // Se ejecuta cuando la animación termina
+                    // Cambia el estado del ImageButton a OFF después de la animación
+                    ArrayImageButtons[middleRow][middleCol].setImageResource(R.drawable.radio_button_off);
+                    ArrayImageButtons[middleRow][middleCol].setTag(ButtonState.OFF);
+
+                    // Cambia el estado del ImageButton pulsado a ON
+                    clickedImageButton.setImageResource(R.drawable.radio_button_on);
+                    clickedImageButton.setTag(ButtonState.ON);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                    // Se ejecuta cuando la animación se repite
+                }
+            });
+
+            // Inicia la animación en el ImageButton intermedio
+            ArrayImageButtons[middleRow][middleCol].startAnimation(translateAnimation);
+            imageBack.setVisibility(View.VISIBLE);
+            imageBack.setClickable(true);
         }
     }
+
+
+
 
 
     private boolean isDistanceTwo(int selectedRow, int selectedCol, int offRow, int offCol) {
