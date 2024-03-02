@@ -53,6 +53,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private Button buttonBack;
 
     private Button decreaseField;
+    private Button increaseField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +106,19 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             decreaseBoardSize();
         });
 
+        increaseField = findViewById(R.id.btnIncreaseSize);
+        increaseField.setOnClickListener(v -> {
+            increaseBoardSize();
+        });
 
 
     }
 
     private void createGameButtons() {
         final int margin = 16;
+
+        // Eliminar los botones antiguos del GridLayout
+        gridLayout.removeAllViews();
 
         Arraybuttons = new Button[rowCount][columnCount];
 
@@ -119,12 +127,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 Button button = new Button(this);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i), GridLayout.spec(j));
 
-
-                if (i == 0) {
-                    params.setMargins(0, margin, 0, 0);
-                } else {
-                    params.setMargins(0, 0, 0, margin);
-                }
 
                 button.setLayoutParams(params);
 
@@ -154,6 +156,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             updateButtonTextVisibility();
         }
     }
+
 
 
     public void goBack(View view) {
@@ -639,6 +642,30 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         }
     }
 
+    public void increaseBoardSize() {
+        // Check if the current size is already 4x4
+        if (rowCount < 4 && columnCount < 4) {
+            // Increment the number of rows and columns
+            int newRowCount = rowCount + 1;
+            int newColumnCount = columnCount + 1;
+
+            // Set the new size of the board
+            setBoardSize(newRowCount, newColumnCount);
+        } else {
+            // Display a message indicating that the board cannot be made larger than 4x4
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Warning")
+                    .setMessage("The board size cannot be larger than 4x4")
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .show();
+        }
+    }
+
+
+
+
 
     private void setBoardSize(int rows, int columns) {
         // Elimina los botones antiguos del GridLayout
@@ -653,6 +680,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         // Actualiza la interfaz de usuario según el nuevo tamaño
         updateButtonTextVisibility();
     }
+
+
 
 
 }
