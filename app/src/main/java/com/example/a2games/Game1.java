@@ -667,7 +667,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         int newRowCount = rowCount - 1;
         int newColumnCount = columnCount - 1;
 
-        // Verificar si el tamaño es menor que 2x2 o mayor que 4x4
+        // Verificar si el tamaño es menor que 2x2
         if (newRowCount < 2 || newColumnCount < 2) {
             // Mostrar un mensaje de advertencia si el tamaño es menor que 2x2
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -680,13 +680,13 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
             AlertDialog warningDialog = builder.create();
             warningDialog.show();
-        } else if (newRowCount > 4 || newColumnCount > 4) {
+        } else {
             // Aplicar el nuevo tamaño del tablero
             setBoardSize(newRowCount, newColumnCount);
 
-            // Hacer los botones más pequeños si el tamaño es mayor que 4x4
-            int newButtonSize = getResources().getDimensionPixelSize(R.dimen.small_button_size); // Definir el tamaño de los botones pequeños
-            int newTextSize = getResources().getDimensionPixelSize(R.dimen.small_button_text_size); // Definir el tamaño del texto en los botones pequeños
+            // Calcular el nuevo tamaño de los botones
+            int newButtonSize = calculateButtonSize(rowCount, columnCount);
+            int newTextSize = calculateTextSize(rowCount, columnCount);
 
             // Recorrer todos los botones y ajustar su tamaño
             for (int i = 0; i < rowCount; i++) {
@@ -699,48 +699,54 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                     button.setTextSize(TypedValue.COMPLEX_UNIT_PX, newTextSize);
                 }
             }
-        } else {
-            // Aplicar el nuevo tamaño del tablero si cumple con las condiciones anteriores
-            setBoardSize(newRowCount, newColumnCount);
         }
     }
 
-
     public void increaseBoardSize() {
-        // Incrementa el número de filas y columnas
+        // Incrementar el número de filas y columnas
         int newRowCount = rowCount + 1;
         int newColumnCount = columnCount + 1;
 
-        // Verifica si el nuevo tamaño supera el límite de 5x5
-        if (newRowCount <= 4 && newColumnCount <= 4) {
-            // Establece el nuevo tamaño del tablero
-            setBoardSize(newRowCount, newColumnCount);
-        } else {
-            setBoardSize(newRowCount, newColumnCount);
-            int newButtonSize = getResources().getDimensionPixelSize(R.dimen.small_button_size); // Definir el tamaño de los botones pequeños
-            int newTextSize = getResources().getDimensionPixelSize(R.dimen.small_button_text_size); // Definir el tamaño del texto en los botones pequeños
+        // Aplicar el nuevo tamaño del tablero
+        setBoardSize(newRowCount, newColumnCount);
 
-            // Recorrer todos los botones y ajustar su tamaño
-            for (int i = 0; i < rowCount; i++) {
-                for (int j = 0; j < columnCount; j++) {
-                    Button button = Arraybuttons[i][j];
-                    ViewGroup.LayoutParams params = button.getLayoutParams();
-                    params.width = newButtonSize;
-                    params.height = newButtonSize;
-                    button.setLayoutParams(params);
-                    button.setTextSize(TypedValue.COMPLEX_UNIT_PX, newTextSize);
-                }
+        // Calcular el nuevo tamaño de los botones
+        int newButtonSize = calculateButtonSize(rowCount, columnCount);
+        int newTextSize = calculateTextSize(rowCount, columnCount);
+
+        // Recorrer todos los botones y ajustar su tamaño
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                Button button = Arraybuttons[i][j];
+                ViewGroup.LayoutParams params = button.getLayoutParams();
+                params.width = newButtonSize;
+                params.height = newButtonSize;
+                button.setLayoutParams(params);
+                button.setTextSize(TypedValue.COMPLEX_UNIT_PX, newTextSize);
             }
-
         }
     }
 
+    private int calculateButtonSize(int rowCount, int columnCount) {
+        // Obtener el tamaño de la pantalla
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
 
+        // Calcular el tamaño de los botones en función del número de filas y columnas
+        int buttonSize = screenWidth / Math.max(rowCount, columnCount);
 
+        // Puedes ajustar este factor según tus necesidades
+        return (int) (buttonSize * 0.8); // Por ejemplo, aquí se establece el 80% del tamaño original
+    }
 
+    private int calculateTextSize(int rowCount, int columnCount) {
+        // Calcular el tamaño del texto en función del número de filas y columnas
+        int textSize = calculateButtonSize(rowCount, columnCount) / 3; // Por ejemplo, un tercio del tamaño de los botones
 
-
-
+        // Puedes ajustar este factor según tus necesidades
+        return textSize;
+    }
 
     private void setBoardSize(int rows, int columns) {
         // Elimina los botones antiguos del GridLayout
