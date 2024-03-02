@@ -57,6 +57,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private Button decreaseField;
     private Button increaseField;
+    private int originalButtonSize;
+    private int originalTextSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +74,18 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         int savedBestScore = sharedPreferences.getInt("score2048", 0);
         bestScoreText.setText(String.valueOf(savedBestScore));
 
-        // Inicializa backupButtons con el mismo tamaño que Arraybuttons
+        // Inicializar backupButtons con el mismo tamaño que Arraybuttons
         backupButtons = new Button[rowCount][columnCount];
 
+        // Crear los botones del juego
         createGameButtons();
+
+        // Obtener el tamaño original de los botones y del texto
+        originalButtonSize = calculateButtonSize(rowCount, columnCount);
+        originalTextSize = calculateTextSize(rowCount, columnCount);
+
+        // Calcular y establecer el tamaño de los botones y el texto
+        setButtonAndTextSizes(originalButtonSize, originalTextSize);
 
 
         colorMap = new HashMap<>();
@@ -118,6 +128,20 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         });
 
 
+    }
+
+    private void setButtonAndTextSizes(int buttonSize, int textSize) {
+        // Aplicar el tamaño de los botones y el texto a cada botón del juego
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                Button button = Arraybuttons[i][j];
+                ViewGroup.LayoutParams params = button.getLayoutParams();
+                params.width = buttonSize;
+                params.height = buttonSize;
+                button.setLayoutParams(params);
+                button.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+            }
+        }
     }
 
     private void createGameButtons() {
