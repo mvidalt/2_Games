@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
 public class Game1 extends AppCompatActivity implements GestureDetector.OnGestureListener {
@@ -297,23 +298,27 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private void moveNumbersRight() {
         boolean moved = false;
         for (int i = 0; i < rowCount; i++) {
-            for (int j = columnCount - 1; j >= 0; j--) { // Modificado el bucle para que el índice 'j' comience desde 'columnCount - 1'
+            // Agregar un HashSet para rastrear las celdas que ya se han fusionado
+            HashSet<Button> mergedCells = new HashSet<>();
+            for (int j = columnCount - 1; j >= 0; j--) {
                 String buttonText = Arraybuttons[i][j].getText().toString();
                 if (!buttonText.equals("0")) {
                     int k = j + 1;
-                    while (k < columnCount && Arraybuttons[i][k].getText().equals("0")) { // Cambiado el límite superior del bucle 'while' a 'columnCount'
+                    while (k < columnCount && Arraybuttons[i][k].getText().equals("0")) {
                         k++;
                     }
-                    if (k < columnCount && Arraybuttons[i][k].getText().equals(buttonText)) {
+                    if (k < columnCount && Arraybuttons[i][k].getText().equals(buttonText) && !mergedCells.contains(Arraybuttons[i][k])) {
                         int newVal = Integer.parseInt(buttonText) * 2;
                         Arraybuttons[i][k].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
                         updateButtonTextVisibility();
                         updateScore(newVal);
                         moved = true;
+                        // Agregar la celda fusionada al HashSet
+                        mergedCells.add(Arraybuttons[i][k]);
                     } else {
                         k = j + 1;
-                        while (k < columnCount && Arraybuttons[i][k].getText().equals("0")) { // Cambiado el límite superior del bucle 'while' a 'columnCount'
+                        while (k < columnCount && Arraybuttons[i][k].getText().equals("0")) {
                             k++;
                         }
                         if (k - 1 != j) {
@@ -332,6 +337,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private void moveNumbersLeft() {
         boolean moved = false;
         for (int i = 0; i < rowCount; i++) {
+            HashSet<Button> mergedCells = new HashSet<>();
             for (int j = 0; j < columnCount; j++) {
                 String buttonText = Arraybuttons[i][j].getText().toString();
                 if (!buttonText.equals("0")) {
@@ -339,13 +345,14 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                     while (k >= 0 && Arraybuttons[i][k].getText().equals("0")) {
                         k--;
                     }
-                    if (k >= 0 && Arraybuttons[i][k].getText().equals(buttonText)) {
+                    if (k >= 0 && Arraybuttons[i][k].getText().equals(buttonText) && !mergedCells.contains(Arraybuttons[i][k])) {
                         int newVal = Integer.parseInt(buttonText) * 2;
                         Arraybuttons[i][k].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
                         updateButtonTextVisibility();
                         updateScore(newVal);
                         moved = true;
+                        mergedCells.add(Arraybuttons[i][k]);
                     } else {
                         k = j - 1;
                         while (k >= 0 && Arraybuttons[i][k].getText().equals("0")) {
@@ -366,6 +373,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private void moveNumbersUp() {
         boolean moved = false;
         for (int j = 0; j < columnCount; j++) {
+            HashSet<Button> mergedCells = new HashSet<>();
             for (int i = 0; i < rowCount; i++) {
                 String buttonText = Arraybuttons[i][j].getText().toString();
                 if (!buttonText.equals("0")) {
@@ -373,13 +381,14 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                     while (k >= 0 && Arraybuttons[k][j].getText().equals("0")) {
                         k--;
                     }
-                    if (k >= 0 && Arraybuttons[k][j].getText().equals(buttonText)) {
+                    if (k >= 0 && Arraybuttons[k][j].getText().equals(buttonText) && !mergedCells.contains(Arraybuttons[k][j])) {
                         int newVal = Integer.parseInt(buttonText) * 2;
                         Arraybuttons[k][j].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
                         updateButtonTextVisibility();
                         updateScore(newVal);
                         moved = true;
+                        mergedCells.add(Arraybuttons[k][j]);
                     } else {
                         k = i - 1;
                         while (k >= 0 && Arraybuttons[k][j].getText().equals("0")) {
@@ -400,6 +409,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private void moveNumbersDown() {
         boolean moved = false;
         for (int j = 0; j < columnCount; j++) {
+            HashSet<Button> mergedCells = new HashSet<>();
             for (int i = rowCount - 1; i >= 0; i--) {
                 String buttonText = Arraybuttons[i][j].getText().toString();
                 if (!buttonText.equals("0")) {
@@ -407,13 +417,14 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                     while (k < rowCount && Arraybuttons[k][j].getText().equals("0")) {
                         k++;
                     }
-                    if (k < rowCount && Arraybuttons[k][j].getText().equals(buttonText)) {
+                    if (k < rowCount && Arraybuttons[k][j].getText().equals(buttonText) && !mergedCells.contains(Arraybuttons[k][j])) {
                         int newVal = Integer.parseInt(buttonText) * 2;
                         Arraybuttons[k][j].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
                         updateButtonTextVisibility();
                         updateScore(newVal);
                         moved = true;
+                        mergedCells.add(Arraybuttons[k][j]);
                     } else {
                         k = i + 1;
                         while (k < rowCount && Arraybuttons[k][j].getText().equals("0")) {
@@ -430,6 +441,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         }
         updateGameStatus(moved);
     }
+
 
     private void updateGameStatus(boolean moved) {
         if (moved) {
