@@ -42,6 +42,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private int score = 0;
 
+    private int previousScore = 0;
+
     private HashMap<String, Integer> colorMap = new HashMap<>();
 
 
@@ -111,6 +113,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             buttonBack.setClickable(false);
             restoreArrayButtonsFromBackup();
             updateButtonTextVisibility();
+            undoMove();
         });
         decreaseField = findViewById(R.id.btnDecreaseSize);
         decreaseField.setOnClickListener(v -> decreaseBoardSize());
@@ -263,6 +266,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         backupArrayButtons();
         buttonBack.setVisibility(View.VISIBLE);
         buttonBack.setClickable(true);
+        previousScore = score;
         // Se llama cuando se detecta un gesto de fling
         if (Math.abs(velocityX) > Math.abs(velocityY)) {
             // Fling horizontal
@@ -631,7 +635,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         // Reiniciar la puntuación
         score = 0;
         scoreText.setText("0");
-
+        previousScore = score;
         // Reiniciar el temporizador
         startClock();
 
@@ -773,6 +777,14 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         }
     }
 
+    // Método para deshacer un movimiento
+    private void undoMove() {
+        // Restaurar el puntaje desde previousScore
+        score = previousScore;
+
+        // Actualizar el TextView con el puntaje restaurado
+        scoreText.setText(String.valueOf(score));
+    }
 
 
 }
