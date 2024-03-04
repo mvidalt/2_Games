@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,10 +55,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private Button buttonBack;
 
     private Button decreaseField;
-    private Button increaseField;
-    private int originalButtonSize;
-    private int originalTextSize;
 
+    private  Button increaseField;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +78,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         createGameButtons();
 
         // Obtener el tamaño original de los botones y del texto
-        originalButtonSize = calculateButtonSize(rowCount, columnCount);
-        originalTextSize = calculateTextSize(rowCount, columnCount);
+        int originalButtonSize = calculateButtonSize(rowCount, columnCount);
+        int originalTextSize = calculateTextSize(rowCount, columnCount);
 
         // Calcular y establecer el tamaño de los botones y el texto
         setButtonAndTextSizes(originalButtonSize, originalTextSize);
@@ -105,9 +102,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         startClock();
 
         Button buttonNewGame = findViewById(R.id.buttonNewGame);
-        buttonNewGame.setOnClickListener(v -> {
-            restartGame();
-        });
+        buttonNewGame.setOnClickListener(v -> restartGame());
 
         buttonBack = findViewById(R.id.buttonBack);
         buttonBack.setVisibility(View.INVISIBLE);
@@ -118,14 +113,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             updateButtonTextVisibility();
         });
         decreaseField = findViewById(R.id.btnDecreaseSize);
-        decreaseField.setOnClickListener(v -> {
-            decreaseBoardSize();
-        });
+        decreaseField.setOnClickListener(v -> decreaseBoardSize());
 
         increaseField = findViewById(R.id.btnIncreaseSize);
-        increaseField.setOnClickListener(v -> {
-            increaseBoardSize();
-        });
+        increaseField.setOnClickListener(v -> increaseBoardSize());
 
 
     }
@@ -268,7 +259,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+    public boolean onFling(MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
         backupArrayButtons();
         buttonBack.setVisibility(View.VISIBLE);
         buttonBack.setClickable(true);
@@ -349,7 +340,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         Arraybuttons[i][k].setText(String.valueOf(newVal));
                         Arraybuttons[i][j].setText("0");
                         updateButtonTextVisibility();
-                        updateScore(newVal);
                         updateScore(newVal);
                         moved = true;
                     } else {
@@ -449,8 +439,12 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 showGameWinned();
                 saveBestScore();
             }
+            // Restaurar la visibilidad de los botones de incrementar y decrementar el tamaño del tablero
+            decreaseField.setVisibility(View.INVISIBLE);
+            increaseField.setVisibility(View.INVISIBLE);
         }
     }
+
 
 
     private void generateNewNumber() {
@@ -540,9 +534,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("¡Juego Terminado!")
                 .setMessage("Has perdido. ¿Quieres volver a jugar?")
-                .setPositiveButton("Sí", (dialog, which) -> {
-                    restartGame();
-                })
+                .setPositiveButton("Sí", (dialog, which) -> restartGame())
                 .setNegativeButton("No", (dialog, which) -> {
                     goBack(null);
                     dialog.dismiss();
@@ -624,9 +616,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         AlertDialog.Builder builder = new AlertDialog.Builder(Game1.this);
         builder.setTitle("¡Se acabó el tiempo!")
                 .setMessage("¿Quieres volver a jugar?")
-                .setPositiveButton("Sí", (dialog, which) -> {
-                    restartGame();
-                })
+                .setPositiveButton("Sí", (dialog, which) -> restartGame())
                 .setNegativeButton("No", (dialog, which) -> {
                     goBack(null);
                     dialog.dismiss();
@@ -655,6 +645,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         // Generar dos nuevos números
         generateNewNumber();
         generateNewNumber();
+        decreaseField.setVisibility(View.VISIBLE);
+        increaseField.setVisibility(View.VISIBLE);
     }
 
     private void backupArrayButtons() {
@@ -708,21 +700,12 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             // Aplicar el nuevo tamaño del tablero
             setBoardSize(newRowCount, newColumnCount);
 
-            // Calcular el nuevo tamaño de los botones
+            // Calcular el nuevo tamaño de los botones y el texto
             int newButtonSize = calculateButtonSize(rowCount, columnCount);
             int newTextSize = calculateTextSize(rowCount, columnCount);
 
-            // Recorrer todos los botones y ajustar su tamaño
-            for (int i = 0; i < rowCount; i++) {
-                for (int j = 0; j < columnCount; j++) {
-                    Button button = Arraybuttons[i][j];
-                    ViewGroup.LayoutParams params = button.getLayoutParams();
-                    params.width = newButtonSize;
-                    params.height = newButtonSize;
-                    button.setLayoutParams(params);
-                    button.setTextSize(TypedValue.COMPLEX_UNIT_PX, newTextSize);
-                }
-            }
+            // Ajustar el tamaño de los botones y el texto
+            adjustButtonAndTextSize(newButtonSize, newTextSize);
         }
     }
 
@@ -734,22 +717,14 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         // Aplicar el nuevo tamaño del tablero
         setBoardSize(newRowCount, newColumnCount);
 
-        // Calcular el nuevo tamaño de los botones
+        // Calcular el nuevo tamaño de los botones y el texto
         int newButtonSize = calculateButtonSize(rowCount, columnCount);
         int newTextSize = calculateTextSize(rowCount, columnCount);
 
-        // Recorrer todos los botones y ajustar su tamaño
-        for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < columnCount; j++) {
-                Button button = Arraybuttons[i][j];
-                ViewGroup.LayoutParams params = button.getLayoutParams();
-                params.width = newButtonSize;
-                params.height = newButtonSize;
-                button.setLayoutParams(params);
-                button.setTextSize(TypedValue.COMPLEX_UNIT_PX, newTextSize);
-            }
-        }
+        // Ajustar el tamaño de los botones y el texto
+        adjustButtonAndTextSize(newButtonSize, newTextSize);
     }
+
 
     private int calculateButtonSize(int rowCount, int columnCount) {
         // Obtener el tamaño de la pantalla
@@ -766,10 +741,9 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private int calculateTextSize(int rowCount, int columnCount) {
         // Calcular el tamaño del texto en función del número de filas y columnas
-        int textSize = calculateButtonSize(rowCount, columnCount) / 3; // Por ejemplo, un tercio del tamaño de los botones
 
         // Puedes ajustar este factor según tus necesidades
-        return textSize;
+        return calculateButtonSize(rowCount, columnCount) / 2;
     }
 
     private void setBoardSize(int rows, int columns) {
@@ -786,7 +760,18 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         updateButtonTextVisibility();
     }
 
-
+    private void adjustButtonAndTextSize(int buttonSize, int textSize) {
+        // Aplicar el tamaño de los botones y el texto a cada botón del juego
+        for (Button[] row : Arraybuttons) {
+            for (Button button : row) {
+                ViewGroup.LayoutParams params = button.getLayoutParams();
+                params.width = buttonSize;
+                params.height = buttonSize;
+                button.setLayoutParams(params);
+                button.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+            }
+        }
+    }
 
 
 

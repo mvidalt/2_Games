@@ -72,6 +72,7 @@ public class Senku extends AppCompatActivity {
             imageBack.setClickable(false);
             restoreArrayButtonsFromBackup();
             updateUI();
+            updateScore(-1);
         });
 
     }
@@ -172,7 +173,7 @@ public class Senku extends AppCompatActivity {
 
                         // Switch the ball between ON and SELECTED to OFF
                         switchBallsOff(clickedImageButton,i, j, row, col);
-                        updateScore();
+                        updateScore(+1);
 
                         if (isGameWinned()) {
                             handleGameWinned();
@@ -401,8 +402,8 @@ public class Senku extends AppCompatActivity {
     }
 
 
-    private void updateScore() {
-        score += 1;
+    private void updateScore(int value) {
+        score += value;
         scoretxt.setText(String.valueOf(score));
     }
 
