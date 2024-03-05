@@ -643,12 +643,15 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         gameOverDialog.show();
     }
 
+
+
     private void restartGame() {
         // Reiniciar la puntuación
         score = 0;
         scoreText.setText("0");
         previousScore = score;
         // Reiniciar el temporizador
+
         startClock();
 
         // Limpiar los botones del juego
@@ -663,6 +666,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         generateNewNumber();
         decreaseField.setVisibility(View.VISIBLE);
         increaseField.setVisibility(View.VISIBLE);
+        buttonBack.setVisibility(View.INVISIBLE);
     }
 
     private void backupArrayButtons() {

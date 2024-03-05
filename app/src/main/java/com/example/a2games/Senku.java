@@ -335,6 +335,7 @@ public class Senku extends AppCompatActivity {
         clearButtonStates();
         isTimerRunning = true;
         startClock();
+        imageBack.setVisibility(View.INVISIBLE);
     }
 
     private void clearButtonStates() {
