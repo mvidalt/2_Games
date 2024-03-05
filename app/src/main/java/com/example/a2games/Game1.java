@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -29,6 +30,8 @@ import java.util.Random;
 public class Game1 extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
     private GridLayout gridLayout;
+
+    private TimerManager timerManager;
 
     private Button[][] Arraybuttons;
 
@@ -63,6 +66,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private volatile boolean isTimerRunning = true;
     private Thread timerThread;
+
+    private Handler handler = new Handler();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +112,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         colorMap.put("1024", Color.parseColor("#edc53f"));
         colorMap.put("2048", Color.parseColor("#edc22e"));
 
-        startClock();
 
         Button buttonNewGame = findViewById(R.id.buttonNewGame);
         buttonNewGame.setOnClickListener(v -> restartGame());
@@ -125,7 +131,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         increaseField = findViewById(R.id.btnIncreaseSize);
         increaseField.setOnClickListener(v -> increaseBoardSize());
 
+        timerManager = new TimerManager(timer);
 
+        // Iniciar la cuenta regresiva con un tiempo de 5 minutos (300,000 milisegundos)
+        timerManager.startCountDown(300000);
     }
 
     private void setButtonAndTextSizes(int buttonSize, int textSize) {
@@ -596,53 +605,16 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         gameOverDialog.show();
     }
 
-    private void startClock() {
-        if (timerThread != null && timerThread.isAlive()) {
-            isTimerRunning = false;
-            try {
-                timerThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
-        isTimerRunning = true;
-        timerThread = new Thread(() -> {
-            long totalTimeSeconds = 600;
-            long intervalSeconds = 1;
 
-            while (totalTimeSeconds > 0 && isTimerRunning) {
-                try {
-                    Thread.sleep(intervalSeconds * 1000);
-                    totalTimeSeconds -= intervalSeconds;
-
-                    long finalTotalTimeSeconds = totalTimeSeconds;
-                    runOnUiThread(() -> updateTimerText(finalTotalTimeSeconds));
-
-                } catch (InterruptedException e) {
-                    // Maneja la interrupción si es necesario
-                    e.printStackTrace();
-                }
-            }
-
-            if (isTimerRunning) {
-                runOnUiThread(this::handleTimeUp);
-            }
-        });
-
-        timerThread.start();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Detener el contador cuando la actividad se destruye para evitar memory leaks
+        timerManager.stopCountDown();
     }
 
-    private void stopClock() {
-        isTimerRunning = false;
-        if (timerThread != null && timerThread.isAlive()) {
-            try {
-                timerThread.join(); // Espera a que el hilo actual termine
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
 
     @SuppressLint("SetTextI18n")
@@ -676,13 +648,13 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
 
     private void restartGame() {
-        // Reiniciar la puntuación
+        onDestroy();
         score = 0;
         scoreText.setText("0");
         previousScore = score;
         // Reiniciar el temporizador
-        stopClock();
-        startClock();
+
+        timerManager.startCountDown(300000);
 
         // Limpiar los botones del juego
         for (int i = 0; i < rowCount; i++) {

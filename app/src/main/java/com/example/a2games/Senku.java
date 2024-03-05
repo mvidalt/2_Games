@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -38,8 +37,6 @@ public class Senku extends AppCompatActivity {
         SELECTED
     }
 
-    private volatile boolean isTimerRunning = true;
-    private Thread timerThread;
 
     private SharedPreferences sharedPreferences;
 
@@ -49,6 +46,8 @@ public class Senku extends AppCompatActivity {
     private final ImageButton[][] backupImageButtons = new ImageButton[7][7];
 
     private ImageView imageBack;
+
+    private TimerManager timerManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,7 @@ public class Senku extends AppCompatActivity {
         bestScoreText.setText(String.valueOf(savedBestScore));
         lowerLayerButtons();
         createGameButtons();
-        startClock();
+
         imageBack = findViewById(R.id.boton_paso_atras);
         imageBack.setVisibility(View.INVISIBLE);
         imageBack.setOnClickListener(v -> {
@@ -74,7 +73,10 @@ public class Senku extends AppCompatActivity {
             updateUI();
             updateScore(-1);
         });
+        timerManager = new TimerManager(timer);
 
+        // Iniciar la cuenta regresiva con un tiempo de 5 minutos (300,000 milisegundos)
+        timerManager.startCountDown(300000);
     }
 
     private void createGameButtons() {
@@ -192,9 +194,7 @@ public class Senku extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(Senku.this);
         builder.setTitle("¡Felicidades!")
                 .setMessage("¿Quieres volver a jugar?")
-                .setPositiveButton("Sí", (dialog, which) -> {
-                    resetGame();
-                })
+                .setPositiveButton("Sí", (dialog, which) -> resetGame())
                 .setNegativeButton("No", (dialog, which) -> {
                     goBack(null);
                     dialog.dismiss();
@@ -325,10 +325,9 @@ public class Senku extends AppCompatActivity {
     private void resetGame() {
         score = 0;
         scoretxt.setText(String.valueOf(score));
-        stopClock();
+        onDestroy();
+        timerManager.startCountDown(300000);
         clearButtonStates();
-        isTimerRunning = true;
-        startClock();
         imageBack.setVisibility(View.INVISIBLE);
     }
 
@@ -413,53 +412,15 @@ public class Senku extends AppCompatActivity {
         }
     }
 
-    private void startClock() {
-        if (timerThread != null && timerThread.isAlive()) {
-            isTimerRunning = false;
-            try {
-                timerThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
-        isTimerRunning = true;
-        timerThread = new Thread(() -> {
-            long totalTimeSeconds = 600;
-            long intervalSeconds = 1;
 
-            while (totalTimeSeconds > 0 && isTimerRunning) {
-                try {
-                    Thread.sleep(intervalSeconds * 1000);
-                    totalTimeSeconds -= intervalSeconds;
-
-                    long finalTotalTimeSeconds = totalTimeSeconds;
-                    runOnUiThread(() -> updateTimerText(finalTotalTimeSeconds));
-
-                } catch (InterruptedException e) {
-                    // Maneja la interrupción si es necesario
-                    e.printStackTrace();
-                }
-            }
-
-            if (isTimerRunning) {
-                runOnUiThread(this::handleTimeUp);
-            }
-        });
-
-        timerThread.start();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Detener el contador cuando la actividad se destruye para evitar memory leaks
+        timerManager.stopCountDown();
     }
 
-    private void stopClock() {
-        isTimerRunning = false;
-        if (timerThread != null && timerThread.isAlive()) {
-            try {
-                timerThread.join(); // Espera a que el hilo actual termine
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
 
 
