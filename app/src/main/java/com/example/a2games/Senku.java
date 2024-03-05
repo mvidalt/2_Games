@@ -108,24 +108,18 @@ public class Senku extends AppCompatActivity {
                 ArrayImageButtons[i][j] = imageButton;
 
                 gridLayout.addView(imageButton);
-                imageButton.setOnClickListener(v -> {
-                    handleImageButtonClick(imageButton, row, col);
-                });
+                imageButton.setOnClickListener(v -> handleImageButtonClick(imageButton, row, col));
             }
         }
 
         Button buttonNewGame = findViewById(R.id.btnReset);
-        buttonNewGame.setOnClickListener(v -> {
-            resetGame();
-        });
+        buttonNewGame.setOnClickListener(v -> resetGame());
 
     }
 
     private void lowerLayerButtons() {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
-                final int row = i;
-                final int col = j;
                 ImageButton imageButton = new ImageButton(this);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i), GridLayout.spec(j));
 

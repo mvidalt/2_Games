@@ -60,6 +60,9 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private Button decreaseField;
 
     private  Button increaseField;
+
+    private volatile boolean isTimerRunning = true;
+    private Thread timerThread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -265,8 +268,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     @Override
     public boolean onFling(MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
         backupArrayButtons();
-        buttonBack.setVisibility(View.VISIBLE);
-        buttonBack.setClickable(true);
         previousScore = score;
         // Se llama cuando se detecta un gesto de fling
         if (Math.abs(velocityX) > Math.abs(velocityY)) {
@@ -447,6 +448,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         if (moved) {
             updateButtonTextVisibility();
             generateNewNumber();
+            buttonBack.setVisibility(View.VISIBLE);
+            buttonBack.setClickable(true);
             if (isGameLost()) {
                 showGameOverDialog();
                 saveBestScore();
@@ -594,11 +597,21 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     private void startClock() {
-        new Thread(() -> {
+        if (timerThread != null && timerThread.isAlive()) {
+            isTimerRunning = false;
+            try {
+                timerThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        isTimerRunning = true;
+        timerThread = new Thread(() -> {
             long totalTimeSeconds = 600;
             long intervalSeconds = 1;
 
-            while (totalTimeSeconds > 0) {
+            while (totalTimeSeconds > 0 && isTimerRunning) {
                 try {
                     Thread.sleep(intervalSeconds * 1000);
                     totalTimeSeconds -= intervalSeconds;
@@ -607,13 +620,30 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                     runOnUiThread(() -> updateTimerText(finalTotalTimeSeconds));
 
                 } catch (InterruptedException e) {
+                    // Maneja la interrupción si es necesario
                     e.printStackTrace();
                 }
             }
 
-            runOnUiThread(this::handleTimeUp);
-        }).start();
+            if (isTimerRunning) {
+                runOnUiThread(this::handleTimeUp);
+            }
+        });
+
+        timerThread.start();
     }
+
+    private void stopClock() {
+        isTimerRunning = false;
+        if (timerThread != null && timerThread.isAlive()) {
+            try {
+                timerThread.join(); // Espera a que el hilo actual termine
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @SuppressLint("SetTextI18n")
     private void updateTimerText(long secondsUntilFinished) {
@@ -651,7 +681,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         scoreText.setText("0");
         previousScore = score;
         // Reiniciar el temporizador
-
+        stopClock();
         startClock();
 
         // Limpiar los botones del juego
