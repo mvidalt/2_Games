@@ -134,7 +134,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         timerManager = new TimerManager(timer);
 
         // Iniciar la cuenta regresiva con un tiempo de 5 minutos (300,000 milisegundos)
-        timerManager.startCountDown(300000);
+        timerManager.startCountDown(5);
     }
 
     private void setButtonAndTextSizes(int buttonSize, int textSize) {
@@ -654,7 +654,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         previousScore = score;
         // Reiniciar el temporizador
 
-        timerManager.startCountDown(300000);
+        timerManager.startCountDown(5);
 
         // Limpiar los botones del juego
         for (int i = 0; i < rowCount; i++) {

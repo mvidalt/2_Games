@@ -14,6 +14,11 @@ public class TimerManager {
         this.timerTextView = textView;
     }
 
+    public void startCountDown(int minutes) {
+        long milliseconds = (long) minutes * 60 * 1000; // Convertir minutos a milisegundos
+        startCountDown(milliseconds);
+    }
+
     public void startCountDown(long milliseconds) {
         if (!isCountingDown) {
             countdownTime = milliseconds;

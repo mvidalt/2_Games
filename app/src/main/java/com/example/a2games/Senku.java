@@ -76,7 +76,7 @@ public class Senku extends AppCompatActivity {
         timerManager = new TimerManager(timer);
 
         // Iniciar la cuenta regresiva con un tiempo de 5 minutos (300,000 milisegundos)
-        timerManager.startCountDown(300000);
+        timerManager.startCountDown(5);
     }
 
     private void createGameButtons() {
@@ -326,7 +326,7 @@ public class Senku extends AppCompatActivity {
         score = 0;
         scoretxt.setText(String.valueOf(score));
         onDestroy();
-        timerManager.startCountDown(300000);
+        timerManager.startCountDown(5);
         clearButtonStates();
         imageBack.setVisibility(View.INVISIBLE);
     }
