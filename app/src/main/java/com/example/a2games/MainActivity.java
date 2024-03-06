@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
 
         // Configurar el texto de bienvenida con el nombre de usuario
         TextView textViewProfile = findViewById(R.id.textViewProfile);
-        textViewProfile.setText("Bienvenido, " + username);
+        textViewProfile.setText("Bienvenido \n"
+                + username);
 
         recyclerView = findViewById(R.id.recyclerViewGames);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

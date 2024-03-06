@@ -99,8 +99,9 @@
         android:text="Registrate"
         android:textColor="#0F29B8"
         android:onClick="openRegistro"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintStart_toEndOf="@+id/textViewRegister"
+    app:layout_constraintTop_toTopOf="@+id/textViewRegister"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="0dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
