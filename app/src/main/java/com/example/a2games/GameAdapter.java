@@ -3,6 +3,7 @@ package com.example.a2games;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
 
     private static List<String> gamesList;
     private OnGameClickListener onGameClickListener;
+
 
     public GameAdapter(List<String> gamesList, OnGameClickListener listener) {
         this.gamesList = gamesList;
@@ -44,6 +46,21 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         } else if ("Senku".equals(game)) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorSenku));
         }
+
+        // Cargar la imagen para el juego
+        switch (game) {
+            case "2048":
+                holder.gameIconImageView.setImageResource(R.drawable.icon2048);
+                break;
+            case "Senku":
+                holder.gameIconImageView.setImageResource(R.drawable.senku_icon);
+                break;
+            // Agrega más casos según tus juegos
+            default:
+                // Puedes establecer una imagen predeterminada o no hacer nada
+                holder.gameIconImageView.setImageResource(R.drawable.ic_launcher_background);
+                break;
+        }
     }
 
     // Método para obtener el objetivo del juego
@@ -68,12 +85,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView gameNameTextView;
         TextView gameObjectiveTextView;
+        ImageView gameIconImageView; // Agregar referencia al ImageView
         OnGameClickListener onGameClickListener;
 
         public ViewHolder(@NonNull View itemView, OnGameClickListener listener) {
             super(itemView);
-            gameNameTextView = itemView.findViewById(R.id.gameNameTextView); // Debes asignar el TextView correctamente
-            gameObjectiveTextView = itemView.findViewById(R.id.gameObjectiveTextView); // Asegúrate de asignar también el TextView para el objetivo del juego
+            gameNameTextView = itemView.findViewById(R.id.gameNameTextView);
+            gameObjectiveTextView = itemView.findViewById(R.id.gameObjectiveTextView);
+            gameIconImageView = itemView.findViewById(R.id.gameIconImageView); // Asignar el ImageView
             onGameClickListener = listener;
             itemView.setOnClickListener(this);
         }
@@ -86,8 +105,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                 onGameClickListener.onGameClick(gameName);
             }
         }
+    }
 
-}
 
     public interface OnGameClickListener {
         void onGameClick(String gameName);
