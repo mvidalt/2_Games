@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -32,7 +33,15 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String game = gamesList.get(position);
         holder.gameTextView.setText(game);
+
+        // Cambiar el color de fondo basado en el nombre del juego
+        if ("2048".equals(game)) {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.color2048));
+        } else if ("Senku".equals(game)) {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorSenku));
+        }
     }
+
 
     @Override
     public int getItemCount() {
