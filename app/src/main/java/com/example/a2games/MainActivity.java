@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,4 +67,11 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
             // No necesitamos implementar esto para el arrastre y soltar
         }
     };
+
+    public void openProfile(View view) {
+        Intent intentProfile = new Intent(this, UserProfile.class);
+        startActivity(intentProfile);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+    }
+
 }

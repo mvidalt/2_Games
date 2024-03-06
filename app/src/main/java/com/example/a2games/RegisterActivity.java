@@ -1,5 +1,6 @@
 package com.example.a2games;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -58,17 +59,19 @@ public class RegisterActivity extends AppCompatActivity {
                 editor.putString("image_uri",null);
                 editor.apply();
 
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                openLogin(null);
             }else{
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
 
             }
 
 
-
         });
     }
-
+    public void openLogin(View view){
+        Intent intentLogin = new Intent(this, LoginActivity.class);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+        startActivity(intentLogin, options.toBundle());
+        finish();
+    }
 }

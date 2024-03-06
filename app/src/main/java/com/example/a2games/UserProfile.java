@@ -63,5 +63,7 @@ public class UserProfile extends AppCompatActivity {
 
     public void goMainMenu(View view){
         startActivity( new Intent(this,MainActivity.class));
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out
+        );
     }
 }

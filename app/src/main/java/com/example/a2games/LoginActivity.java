@@ -1,10 +1,13 @@
 package com.example.a2games;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
+    private Button buttonLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         // Inicializar vistas
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextPassword = findViewById(R.id.editTextPassword);
-        Button buttonLogin = findViewById(R.id.buttonLogin);
+        buttonLogin = findViewById(R.id.buttonLogin);
 
         // Obtener SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
@@ -49,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Si coinciden, iniciar sesión y abrir MainActivity
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                applyAnimation();
                 finish();
             } else {
                 // Si no coinciden, mostrar un mensaje de error o tomar la acción adecuada
@@ -58,8 +63,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void openRegistro(View view){
-        Intent IntentRegistro = new Intent(this, RegisterActivity.class);
-        startActivity(IntentRegistro);
+    private void applyAnimation() {
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade);
+        buttonLogin.startAnimation(animation); // Aplicar animación al botón de inicio de sesión
+        // Puedes aplicar la animación a cualquier otra vista que desees animar
+    }
+
+    public void openRegistro(View view) {
+        Intent intentRegistro = new Intent(this, RegisterActivity.class);
+        // Configurar la transición de actividad personalizada
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+        startActivity(intentRegistro, options.toBundle());
     }
 }
