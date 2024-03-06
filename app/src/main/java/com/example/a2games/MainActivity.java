@@ -1,6 +1,7 @@
 package com.example.a2games;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,12 +9,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements GameAdapter.OnGameClickListener {
 
     private RecyclerView recyclerView;
     private GameAdapter gameAdapter;
+    private List<String> gamesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +26,16 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
         recyclerView = findViewById(R.id.recyclerViewGames);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Lista de nombres de juegos
-        List<String> gamesList = new ArrayList<>();
+        gamesList = new ArrayList<>();
         gamesList.add("2048");
         gamesList.add("Senku");
 
-        // Configurar adaptador y proporcionar datos
-        gameAdapter = new GameAdapter(gamesList, this); // Pasa "this" como el listener de clics
+        gameAdapter = new GameAdapter(gamesList, this);
         recyclerView.setAdapter(gameAdapter);
+
+        // Agrega funcionalidad de arrastre y soltar
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -44,4 +49,21 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
         }
         // Agrega más condicionales para otros juegos si es necesario
     }
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            int fromPosition = viewHolder.getAdapterPosition();
+            int toPosition = target.getAdapterPosition();
+
+            Collections.swap(gamesList, fromPosition, toPosition);
+            gameAdapter.notifyItemMoved(fromPosition, toPosition);
+
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            // No necesitamos implementar esto para el arrastre y soltar
+        }
+    };
 }
