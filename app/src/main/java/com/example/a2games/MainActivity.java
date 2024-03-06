@@ -7,13 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.a2games.GameAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements GameAdapter.OnGameClickListener {
-
 
     private RecyclerView recyclerView;
     private GameAdapter gameAdapter;
@@ -36,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
         recyclerView.setAdapter(gameAdapter);
     }
 
-
     @Override
     public void onGameClick(String gameName) {
         if ("2048".equals(gameName)) {
@@ -47,10 +43,5 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
             startActivity(intent);
         }
         // Agrega más condicionales para otros juegos si es necesario
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        super.onPointerCaptureChanged(hasCapture);
     }
 }
