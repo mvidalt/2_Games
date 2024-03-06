@@ -32,7 +32,11 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String game = gamesList.get(position);
-        holder.gameTextView.setText(game);
+        holder.gameNameTextView.setText(game);
+
+        // Establecer el texto del objetivo del juego
+        String gameObjective = getGameObjective(game);
+        holder.gameObjectiveTextView.setText(gameObjective);
 
         // Cambiar el color de fondo basado en el nombre del juego
         if ("2048".equals(game)) {
@@ -42,6 +46,19 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         }
     }
 
+    // Método para obtener el objetivo del juego
+    private String getGameObjective(String gameName) {
+        switch (gameName) {
+            case "2048":
+                return "Combina números para obtener el 2048.";
+            case "Senku":
+                return "Elimina las piezas excepto una.";
+            default:
+                return "";
+        }
+    }
+
+
 
     @Override
     public int getItemCount() {
@@ -49,12 +66,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView gameTextView;
+        TextView gameNameTextView;
+        TextView gameObjectiveTextView;
         OnGameClickListener onGameClickListener;
 
         public ViewHolder(@NonNull View itemView, OnGameClickListener listener) {
             super(itemView);
-            gameTextView = itemView.findViewById(R.id.gameTextView);
+            gameNameTextView = itemView.findViewById(R.id.gameNameTextView); // Debes asignar el TextView correctamente
+            gameObjectiveTextView = itemView.findViewById(R.id.gameObjectiveTextView); // Asegúrate de asignar también el TextView para el objetivo del juego
             onGameClickListener = listener;
             itemView.setOnClickListener(this);
         }
@@ -68,7 +87,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
             }
         }
 
-    }
+}
 
     public interface OnGameClickListener {
         void onGameClick(String gameName);
