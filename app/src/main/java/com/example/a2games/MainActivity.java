@@ -1,45 +1,56 @@
 package com.example.a2games;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.a2games.GameAdapter;
 
-    private TextView saludo;
-    private SharedPreferences sharedPreferences;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements GameAdapter.OnGameClickListener {
 
 
-    @SuppressLint("SetTextI18n")
+    private RecyclerView recyclerView;
+    private GameAdapter gameAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        saludo = findViewById(R.id.saludo);
-        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String savedName = sharedPreferences.getString("username", "");
-        saludo.setText("Hola "+savedName);
+
+        recyclerView = findViewById(R.id.recyclerViewGames);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Lista de nombres de juegos
+        List<String> gamesList = new ArrayList<>();
+        gamesList.add("2048");
+        gamesList.add("Senku");
+
+        // Configurar adaptador y proporcionar datos
+        gameAdapter = new GameAdapter(gamesList, this); // Pasa "this" como el listener de clics
+        recyclerView.setAdapter(gameAdapter);
     }
 
-    public void openGame1(View v) {
-        Intent intent = new Intent(this, Game1.class);
-        startActivity(intent);
+
+    @Override
+    public void onGameClick(String gameName) {
+        if ("2048".equals(gameName)) {
+            Intent intent = new Intent(this, Game1.class);
+            startActivity(intent);
+        } else if ("Senku".equals(gameName)) {
+            Intent intent = new Intent(this, Senku.class);
+            startActivity(intent);
+        }
+        // Agrega más condicionales para otros juegos si es necesario
     }
 
-    public void openSenku(View view){
-        Intent IntentSenku = new Intent(this,Senku.class);
-        startActivity(IntentSenku);
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
-
-    public void openProfile(View view){
-        Intent intentUserProfile = new Intent(this,UserProfile.class);
-        startActivity(intentUserProfile);
-    }
-
 }
