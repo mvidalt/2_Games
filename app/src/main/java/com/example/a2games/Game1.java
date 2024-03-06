@@ -766,7 +766,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         // Calcular el tamaño del texto en función del número de filas y columnas
 
         // Puedes ajustar este factor según tus necesidades
-        return calculateButtonSize(rowCount, columnCount) / 2;
+        return (int) (calculateButtonSize(rowCount, columnCount) / 3.5);
     }
 
     private void setBoardSize(int rows, int columns) {
