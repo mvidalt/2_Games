@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
-        android:text="Juegos Móviles"
+        android:text="Game Center"
         android:textColor="#EFECEC"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -63,5 +63,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/loginprofile"
         android:onClick="openProfile"/>
+
+    <TextView
+        android:id="@+id/textViewProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Tu texto aquí"
+        android:textColor="#000000"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@id/usuarioImg"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/usuarioImg"
+        app:layout_constraintTop_toBottomOf="@id/usuarioImg" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

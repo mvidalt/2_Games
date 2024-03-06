@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,11 +20,22 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
     private RecyclerView recyclerView;
     private GameAdapter gameAdapter;
     private List<String> gamesList;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Inicializar SharedPreferences
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+        // Obtener el nombre de usuario de SharedPreferences
+        String username = sharedPreferences.getString("username", "");
+
+        // Configurar el texto de bienvenida con el nombre de usuario
+        TextView textViewProfile = findViewById(R.id.textViewProfile);
+        textViewProfile.setText("Bienvenido, " + username);
 
         recyclerView = findViewById(R.id.recyclerViewGames);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
