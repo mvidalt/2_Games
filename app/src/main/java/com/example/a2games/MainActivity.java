@@ -27,13 +27,12 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inicializar SharedPreferences
+
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
-        // Obtener el nombre de usuario de SharedPreferences
+
         String username = sharedPreferences.getString("username", "");
 
-        // Configurar el texto de bienvenida con el nombre de usuario
         TextView textViewProfile = findViewById(R.id.textViewProfile);
         textViewProfile.setText("Bienvenido \n"
                 + username);
@@ -48,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
         gameAdapter = new GameAdapter(gamesList, this);
         recyclerView.setAdapter(gameAdapter);
 
-        // Agrega funcionalidad de arrastre y soltar
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
@@ -58,11 +56,12 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
         if ("2048".equals(gameName)) {
             Intent intent = new Intent(this, Game1.class);
             startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         } else if ("Senku".equals(gameName)) {
             Intent intent = new Intent(this, Senku.class);
             startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
-        // Agrega más condicionales para otros juegos si es necesario
     }
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
         @Override
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            // No necesitamos implementar esto para el arrastre y soltar
         }
     };
 

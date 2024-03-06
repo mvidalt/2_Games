@@ -237,6 +237,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     public void goBack(View view) {
         Intent IntentMain = new Intent(this, MainActivity.class);
         startActivity(IntentMain);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override

@@ -14,9 +14,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.a2games.MainActivity;
-import com.example.a2games.RegisterActivity;
-
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextUsername;
@@ -25,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private Button buttonLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +48,10 @@ public class LoginActivity extends AppCompatActivity {
 
             // Verificar si los valores ingresados coinciden con los guardados
             if (username.equals(savedUsername) && password.equals(savedPassword)) {
-                // Si coinciden, iniciar sesión y abrir MainActivity
+                // Si coinciden, iniciar sesión y abrir MainActivity con transición
                 Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                applyAnimation();
+                clickAnimation();
+                startActivityWithTransition(intent);
                 finish();
             } else {
                 // Si no coinciden, mostrar un mensaje de error o tomar la acción adecuada
@@ -63,7 +61,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void applyAnimation() {
+    private void startActivityWithTransition(Intent intent) {
+        // Configurar la transición de actividad personalizada
+        ActivityOptions options = ActivityOptions.makeCustomAnimation(this, R.anim.slide_in, R.anim.slide_out);
+        startActivity(intent, options.toBundle());
+    }
+
+    private void clickAnimation() {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade);
         buttonLogin.startAnimation(animation); // Aplicar animación al botón de inicio de sesión
         // Puedes aplicar la animación a cualquier otra vista que desees animar

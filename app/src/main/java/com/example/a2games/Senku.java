@@ -475,6 +475,7 @@ public class Senku extends AppCompatActivity {
     public void goBack(View view) {
         Intent IntentMain = new Intent(this, MainActivity.class);
         startActivity(IntentMain);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     private void printArrays() {
