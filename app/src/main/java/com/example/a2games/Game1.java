@@ -127,7 +127,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
         timerManager = new TimerManager(timer);
         timerManager.setTimerListener(this);
-        timerManager.startCountDown(1);
+        timerManager.startCountDown(3);
     }
 
     private void setButtonAndTextSizes(int buttonSize, int textSize) {
@@ -614,7 +614,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         scoreText.setText("0");
         previousScore = score;
         stopTimer();
-        timerManager.startCountDown(5);
+        timerManager.startCountDown(3);
 
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
@@ -702,7 +702,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     private int calculateTextSize(int rowCount, int columnCount) {
-        return (int) (calculateButtonSize(rowCount, columnCount) / 3.3);
+        return (int) (calculateButtonSize(rowCount, columnCount) / 3.5);
     }
 
     private void setBoardSize(int rows, int columns) {

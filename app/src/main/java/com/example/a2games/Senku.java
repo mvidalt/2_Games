@@ -79,7 +79,7 @@ public class Senku extends AppCompatActivity implements TimerListener {
         });
         timerManager = new TimerManager(timer);
         timerManager.setTimerListener(this);
-        timerManager.startCountDown(1);
+        timerManager.startCountDown(3);
     }
 
     private void createGameButtons() {
@@ -323,7 +323,7 @@ public class Senku extends AppCompatActivity implements TimerListener {
         score = 0;
         scoretxt.setText(String.valueOf(score));
         stopTimer();
-        timerManager.startCountDown(5);
+        timerManager.startCountDown(3);
         clearButtonStates();
         layoutPaso_Atras.setVisibility(View.INVISIBLE);
     }
