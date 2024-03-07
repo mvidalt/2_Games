@@ -111,4 +111,13 @@ public class UserProfile extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("imagePath", imagePath); // Pasar la ruta de la imagen al MainActivity
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+    }
+
 }
