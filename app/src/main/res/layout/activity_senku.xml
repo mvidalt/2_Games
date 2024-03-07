@@ -137,19 +137,21 @@
     <LinearLayout
         android:id="@+id/timeContainer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:background="#bbada0"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.898"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout1">
+        app:layout_constraintStart_toEndOf="@+id/linearLayout1"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout1">
 
         <TextView
             android:id="@+id/txtTime"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:padding="8dp"
             android:text="TIME"
             android:textColor="#eee4da"
@@ -157,10 +159,6 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-
-
-
-
 
 
 

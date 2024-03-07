@@ -171,13 +171,6 @@ public class Senku extends AppCompatActivity {
                         switchBallsOff(clickedImageButton,i, j, row, col);
                         updateScore(+1);
 
-                        if (isGameWinned()) {
-                            handleGameWinned();
-                            saveBestScore();
-                        } else if (isGameOver()) {
-                            handleGameOver();
-                            saveBestScore();
-                        }
 
                     }
                 }
@@ -192,7 +185,7 @@ public class Senku extends AppCompatActivity {
     private void handleGameWinned() {
         timer.setText("¡Has Ganado!");
         AlertDialog.Builder builder = new AlertDialog.Builder(Senku.this);
-        builder.setTitle("¡Felicidades!")
+        builder.setTitle("¡Felicidades! Has Ganado")
                 .setMessage("¿Quieres volver a jugar?")
                 .setPositiveButton("Sí", (dialog, which) -> resetGame())
                 .setNegativeButton("No", (dialog, which) -> {
@@ -238,6 +231,15 @@ public class Senku extends AppCompatActivity {
                     // Cambia el estado del ImageButton pulsado a ON
                     clickedImageButton.setImageResource(R.drawable.radio_button_on);
                     clickedImageButton.setTag(ButtonState.ON);
+
+                    // Realiza la verificación después de la animación
+                    if (isGameWinned()) {
+                        handleGameWinned();
+                        saveBestScore();
+                    } else if (isGameOver()) {
+                        handleGameOver();
+                        saveBestScore();
+                    }
                 }
 
                 @Override
@@ -283,9 +285,12 @@ public class Senku extends AppCompatActivity {
                     if (i < 5 && ButtonState.ON.equals(ArrayImageButtons[i + 1][j].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[i + 2][j].getTag())) {
                         return false;
                     }
-                    // Verifica hacia la izquierda y derecha
-                    if ((j > 1 && ButtonState.ON.equals(ArrayImageButtons[i][j - 1].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[i][j - 2].getTag())) ||
-                            (j < 5 && ButtonState.ON.equals(ArrayImageButtons[i][j + 1].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[i][j + 2].getTag()))) {
+                    // Verifica hacia la izquierda
+                    if (j > 1 && ButtonState.ON.equals(ArrayImageButtons[i][j - 1].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[i][j - 2].getTag())) {
+                        return false;
+                    }
+                    // Verifica hacia la derecha
+                    if (j < 5 && ButtonState.ON.equals(ArrayImageButtons[i][j + 1].getTag()) && ButtonState.OFF.equals(ArrayImageButtons[i][j + 2].getTag())) {
                         return false;
                     }
                 }
@@ -293,6 +298,8 @@ public class Senku extends AppCompatActivity {
         }
         return true;
     }
+
+
 
 
 
@@ -325,7 +332,7 @@ public class Senku extends AppCompatActivity {
     private void resetGame() {
         score = 0;
         scoretxt.setText(String.valueOf(score));
-        onDestroy();
+        stopTimer(); // Stop the timer before resetting the game
         timerManager.startCountDown(5);
         clearButtonStates();
         imageBack.setVisibility(View.INVISIBLE);
@@ -417,11 +424,17 @@ public class Senku extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Detener el contador cuando la actividad se destruye para evitar memory leaks
-        timerManager.stopCountDown();
+        // Stop the timer when the activity is destroyed to avoid memory leaks
+        stopTimer();
     }
 
-
+    private void stopTimer() {
+        // Stop the countdown timer
+        if (timerManager != null) {
+            timerManager.stopCountDown();
+        }
+        // Clean up any other resources here if needed
+    }
 
 
     @SuppressLint("SetTextI18n")
