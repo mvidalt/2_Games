@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
         String username = sharedPreferences.getString("username", "");
 
         TextView textViewProfile = findViewById(R.id.textViewProfile);
-        textViewProfile.setText("Bienvenido \n"
+        textViewProfile.setText("Welcome \n"
                 + username);
 
         recyclerView = findViewById(R.id.recyclerViewGames);
