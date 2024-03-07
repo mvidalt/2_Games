@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class Senku extends AppCompatActivity implements TimerListener {
@@ -49,6 +50,8 @@ public class Senku extends AppCompatActivity implements TimerListener {
 
     private TimerManager timerManager;
 
+    private LinearLayout layoutPaso_Atras;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +67,11 @@ public class Senku extends AppCompatActivity implements TimerListener {
         bestScoreText.setText(String.valueOf(savedBestScore));
         lowerLayerButtons();
         createGameButtons();
-
+        layoutPaso_Atras = findViewById(R.id.layoutPaso_Atras);
         imageBack = findViewById(R.id.boton_paso_atras);
-        imageBack.setVisibility(View.INVISIBLE);
+        layoutPaso_Atras.setVisibility(View.INVISIBLE);
         imageBack.setOnClickListener(v -> {
-            imageBack.setVisibility(View.INVISIBLE);
+            layoutPaso_Atras.setVisibility(View.INVISIBLE);
             imageBack.setClickable(false);
             restoreArrayButtonsFromBackup();
             updateUI();
@@ -250,7 +253,7 @@ public class Senku extends AppCompatActivity implements TimerListener {
 
             // Inicia la animación en el ImageButton intermedio
             ArrayImageButtons[middleRow][middleCol].startAnimation(translateAnimation);
-            imageBack.setVisibility(View.VISIBLE);
+            layoutPaso_Atras.setVisibility(View.VISIBLE);
             imageBack.setClickable(true);
         }
     }
@@ -335,7 +338,7 @@ public class Senku extends AppCompatActivity implements TimerListener {
         stopTimer(); // Stop the timer before resetting the game
         timerManager.startCountDown(5);
         clearButtonStates();
-        imageBack.setVisibility(View.INVISIBLE);
+        layoutPaso_Atras.setVisibility(View.INVISIBLE);
     }
 
     private void clearButtonStates() {
