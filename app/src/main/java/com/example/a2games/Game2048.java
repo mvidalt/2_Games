@@ -682,13 +682,25 @@ public class Game2048 extends AppCompatActivity implements GestureDetector.OnGes
         int newRowCount = rowCount + 1;
         int newColumnCount = columnCount + 1;
 
-        setBoardSize(newRowCount, newColumnCount);
+        if (newRowCount > 7 || newColumnCount > 7) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("¡Advertencia!")
+                    .setMessage("El tablero no puede ser mayor que 7x7.")
+                    .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss())
+                    .setCancelable(false);
 
-        int newButtonSize = calculateButtonSize(rowCount, columnCount);
-        int newTextSize = calculateTextSize(rowCount, columnCount);
+            AlertDialog warningDialog = builder.create();
+            warningDialog.show();
+        } else {
+            setBoardSize(newRowCount, newColumnCount);
 
-        adjustButtonAndTextSize(newButtonSize, newTextSize);
+            int newButtonSize = calculateButtonSize(rowCount, columnCount);
+            int newTextSize = calculateTextSize(rowCount, columnCount);
+
+            adjustButtonAndTextSize(newButtonSize, newTextSize);
+        }
     }
+
 
 
     private int calculateButtonSize(int rowCount, int columnCount) {
