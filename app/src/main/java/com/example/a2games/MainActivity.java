@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
     private SharedPreferences sharedPreferences;
 
     private ImageView usuarioImg;
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,7 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
 
         usuarioImg = findViewById(R.id.usuarioImg);
 
-        // Recibir la ruta de la imagen del Intent
-        String imagePath = getIntent().getStringExtra("imagePath");
+        imagePath = loadImagePathFromInternalStorage();
         if (imagePath != null && !imagePath.isEmpty()) {
             // Cargar la imagen en el ImageView
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
@@ -66,6 +69,16 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
                 usuarioImg.setImageBitmap(bitmap);
             }
         }
+    }
+
+    private String loadImagePathFromInternalStorage() {
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File directory = contextWrapper.getDir("profile_images", Context.MODE_PRIVATE);
+        File imagePath = new File(directory, "profile.jpg");
+        if (imagePath.exists()) {
+            return imagePath.getAbsolutePath();
+        }
+        return null;
     }
 
     @Override
