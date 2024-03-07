@@ -714,7 +714,7 @@ public class Game2048 extends AppCompatActivity implements GestureDetector.OnGes
     }
 
     private int calculateTextSize(int rowCount, int columnCount) {
-        return (int) (calculateButtonSize(rowCount, columnCount) / 3);
+        return (int) (calculateButtonSize(rowCount, columnCount) / 3.4);
     }
 
     private void setBoardSize(int rows, int columns) {
