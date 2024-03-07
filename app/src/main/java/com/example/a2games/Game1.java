@@ -436,7 +436,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 saveBestScore();
             }
             modificarTablero.setVisibility(View.INVISIBLE);
-            updateButtonsValue();
+                /*updateButtonsValue(); */
         }
     }
 
@@ -740,6 +740,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         handleTimeUp();
     }
 
+    /*
     private void updateButtonsValue() {
 
         for (int i = 0; i < rowCount; i++) {
@@ -752,4 +753,5 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             }
         }
     }
+    */
 }
