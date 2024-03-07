@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
     private GameAdapter gameAdapter;
     private List<String> gamesList;
     private SharedPreferences sharedPreferences;
+
+    private ImageView usuarioImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,18 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        usuarioImg = findViewById(R.id.usuarioImg);
+
+        // Recibir la ruta de la imagen del Intent
+        String imagePath = getIntent().getStringExtra("imagePath");
+        if (imagePath != null && !imagePath.isEmpty()) {
+            // Cargar la imagen en el ImageView
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            if (bitmap != null) {
+                usuarioImg.setImageBitmap(bitmap);
+            }
+        }
     }
 
     @Override
