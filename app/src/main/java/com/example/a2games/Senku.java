@@ -20,7 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Senku extends AppCompatActivity {
+public class Senku extends AppCompatActivity implements TimerListener {
 
     public GridLayout gridLayout;
     private final ImageButton[][] ArrayImageButtons = new ImageButton[7][7];
@@ -49,6 +49,7 @@ public class Senku extends AppCompatActivity {
 
     private TimerManager timerManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,9 +75,8 @@ public class Senku extends AppCompatActivity {
             updateScore(-1);
         });
         timerManager = new TimerManager(timer);
-
-        // Iniciar la cuenta regresiva con un tiempo de 5 minutos (300,000 milisegundos)
-        timerManager.startCountDown(5);
+        timerManager.setTimerListener(this);
+        timerManager.startCountDown(1);
     }
 
     private void createGameButtons() {
@@ -493,26 +493,9 @@ public class Senku extends AppCompatActivity {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
-    private void printArrays() {
-        // Imprimir ArrayImageButtons
-        System.out.println("ArrayImageButtons:");
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 7; j++) {
-                ImageButton button = ArrayImageButtons[i][j];
-                System.out.print(button.getTag() + " ");
-            }
-            System.out.println();
-        }
-
-        // Imprimir backupImageButtons
-        System.out.println("backupImageButtons:");
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 7; j++) {
-                ImageButton button = backupImageButtons[i][j];
-                System.out.print(button.getTag() + " ");
-            }
-            System.out.println();
-        }
+    @Override
+    public void onTimeUp() {
+        handleTimeUp();
     }
 
 }

@@ -10,6 +10,8 @@ public class TimerManager {
     private boolean isCountingDown;
     private Thread countdownThread;
 
+    private TimerListener timerListener;
+
     public TimerManager(TextView textView) {
         this.timerTextView = textView;
     }
@@ -53,11 +55,8 @@ public class TimerManager {
             isCountingDown = false;
 
             // Realiza cualquier acción que desees cuando la cuenta regresiva termina
-            timerTextView.post(new Runnable() {
-                @Override
-                public void run() {
-                    timerTextView.setText("Tiempo terminado");
-                }
+            timerTextView.post(() -> {
+                timerListener.onTimeUp();;
             });
         }
     }
@@ -71,5 +70,9 @@ public class TimerManager {
             String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
             timerTextView.setText("Tiempo restante " + timeLeftFormatted);
         });
+    }
+
+    public void setTimerListener(TimerListener listener) {
+        this.timerListener = listener;
     }
 }

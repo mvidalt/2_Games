@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
-public class Game1 extends AppCompatActivity implements GestureDetector.OnGestureListener {
+public class Game1 extends AppCompatActivity implements GestureDetector.OnGestureListener ,TimerListener {
 
     private GridLayout gridLayout;
 
@@ -64,10 +64,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private  Button increaseField;
 
-    private volatile boolean isTimerRunning = true;
-    private Thread timerThread;
-
-    private Handler handler = new Handler();
 
 
     @Override
@@ -132,9 +128,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         increaseField.setOnClickListener(v -> increaseBoardSize());
 
         timerManager = new TimerManager(timer);
-
-        // Iniciar la cuenta regresiva con un tiempo de 5 minutos (300,000 milisegundos)
-        timerManager.startCountDown(5);
+        timerManager.setTimerListener(this);
+        timerManager.startCountDown(1);
     }
 
     private void setButtonAndTextSizes(int buttonSize, int textSize) {
@@ -806,4 +801,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
 
+    @Override
+    public void onTimeUp() {
+        handleTimeUp();
+    }
 }
