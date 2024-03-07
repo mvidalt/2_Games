@@ -604,14 +604,21 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Detener el contador cuando la actividad se destruye para evitar memory leaks
-        timerManager.stopCountDown();
+        // Stop the timer when the activity is destroyed to avoid memory leaks
+        stopTimer();
     }
 
+
+    private void stopTimer() {
+        // Stop the countdown timer
+        if (timerManager != null) {
+            timerManager.stopCountDown();
+        }
+
+    }
 
 
 
@@ -646,12 +653,11 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
 
     private void restartGame() {
-        onDestroy();
         score = 0;
         scoreText.setText("0");
         previousScore = score;
         // Reiniciar el temporizador
-
+        stopTimer();
         timerManager.startCountDown(5);
 
         // Limpiar los botones del juego
@@ -661,7 +667,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             }
         }
 
-        // Generar dos nuevos números
+        // Generar dos nu
         generateNewNumber();
         generateNewNumber();
         modificarTablero.setVisibility(View.VISIBLE);
