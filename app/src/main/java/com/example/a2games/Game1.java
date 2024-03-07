@@ -702,7 +702,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     private int calculateTextSize(int rowCount, int columnCount) {
-        return (int) (calculateButtonSize(rowCount, columnCount) / 3.5);
+        return (int) (calculateButtonSize(rowCount, columnCount) / 3);
     }
 
     private void setBoardSize(int rows, int columns) {
