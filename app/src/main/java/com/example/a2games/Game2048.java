@@ -127,7 +127,7 @@ public class Game2048 extends AppCompatActivity implements GestureDetector.OnGes
 
         timerManager = new TimerManager(timer);
         timerManager.setTimerListener(this);
-        timerManager.startCountDown(3);
+        timerManager.startCountDown(5);
     }
 
     private void setButtonAndTextSizes(int buttonSize, int textSize) {
@@ -614,7 +614,7 @@ public class Game2048 extends AppCompatActivity implements GestureDetector.OnGes
         scoreText.setText("0");
         previousScore = score;
         stopTimer();
-        timerManager.startCountDown(3);
+        timerManager.startCountDown(5);
 
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {

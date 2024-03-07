@@ -42,9 +42,15 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         buttonRegister.setOnClickListener(view -> {
-            String username = editTextUsername.getText().toString();
-            String password = editTextPassword.getText().toString();
-            String passwordConfirm = editTextPasswordConfirm.getText().toString();
+            String username = editTextUsername.getText().toString().trim(); // Trim removes leading and trailing whitespace
+            String password = editTextPassword.getText().toString().trim();
+            String passwordConfirm = editTextPasswordConfirm.getText().toString().trim();
+
+            if(username.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) {
+                Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if(password.equals(passwordConfirm)){
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("username", username);
@@ -55,12 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
                 editor.apply();
 
                 openLogin(null);
-            }else{
+            } else {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-
             }
-
-
         });
     }
     public void openLogin(View view){
