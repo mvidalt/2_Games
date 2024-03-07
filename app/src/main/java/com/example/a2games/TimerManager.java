@@ -69,7 +69,7 @@ public class TimerManager {
 
         timerTextView.post(() -> {
             String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
-            timerTextView.setText("Tiempo restante: " + timeLeftFormatted);
+            timerTextView.setText("Tiempo restante " + timeLeftFormatted);
         });
     }
 }

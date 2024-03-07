@@ -53,13 +53,13 @@
 
     <Button
         android:id="@+id/buttonBack"
-        android:layout_width="104dp"
+        android:layout_width="122dp"
         android:layout_height="55dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="96dp"
         android:backgroundTint="#8f7a66"
         android:onClick="goBack"
-        android:text="Previus mov"
+        android:text="Previous movement"
         android:textColor="#f9f6f2"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,19 +69,25 @@
         android:id="@+id/btnIncreaseSize"
         android:layout_width="57dp"
         android:layout_height="41dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginBottom="88dp"
         android:onClick="increaseBoardSize"
+        android:textColor="@color/white"
         android:text="+"
+        android:backgroundTint="#8f7a66"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btnDecreaseSize"
-        />
+        app:layout_constraintStart_toStartOf="@+id/btnDecreaseSize" />
 
     <Button
         android:id="@+id/btnDecreaseSize"
         android:layout_width="53dp"
         android:layout_height="40dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginBottom="88dp"
         android:onClick="decreaseBoardSize"
         android:text="-"
+        android:textColor="@color/white"
+        android:backgroundTint="#8f7a66"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -161,19 +167,35 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/timer"
-        android:layout_width="169dp"
-        android:layout_height="61dp"
-        android:layout_marginBottom="20dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#DA0F0F"
-        android:textSize="20sp"
-        android:textStyle="bold"
+    <LinearLayout
+        android:id="@+id/timeContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="28dp"
+        android:background="#bbada0"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.362"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="169dp"
+            android:layout_height="61dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="TIME"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintHorizontal_bias="0.35"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
