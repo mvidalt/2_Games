@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,6 +65,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     private  Button increaseField;
 
+    private LinearLayout modificarTablero;
 
 
     @Override
@@ -121,6 +123,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             updateButtonTextVisibility();
             undoMove();
         });
+        modificarTablero = findViewById(R.id.modificarTablero);
         decreaseField = findViewById(R.id.btnDecreaseSize);
         decreaseField.setOnClickListener(v -> decreaseBoardSize());
 
@@ -464,8 +467,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 saveBestScore();
             }
             // Restaurar la visibilidad de los botones de incrementar y decrementar el tamaño del tablero
-            decreaseField.setVisibility(View.INVISIBLE);
-            increaseField.setVisibility(View.INVISIBLE);
+            modificarTablero.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -662,8 +664,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         // Generar dos nuevos números
         generateNewNumber();
         generateNewNumber();
-        decreaseField.setVisibility(View.VISIBLE);
-        increaseField.setVisibility(View.VISIBLE);
+        modificarTablero.setVisibility(View.VISIBLE);
         buttonBack.setVisibility(View.INVISIBLE);
     }
 

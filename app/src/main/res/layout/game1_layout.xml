@@ -62,41 +62,65 @@
         android:text="Previous movement"
         android:textColor="#f9f6f2"
         android:textStyle="bold"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnIncreaseSize"
-        android:layout_width="57dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginBottom="88dp"
-        android:onClick="increaseBoardSize"
-        android:textColor="@color/white"
-        android:text="+"
-        android:backgroundTint="#8f7a66"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btnDecreaseSize" />
+    <LinearLayout
+        android:id="@+id/modificarTablero"
+        android:layout_width="214dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="96dp"
+        android:background="#bbada0"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/buttonNewGame"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btnDecreaseSize"
-        android:layout_width="53dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="260dp"
-        android:layout_marginBottom="88dp"
-        android:onClick="decreaseBoardSize"
-        android:text="-"
-        android:textColor="@color/white"
-        android:backgroundTint="#8f7a66"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="MODIFICAR TABLERO"
+            android:textColor="#eee4da"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnIncreaseSize"
+                android:layout_width="57dp"
+                android:layout_height="41dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#8f7a66"
+                android:onClick="increaseBoardSize"
+                android:text="+"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btnDecreaseSize"
+                android:layout_width="53dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#8f7a66"
+                android:onClick="decreaseBoardSize"
+                android:text="-"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/button"
-        android:layout_width="142dp"
-        android:layout_height="53dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="143dp"
+        android:layout_height="61dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#8f7a66"
         android:onClick="goBack"
         android:text="Go Back"
