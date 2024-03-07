@@ -4,22 +4,30 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class UserProfile extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView profileImageView;
+
+    private String imagePath;
 
 
     @Override
@@ -39,6 +47,13 @@ public class UserProfile extends AppCompatActivity {
 
         profileImageView = findViewById(R.id.profileImageView);
         profileImageView.setOnClickListener(v -> openGallery());
+        imagePath = loadImagePathFromInternalStorage();
+        if (!TextUtils.isEmpty(imagePath)) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            if (bitmap != null) {
+                profileImageView.setImageBitmap(bitmap);
+            }
+        }
     }
 
     private void openGallery() {
@@ -54,11 +69,39 @@ public class UserProfile extends AppCompatActivity {
             Uri imageUri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                // Guardar la imagen en la memoria interna
+                imagePath = saveImageToInternalStorage(bitmap);
                 profileImageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private String saveImageToInternalStorage(Bitmap bitmap) {
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File directory = contextWrapper.getDir("profile_images", Context.MODE_PRIVATE);
+        File imagePath = new File(directory, "profile.jpg");
+
+        OutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(imagePath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imagePath.getAbsolutePath();
+    }
+
+    private String loadImagePathFromInternalStorage() {
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File directory = contextWrapper.getDir("profile_images", Context.MODE_PRIVATE);
+        File imagePath = new File(directory, "profile.jpg");
+        if (imagePath.exists()) {
+            return imagePath.getAbsolutePath();
+        }
+        return null;
     }
 
     public void goMainMenu(View view){
