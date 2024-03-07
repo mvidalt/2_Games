@@ -422,14 +422,7 @@ public class Senku extends AppCompatActivity implements TimerListener {
     }
 
 
-    @SuppressLint("SetTextI18n")
-    private void updateTimerText(long secondsUntilFinished) {
-        long minutes = secondsUntilFinished / 60;
-        long seconds = secondsUntilFinished % 60;
 
-        @SuppressLint("DefaultLocale") String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
-        timer.setText("Tiempo restante: " + timeLeftFormatted);
-    }
 
     @SuppressLint("SetTextI18n")
     private void handleGameOver() {
@@ -437,9 +430,7 @@ public class Senku extends AppCompatActivity implements TimerListener {
         AlertDialog.Builder builder = new AlertDialog.Builder(Senku.this);
         builder.setTitle("¡Has perdido!")
                 .setMessage("¿Quieres volver a jugar?")
-                .setPositiveButton("Sí", (dialog, which) -> {
-                    resetGame();
-                })
+                .setPositiveButton("Sí", (dialog, which) -> resetGame())
                 .setNegativeButton("No", (dialog, which) -> {
                     goBack(null);
                     dialog.dismiss();
@@ -456,9 +447,7 @@ public class Senku extends AppCompatActivity implements TimerListener {
         AlertDialog.Builder builder = new AlertDialog.Builder(Senku.this);
         builder.setTitle("¡Se acabó el tiempo!")
                 .setMessage("¿Quieres volver a jugar?")
-                .setPositiveButton("Sí", (dialog, which) -> {
-                    resetGame();
-                })
+                .setPositiveButton("Sí", (dialog, which) -> resetGame())
                 .setNegativeButton("No", (dialog, which) -> {
                     goBack(null);
                     dialog.dismiss();

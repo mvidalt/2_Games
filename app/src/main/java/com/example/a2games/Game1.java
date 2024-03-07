@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -560,9 +559,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("¡Has ganado, felicidades!")
                 .setMessage("¿Quieres volver a jugar?")
-                .setPositiveButton("Sí", (dialog, which) -> {
-                    restartGame();
-                })
+                .setPositiveButton("Sí", (dialog, which) -> restartGame())
                 .setNegativeButton("No", (dialog, which) -> {
                     goBack(null);
                     dialog.dismiss();
@@ -590,14 +587,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
 
 
-    @SuppressLint("SetTextI18n")
-    private void updateTimerText(long secondsUntilFinished) {
-        long minutes = secondsUntilFinished / 60;
-        long seconds = secondsUntilFinished % 60;
-
-        @SuppressLint("DefaultLocale") String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
-        timer.setText("Tiempo restante: " + timeLeftFormatted);
-    }
 
 
 
@@ -674,9 +663,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("¡Advertencia!")
                     .setMessage("El tablero no puede ser menor que 2x2.")
-                    .setPositiveButton("Ok", (dialog, which) -> {
-                        dialog.dismiss();
-                    })
+                    .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss())
                     .setCancelable(false);
 
             AlertDialog warningDialog = builder.create();
