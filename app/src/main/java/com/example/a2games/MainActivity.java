@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
     @Override
     public void onGameClick(String gameName) {
         if ("2048".equals(gameName)) {
-            Intent intent = new Intent(this, Game1.class);
+            Intent intent = new Intent(this, Game2048.class);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         } else if ("Senku".equals(gameName)) {
@@ -112,6 +112,12 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
     public void openProfile(View view) {
         Intent intentProfile = new Intent(this, UserProfile.class);
         startActivity(intentProfile);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+    }
+
+    public void logOut(View view) {
+        Intent intentLogin = new Intent(this, LoginActivity.class);
+        startActivity(intentLogin);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 

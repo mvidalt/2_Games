@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
-public class Game1 extends AppCompatActivity implements GestureDetector.OnGestureListener ,TimerListener {
+public class Game2048 extends AppCompatActivity implements GestureDetector.OnGestureListener ,TimerListener {
 
     private GridLayout gridLayout;
 
@@ -70,7 +70,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game1_layout);
+        setContentView(R.layout.game2048_layout);
 
         gestureDetector = new GestureDetector(this, this);
         scoreText = findViewById(R.id.score);
@@ -593,7 +593,7 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     @SuppressLint("SetTextI18n")
     private void handleTimeUp() {
         timer.setText("¡Cuenta regresiva terminada!");
-        AlertDialog.Builder builder = new AlertDialog.Builder(Game1.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Game2048.this);
         builder.setTitle("¡Se acabó el tiempo!")
                 .setMessage("¿Quieres volver a jugar?")
                 .setPositiveButton("Sí", (dialog, which) -> restartGame())
