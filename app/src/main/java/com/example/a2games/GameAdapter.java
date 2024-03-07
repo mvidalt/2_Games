@@ -27,7 +27,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_game_card, parent, false);
-        return new ViewHolder(view, onGameClickListener); // Pasar el listener al constructor
+        return new ViewHolder(view, onGameClickListener);
     }
 
 
@@ -36,18 +36,15 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         String game = gamesList.get(position);
         holder.gameNameTextView.setText(game);
 
-        // Establecer el texto del objetivo del juego
         String gameObjective = getGameObjective(game);
         holder.gameObjectiveTextView.setText(gameObjective);
 
-        // Cambiar el color de fondo basado en el nombre del juego
         if ("2048".equals(game)) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.color2048));
         } else if ("Senku".equals(game)) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorSenku));
         }
 
-        // Cargar la imagen para el juego
         switch (game) {
             case "2048":
                 holder.gameIconImageView.setImageResource(R.drawable.icon2048);
@@ -55,15 +52,12 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
             case "Senku":
                 holder.gameIconImageView.setImageResource(R.drawable.senku_icon);
                 break;
-            // Agrega más casos según tus juegos
             default:
-                // Puedes establecer una imagen predeterminada o no hacer nada
                 holder.gameIconImageView.setImageResource(R.drawable.ic_launcher_background);
                 break;
         }
     }
 
-    // Método para obtener el objetivo del juego
     private String getGameObjective(String gameName) {
         switch (gameName) {
             case "2048":
@@ -85,14 +79,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView gameNameTextView;
         TextView gameObjectiveTextView;
-        ImageView gameIconImageView; // Agregar referencia al ImageView
+        ImageView gameIconImageView;
         OnGameClickListener onGameClickListener;
 
         public ViewHolder(@NonNull View itemView, OnGameClickListener listener) {
             super(itemView);
             gameNameTextView = itemView.findViewById(R.id.gameNameTextView);
             gameObjectiveTextView = itemView.findViewById(R.id.gameObjectiveTextView);
-            gameIconImageView = itemView.findViewById(R.id.gameIconImageView); // Asignar el ImageView
+            gameIconImageView = itemView.findViewById(R.id.gameIconImageView);
             onGameClickListener = listener;
             itemView.setOnClickListener(this);
         }

@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements GameAdapter.OnGam
 
         imagePath = loadImagePathFromInternalStorage();
         if (imagePath != null && !imagePath.isEmpty()) {
-            // Cargar la imagen en el ImageView
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             if (bitmap != null) {
                 usuarioImg.setImageBitmap(bitmap);

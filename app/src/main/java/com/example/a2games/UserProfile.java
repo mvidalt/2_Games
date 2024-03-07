@@ -69,7 +69,6 @@ public class UserProfile extends AppCompatActivity {
             Uri imageUri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                // Guardar la imagen en la memoria interna
                 imagePath = saveImageToInternalStorage(bitmap);
                 profileImageView.setImageBitmap(bitmap);
             } catch (IOException e) {
@@ -115,7 +114,7 @@ public class UserProfile extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("imagePath", imagePath); // Pasar la ruta de la imagen al MainActivity
+        intent.putExtra("imagePath", imagePath);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }

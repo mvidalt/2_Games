@@ -137,10 +137,8 @@ public class Senku extends AppCompatActivity implements TimerListener {
                 imageButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00FFFFFF")));
 
                 if ((i == 0 || i == 1 || i == 5 || i == 6) && (j == 0 || j == 1 || j == 5 || j == 6)) {
-                    // Configura las bolas OFF en la capa inferior
                     imageButton.setImageDrawable(null);
                 } else {
-                        // Configura las bolas OFF en la capa superior en lugar de ON
                         imageButton.setImageResource(R.drawable.radio_button_off);
                         imageButton.setTag(ButtonState.OFF);
 
@@ -153,7 +151,6 @@ public class Senku extends AppCompatActivity implements TimerListener {
 
 
     public void handleImageButtonClick(ImageButton clickedImageButton, int row, int col) {
-        // Guardar estado actual en backupImageButtons
         backupArrayButtons();
         if (!isAnyButtonSelected()) {
             if (ButtonState.ON.equals(clickedImageButton.getTag())) {
@@ -170,7 +167,6 @@ public class Senku extends AppCompatActivity implements TimerListener {
                         ArrayImageButtons[i][j].setImageResource(R.drawable.radio_button_off);
                         ArrayImageButtons[i][j].setTag(ButtonState.OFF);
 
-                        // Switch the ball between ON and SELECTED to OFF
                         switchBallsOff(clickedImageButton,i, j, row, col);
                         updateScore(+1);
 
@@ -207,35 +203,28 @@ public class Senku extends AppCompatActivity implements TimerListener {
         int middleCol = (selectedCol + offCol) / 2;
 
         if (ButtonState.ON.equals(ArrayImageButtons[middleRow][middleCol].getTag())) {
-            // Calcula las coordenadas de inicio y fin de la animación
             int startX = ArrayImageButtons[selectedRow][selectedCol].getLeft() - ArrayImageButtons[middleRow][middleCol].getLeft();
             int startY = ArrayImageButtons[selectedRow][selectedCol].getTop() - ArrayImageButtons[middleRow][middleCol].getTop();
             int endX = ArrayImageButtons[offRow][offCol].getLeft() - ArrayImageButtons[middleRow][middleCol].getLeft();
             int endY = ArrayImageButtons[offRow][offCol].getTop() - ArrayImageButtons[middleRow][middleCol].getTop();
 
-            // Crea la animación de desplazamiento
             TranslateAnimation translateAnimation = new TranslateAnimation(startX, endX, startY, endY);
-            translateAnimation.setDuration(500); // Duración de la animación en milisegundos
+            translateAnimation.setDuration(500);
 
-            // Configura los listeners de la animación
             translateAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
-                    // Se ejecuta cuando la animación comienza
+
                 }
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    // Se ejecuta cuando la animación termina
-                    // Cambia el estado del ImageButton a OFF después de la animación
                     ArrayImageButtons[middleRow][middleCol].setImageResource(R.drawable.radio_button_off);
                     ArrayImageButtons[middleRow][middleCol].setTag(ButtonState.OFF);
 
-                    // Cambia el estado del ImageButton pulsado a ON
                     clickedImageButton.setImageResource(R.drawable.radio_button_on);
                     clickedImageButton.setTag(ButtonState.ON);
 
-                    // Realiza la verificación después de la animación
                     if (isGameWinned()) {
                         handleGameWinned();
                         saveBestScore();
@@ -247,11 +236,10 @@ public class Senku extends AppCompatActivity implements TimerListener {
 
                 @Override
                 public void onAnimationRepeat(Animation animation) {
-                    // Se ejecuta cuando la animación se repite
+
                 }
             });
 
-            // Inicia la animación en el ImageButton intermedio
             ArrayImageButtons[middleRow][middleCol].startAnimation(translateAnimation);
             layoutPaso_Atras.setVisibility(View.VISIBLE);
             imageBack.setClickable(true);
@@ -266,7 +254,6 @@ public class Senku extends AppCompatActivity implements TimerListener {
         int middleRow = (selectedRow + offRow) / 2;
         int middleCol = (selectedCol + offCol) / 2;
 
-        // Verificar que la bola intermedia esté en el estado ON
         if (ButtonState.ON.equals(ArrayImageButtons[middleRow][middleCol].getTag())) {
             int rowDistance = Math.abs(selectedRow - offRow);
             int colDistance = Math.abs(selectedCol - offCol);
@@ -335,7 +322,7 @@ public class Senku extends AppCompatActivity implements TimerListener {
     private void resetGame() {
         score = 0;
         scoretxt.setText(String.valueOf(score));
-        stopTimer(); // Stop the timer before resetting the game
+        stopTimer();
         timerManager.startCountDown(5);
         clearButtonStates();
         layoutPaso_Atras.setVisibility(View.INVISIBLE);
@@ -364,7 +351,6 @@ public class Senku extends AppCompatActivity implements TimerListener {
     private void backupArrayButtons() {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
-                // Copia el botón completo en backupButtons
                 backupImageButtons[i][j] = new ImageButton(this);
                 backupImageButtons[i][j].setImageDrawable(ArrayImageButtons[i][j].getDrawable());
                 backupImageButtons[i][j].setTag(ArrayImageButtons[i][j].getTag());
@@ -376,7 +362,6 @@ public class Senku extends AppCompatActivity implements TimerListener {
     private void restoreArrayButtonsFromBackup() {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
-                // Copia el botón desde backupButtons a Arraybuttons
                 ArrayImageButtons[i][j].setImageDrawable(backupImageButtons[i][j].getDrawable());
                 ArrayImageButtons[i][j].setTag(backupImageButtons[i][j].getTag());
                 ArrayImageButtons[i][j].setClickable(backupImageButtons[i][j].isClickable());
@@ -427,16 +412,13 @@ public class Senku extends AppCompatActivity implements TimerListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Stop the timer when the activity is destroyed to avoid memory leaks
         stopTimer();
     }
 
     private void stopTimer() {
-        // Stop the countdown timer
         if (timerManager != null) {
             timerManager.stopCountDown();
         }
-        // Clean up any other resources here if needed
     }
 
 

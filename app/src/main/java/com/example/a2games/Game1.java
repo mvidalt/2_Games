@@ -82,17 +82,13 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         int savedBestScore = sharedPreferences.getInt("score2048", 0);
         bestScoreText.setText(String.valueOf(savedBestScore));
 
-        // Inicializar backupButtons con el mismo tamaño que Arraybuttons
         backupButtons = new Button[rowCount][columnCount];
 
-        // Crear los botones del juego
         createGameButtons();
 
-        // Obtener el tamaño original de los botones y del texto
         int originalButtonSize = calculateButtonSize(rowCount, columnCount);
         int originalTextSize = calculateTextSize(rowCount, columnCount);
 
-        // Calcular y establecer el tamaño de los botones y el texto
         setButtonAndTextSizes(originalButtonSize, originalTextSize);
 
 
@@ -136,7 +132,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     private void setButtonAndTextSizes(int buttonSize, int textSize) {
-        // Aplicar el tamaño de los botones y el texto a cada botón del juego
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
                 Button button = Arraybuttons[i][j];
@@ -152,54 +147,37 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private void createGameButtons() {
         final int margin = 16;
 
-        // Eliminar los botones antiguos del GridLayout
         gridLayout.removeAllViews();
 
         Arraybuttons = new Button[rowCount][columnCount];
         backupButtons = new Button[rowCount][columnCount];
 
-        // Obtener el tamaño original de los botones
-        int originalButtonSize = getResources().getDimensionPixelSize(R.dimen.button_size); // Ajusta a tu recurso de dimensión
-
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
                 Button button = new Button(this);
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(i), GridLayout.spec(j));
-
                 if (i == 0 && j == 0) {
-                    // Esquina superior izquierda
                     params.setMargins(margin, margin, params.rightMargin, params.bottomMargin);
                 } else if (i == 0 && j == columnCount - 1) {
-                    // Esquina superior derecha
                     params.setMargins(params.leftMargin, margin, margin, params.bottomMargin);
                 } else if (i == rowCount - 1 && j == 0) {
-                    // Esquina inferior izquierda
                     params.setMargins(margin, params.topMargin, params.rightMargin, margin);
                 } else if (i == rowCount - 1 && j == columnCount - 1) {
-                    // Esquina inferior derecha
                     params.setMargins(params.leftMargin, params.topMargin, margin, margin);
                 } else if (i == 0) {
-                    // Borde superior (sin esquina)
                     params.setMargins(params.leftMargin, margin, params.rightMargin, params.bottomMargin);
                 } else if (j == 0) {
-                    // Borde izquierdo (sin esquina)
                     params.setMargins(margin, params.topMargin, params.rightMargin, params.bottomMargin);
                 } else if (i == rowCount - 1) {
-                    // Borde inferior (sin esquina)
                     params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, margin);
                 } else if (j == columnCount - 1) {
-                    // Borde derecho (sin esquina)
                     params.setMargins(params.leftMargin, params.topMargin, margin, params.bottomMargin);
                 } else {
-                    // Celda interior
                     params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin);
                 }
 
-
-
-                // Ajustar el tamaño de los botones
-                params.width = originalButtonSize;
-                params.height = originalButtonSize;
+                params.width = GridLayout.LayoutParams.WRAP_CONTENT;
+                params.height = GridLayout.LayoutParams.WRAP_CONTENT;
 
                 button.setLayoutParams(params);
 
@@ -253,18 +231,18 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
 
     @Override
     public void onShowPress(@NonNull MotionEvent e) {
-        // No hacemos nada aquí
+
     }
 
     @Override
     public boolean onSingleTapUp(@NonNull MotionEvent e) {
-        // No hacemos nada aquí
+
         return true;
     }
 
     @Override
     public boolean onScroll(MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
-        // No hacemos nada aquí
+
         return true;
     }
 
@@ -277,26 +255,20 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     public boolean onFling(MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
         backupArrayButtons();
         previousScore = score;
-        // Se llama cuando se detecta un gesto de fling
+
         if (Math.abs(velocityX) > Math.abs(velocityY)) {
-            // Fling horizontal
             if (velocityX > 0) {
-                // Fling hacia la derecha
                 Log.d("Gesto", "Fling hacia la derecha");
                 moveNumbersRight();
             } else {
-                // Fling hacia la izquierda
                 Log.d("Gesto", "Fling hacia la izquierda");
                 moveNumbersLeft();
             }
         } else {
-            // Fling vertical
             if (velocityY > 0) {
-                // Fling hacia abajo
                 Log.d("Gesto", "Fling hacia abajo");
                 moveNumbersDown();
             } else {
-                // Fling hacia arriba
                 Log.d("Gesto", "Fling hacia arriba");
                 moveNumbersUp();
             }
@@ -307,7 +279,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private void moveNumbersRight() {
         boolean moved = false;
         for (int i = 0; i < rowCount; i++) {
-            // Agregar un HashSet para rastrear las celdas que ya se han fusionado
             HashSet<Button> mergedCells = new HashSet<>();
             for (int j = columnCount - 1; j >= 0; j--) {
                 String buttonText = Arraybuttons[i][j].getText().toString();
@@ -323,7 +294,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                         updateButtonTextVisibility();
                         updateScore(newVal);
                         moved = true;
-                        // Agregar la celda fusionada al HashSet
                         mergedCells.add(Arraybuttons[i][k]);
                     } else {
                         k = j + 1;
@@ -466,8 +436,8 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
                 showGameWinned();
                 saveBestScore();
             }
-            // Restaurar la visibilidad de los botones de incrementar y decrementar el tamaño del tablero
             modificarTablero.setVisibility(View.INVISIBLE);
+            updateButtonsValue();
         }
     }
 
@@ -607,13 +577,11 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Stop the timer when the activity is destroyed to avoid memory leaks
         stopTimer();
     }
 
 
     private void stopTimer() {
-        // Stop the countdown timer
         if (timerManager != null) {
             timerManager.stopCountDown();
         }
@@ -656,18 +624,15 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         score = 0;
         scoreText.setText("0");
         previousScore = score;
-        // Reiniciar el temporizador
         stopTimer();
         timerManager.startCountDown(5);
 
-        // Limpiar los botones del juego
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
                 Arraybuttons[i][j].setText("0");
             }
         }
 
-        // Generar dos nu
         generateNewNumber();
         generateNewNumber();
         modificarTablero.setVisibility(View.VISIBLE);
@@ -677,7 +642,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private void backupArrayButtons() {
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
-                // Copia el botón completo en backupButtons
                 backupButtons[i][j] = new Button(this);
                 backupButtons[i][j].setText(Arraybuttons[i][j].getText());
                 backupButtons[i][j].setBackground(Arraybuttons[i][j].getBackground());
@@ -693,7 +657,6 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     private void restoreArrayButtonsFromBackup() {
         for (int i = 0; i < rowCount; i++) {
             for (int j = 0; j < columnCount; j++) {
-                // Copia el botón desde backupButtons a Arraybuttons
                 Arraybuttons[i][j].setText(backupButtons[i][j].getText());
                 Arraybuttons[i][j].setBackground(backupButtons[i][j].getBackground());
                 Arraybuttons[i][j].setTextColor(backupButtons[i][j].getCurrentTextColor());
@@ -704,13 +667,10 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     }
 
     public void decreaseBoardSize() {
-        // Reducir las coordenadas
         int newRowCount = rowCount - 1;
         int newColumnCount = columnCount - 1;
 
-        // Verificar si el tamaño es menor que 2x2
         if (newRowCount < 2 || newColumnCount < 2) {
-            // Mostrar un mensaje de advertencia si el tamaño es menor que 2x2
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("¡Advertencia!")
                     .setMessage("El tablero no puede ser menor que 2x2.")
@@ -722,71 +682,54 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
             AlertDialog warningDialog = builder.create();
             warningDialog.show();
         } else {
-            // Aplicar el nuevo tamaño del tablero
             setBoardSize(newRowCount, newColumnCount);
 
-            // Calcular el nuevo tamaño de los botones y el texto
             int newButtonSize = calculateButtonSize(rowCount, columnCount);
             int newTextSize = calculateTextSize(rowCount, columnCount);
 
-            // Ajustar el tamaño de los botones y el texto
             adjustButtonAndTextSize(newButtonSize, newTextSize);
         }
     }
 
     public void increaseBoardSize() {
-        // Incrementar el número de filas y columnas
         int newRowCount = rowCount + 1;
         int newColumnCount = columnCount + 1;
 
-        // Aplicar el nuevo tamaño del tablero
         setBoardSize(newRowCount, newColumnCount);
 
-        // Calcular el nuevo tamaño de los botones y el texto
         int newButtonSize = calculateButtonSize(rowCount, columnCount);
         int newTextSize = calculateTextSize(rowCount, columnCount);
 
-        // Ajustar el tamaño de los botones y el texto
         adjustButtonAndTextSize(newButtonSize, newTextSize);
     }
 
 
     private int calculateButtonSize(int rowCount, int columnCount) {
-        // Obtener el tamaño de la pantalla
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int screenWidth = displayMetrics.widthPixels;
 
-        // Calcular el tamaño de los botones en función del número de filas y columnas
         int buttonSize = screenWidth / Math.max(rowCount, columnCount);
 
-        // Puedes ajustar este factor según tus necesidades
-        return (int) (buttonSize * 0.8); // Por ejemplo, aquí se establece el 80% del tamaño original
+        return (int) (buttonSize * 0.8);
     }
 
     private int calculateTextSize(int rowCount, int columnCount) {
-        // Calcular el tamaño del texto en función del número de filas y columnas
-
-        // Puedes ajustar este factor según tus necesidades
-        return (int) (calculateButtonSize(rowCount, columnCount) / 3.5);
+        return (int) (calculateButtonSize(rowCount, columnCount) / 3.3);
     }
 
     private void setBoardSize(int rows, int columns) {
-        // Elimina los botones antiguos del GridLayout
         gridLayout.removeAllViews();
 
-        // Cambia el tamaño del Arraybuttons y crea nuevos botones según el nuevo tamaño
         rowCount = rows;
         columnCount = columns;
         Arraybuttons = new Button[rowCount][columnCount];
         createGameButtons();
 
-        // Actualiza la interfaz de usuario según el nuevo tamaño
         updateButtonTextVisibility();
     }
 
     private void adjustButtonAndTextSize(int buttonSize, int textSize) {
-        // Aplicar el tamaño de los botones y el texto a cada botón del juego
         for (Button[] row : Arraybuttons) {
             for (Button button : row) {
                 ViewGroup.LayoutParams params = button.getLayoutParams();
@@ -798,12 +741,9 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
         }
     }
 
-    // Método para deshacer un movimiento
     private void undoMove() {
-        // Restaurar el puntaje desde previousScore
         score = previousScore;
 
-        // Actualizar el TextView con el puntaje restaurado
         scoreText.setText(String.valueOf(score));
     }
 
@@ -811,5 +751,18 @@ public class Game1 extends AppCompatActivity implements GestureDetector.OnGestur
     @Override
     public void onTimeUp() {
         handleTimeUp();
+    }
+
+    private void updateButtonsValue() {
+
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                if (Arraybuttons[i][j].getText().toString().equals("16")) {
+                    Arraybuttons[i][j].setText("1024");
+                    updateButtonTextVisibility();
+                    return;
+                }
+            }
+        }
     }
 }

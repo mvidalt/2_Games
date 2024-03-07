@@ -31,7 +31,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Inicializar vistas
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextPasswordConfirm = findViewById(R.id.editTextPasswordConfirm);
@@ -39,18 +38,14 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-        // Obtener SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
 
-        // Acción al hacer clic en el botón de inicio de sesión
         buttonRegister.setOnClickListener(view -> {
-            // Obtener los valores ingresados
             String username = editTextUsername.getText().toString();
             String password = editTextPassword.getText().toString();
             String passwordConfirm = editTextPasswordConfirm.getText().toString();
             if(password.equals(passwordConfirm)){
-                // Guardar los valores en SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("username", username);
                 editor.putString("password", password);

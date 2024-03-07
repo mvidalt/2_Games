@@ -17,7 +17,7 @@ public class TimerManager {
     }
 
     public void startCountDown(int minutes) {
-        long milliseconds = (long) minutes * 60 * 1000; // Convertir minutos a milisegundos
+        long milliseconds = (long) minutes * 60 * 1000;
         startCountDown(milliseconds);
     }
 
@@ -41,20 +41,18 @@ public class TimerManager {
         @Override
         public void run() {
             while (isCountingDown && countdownTime > 0) {
-                countdownTime -= 1000; // Resta 1 segundo
+                countdownTime -= 1000;
                 updateTimerText(countdownTime);
                 try {
-                    Thread.sleep(1000); // Espera 1 segundo
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     return;
                 }
             }
 
-            // Cuando el tiempo llega a cero, detenemos la cuenta regresiva
             isCountingDown = false;
 
-            // Realiza cualquier acción que desees cuando la cuenta regresiva termina
             timerTextView.post(() -> {
                 timerListener.onTimeUp();;
             });

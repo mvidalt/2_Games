@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!-- ImageView para la imagen de perfil -->
+
     <ImageView
         android:id="@+id/profileImageView"
         android:layout_width="120dp"
@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp"/>
 
-    <!-- TextView para el nombre de usuario -->
+
     <TextView
         android:id="@+id/userName"
         android:layout_width="wrap_content"
@@ -32,9 +32,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
 
-    <!-- Contenedor para la puntuación de 2048 -->
-
-    <!-- Contenedor para la puntuación de Senku -->
     <LinearLayout
         android:id="@+id/score2048Container"
         android:layout_width="0dp"
@@ -121,7 +118,6 @@
 
     </LinearLayout>
 
-    <!-- Botón para volver atrás -->
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
